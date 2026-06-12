@@ -1,0 +1,194 @@
+# =============================================================================
+# EfficientNet-V2-S — CV0 Leave-One-Year-Out Configuration
+# =============================================================================
+# CV0 uses leave-one-year-out cross-validation (3 folds: 2023, 2024, 2025).
+# Each fold withholds one complete growing season as the test set, training
+# on the remaining two years.  This is the PRIMARY evaluation protocol for
+# temporal domain generalisation — test-year R² is the headline metric.
+#
+# EfficientNet-V2-S is the smallest and fastest model in this study (~21 M
+# params, 384×384 native input).  It serves as the supervised-pretraining
+# CNN baseline against which all self-supervised and hybrid architectures
+# are compared.
+#
+# Key EfficientNet-V2-S-specific choices
+#   architecture : tf_efficientnetv2_s (timm)
+#                  ~21 M params; feature dim = 1280; 384×384 native input.
+#                  Pretrained on ImageNet-1k with progressive learning
+#                  (smaller → larger resolution during training).
+#   image_size   : 384  — native fine-tuning resolution for tf_efficientnetv2_s.
+#                  EfficientNet-V2-S is fully convolutional so other sizes work,
+#                  but 384 matches the checkpoint and maximises detail capture
+#                  from ~224px UAV tiles.  Use 300 or 224 to reduce VRAM.
+#   backbone_lr  : 5e-5 (10× lower than head; same as DINOv2 ViT-S/14 for a
+#                  clean parameter-matched comparison at ~22 M params)
+#   head_lr      : 5e-4 (10× ratio maintained across all baselines)
+#   batch_size   : 32   (384-px tiles at FP16; ~21 M params is lightweight
+#                  so 32 fits comfortably on a 24 GB GPU)
+#   weight_decay : 1e-4 (standard for supervised EfficientNet fine-tuning;
+#                  lower than ConvNeXt V2 / ViT configs which used FCMAE /
+#                  DINO self-supervised pretraining with higher regularisation)
+#
+# Architecture comparison (all models in this study)
+#   EfficientNet-V2-S  : ~21 M  params, 384×384, supervised pretraining      ← this
+#   DINOv2 ViT-S/14   : ~22 M  params, 448×448, self-supervised pretraining
+#   MaxViT-S           : ~69 M  params, 224×224, supervised pretraining (IN-1k)
+#   EVA-02-B           : ~86 M  params, 448×448, CLIP-MIM pretraining
+#   DINOv2 ViT-B/14   : ~86 M  params, 518×518, self-supervised pretraining
+#   ConvNeXt V2-B     : ~88 M  params, 224×224, FCMAE self-supervised pretraining
+#   ConvNeXt V2-L     : ~198 M params, 224×224, FCMAE self-supervised pretraining
+# =============================================================================
+
+experiment:
+  name: "efficientnetv2_s_cv0"
+  description: "EfficientNet-V2-S leave-one-year-out temporal generalisation (CV0)"
+  tags:
+    - "efficientnetv2"
+    - "efficientnetv2_s"
+    - "cnn"
+    - "supervised_pretrain"
+    - "cv0"
+    - "regression"
+    - "slb"
+
+# -----------------------------------------------------------------------------
+# Model
+# -----------------------------------------------------------------------------
+model:
+  name: "efficientnetv2_s"
+  architecture: "tf_efficientnetv2_s"
+  pretrained: true                # Load ImageNet-1k progressive-training weights
+  dropout_rate: 0.3
+  freeze_backbone: false          # Set true for quick linear-probe baseline
+
+# -----------------------------------------------------------------------------
+# Data
+# -----------------------------------------------------------------------------
+data:
+  image_dir: "/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/final_image/final_sliced"
+  labels_csv: "/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav4slb/data/labels/full_dataset.csv"
+
+  image_filename_column: "image_filename"
+  target_column: "score"
+  year_column: "year"
+  image_extension: ".tif"
+
+  # 384×384 is the native fine-tuning resolution for tf_efficientnetv2_s.
+  # EfficientNet-V2-S is fully convolutional — valid alternatives:
+  #   300×300  — halfway resolution, batch_size=48 comfortable
+  #   224×224  — matches all 224-px baselines, batch_size=64 comfortable
+  image_size: [384, 384]
+
+  # Normalization — EfficientNet-V2 pretrained with ImageNet statistics
+  normalize:
+    mean: [0.485, 0.456, 0.406]
+    std:  [0.229, 0.224, 0.225]
+
+  dataloader:
+    batch_size: 32          # 384-px, ~21 M params; fits 24 GB GPU at FP16
+    batch_size_val: 64      # No grad at val/test — can double up
+    num_workers: 4
+    pin_memory: true
+
+  splits:
+    random_seed: 42
+    stratify: true
+
+# -----------------------------------------------------------------------------
+# Augmentation  (identical to all other baselines for fair comparison)
+# -----------------------------------------------------------------------------
+augmentation:
+  train:
+    enabled: true
+    horizontal_flip:
+      enabled: true
+      p: 0.5
+    vertical_flip:
+      enabled: true
+      p: 0.5
+    rotation:
+      enabled: true
+      limit: 30
+      p: 0.33
+    brightness_contrast:
+      enabled: true
+      brightness_limit: 0.15
+      contrast_limit: 0.15
+      p: 0.33
+    gaussian_blur:
+      enabled: true
+      blur_limit: [3, 5]
+      p: 0.2
+    gaussian_noise:
+      enabled: false        # Disabled — noise can mask subtle lesion texture
+  val:
+    enabled: false          # No augmentation at inference time
+
+# -----------------------------------------------------------------------------
+# Training
+# -----------------------------------------------------------------------------
+training:
+  max_epochs: 60
+  seed: 42
+
+  # Mixed precision — float16 is safe for EfficientNet-V2-S (standard GELU;
+  # no SwiGLU gate overflow risk)
+  use_amp: true
+  amp_dtype: "float16"      # Options: "float16" | "bfloat16"
+
+  # Gradient clipping
+  gradient_clip: 1.0
+
+  # Early stopping on val R²
+  early_stopping:
+    enabled: true
+    patience: 12
+    min_delta: 0.001
+    monitor: "val_r2"
+    mode: "max"
+
+  # Differential learning rates
+  # EfficientNet-V2-S is matched in parameter count to DINOv2 ViT-S/14
+  # (~21–22 M), so backbone_lr = 5e-5 mirrors that baseline for a clean
+  # supervised vs. self-supervised pretraining comparison at equal scale.
+  # The 10× ratio to head_lr is maintained throughout all baselines.
+  optimizer:
+    type: "AdamW"
+    backbone_lr: 5.0e-5     # Same as DINOv2 ViT-S/14; ~22 M param match
+    head_lr:     5.0e-4     # 10× backbone_lr; consistent across all baselines
+    weight_decay: 5.0e-2    # Standard supervised fine-tuning; lower than
+                            # self-supervised models (ConvNeXt V2, DINOv2)
+                            # which use 5e-2 and 1e-4 respectively
+    betas: [0.9, 0.999]
+    eps: 1.0e-8
+
+  scheduler:
+    type: "cosine_with_warmup"
+    warmup_epochs: 5
+    T_max: 55               # max_epochs - warmup_epochs
+    min_lr: 1.0e-7
+
+  loss:
+    type: "mse"
+
+# -----------------------------------------------------------------------------
+# Checkpointing & logging
+# -----------------------------------------------------------------------------
+checkpoint:
+  save_best: true
+  monitor: "val_r2"
+  mode: "max"
+  save_last: true
+
+logging:
+  log_interval: 10
+  tensorboard: true
+
+# -----------------------------------------------------------------------------
+# CV splits location  (shared across all architectures — same folds)
+# -----------------------------------------------------------------------------
+cv:
+  type: "cv0"
+  n_folds: 3                # One fold per year: 2023, 2024, 2025
+  splits_dir: "data/cv_splits"
+  output_dir: "experiments/efficientnetv2_s_cv0"

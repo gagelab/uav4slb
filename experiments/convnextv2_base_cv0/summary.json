@@ -1,0 +1,21 @@
+{
+  "model": "convnextv2_base",
+  "cv_type": "cv0",
+  "n_folds": 3,
+  "mean_val_r2": 0.8611616690953573,
+  "std_val_r2": 0.005416941957863276,
+  "mean_val_loss": 0.593860182664386,
+  "std_val_loss": 0.10443576534368085,
+  "mean_test_r2": 0.6486137906710306,
+  "std_test_r2": 0.026015053879938667,
+  "mean_test_rmse": 1.1324763533596292,
+  "std_test_rmse": 0.35138420134262105,
+  "mean_test_mae": 0.8873250484466553,
+  "agreement_rate": {
+    "threshold": 0.25,
+    "overall": 0.194853,
+    "fold_2023": 0.284121,
+    "fold_2024": 0.130398,
+    "fold_2025": 0.214756
+  }
+}

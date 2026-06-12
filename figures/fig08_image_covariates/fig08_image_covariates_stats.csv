@@ -1,0 +1,9 @@
+covariate,error_type,rho,pval,n
+frac_weed,abs_error,0.118965,0.000000,25913
+sf_illuminorm,abs_error,-0.048554,0.000000,26071
+mean_brightness,abs_error,-0.036184,0.000000,26071
+contrast_rms,abs_error,-0.123214,0.000000,26071
+frac_weed,signed_error,0.200012,0.000000,25913
+sf_illuminorm,signed_error,0.062486,0.000000,26071
+mean_brightness,signed_error,-0.030622,0.000001,26071
+contrast_rms,signed_error,0.041590,0.000000,26071

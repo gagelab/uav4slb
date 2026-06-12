@@ -1,0 +1,15 @@
+covariate,label,rho,pval,n,stars,error_type
+sza,Solar zenith angle (°),0.039683,0.844206,27,ns,mae
+abs_time_from_noon,|Time from solar noon| (min),-0.237826,0.232267,27,ns,mae
+dpi,Days post-inoculation,0.490365,0.009412,27,**,mae
+agdd,Accum. GDD (base 50 °F),0.590229,0.001192,27,**,mae
+irradiance_mean,Irradiance mean (W m⁻²),-0.462759,0.015074,27,*,mae
+irradiance_cv,Irradiance CV,0.205128,0.304699,27,ns,mae
+shadow_row_angle,Shadow–row angle (°),-0.299145,0.129568,27,ns,mae
+sza,Solar zenith angle (°),0.183761,0.358874,27,ns,mean_error
+abs_time_from_noon,"Time from solar noon (min, signed)",0.222256,0.265177,27,ns,mean_error
+dpi,Days post-inoculation,0.208627,0.296343,27,ns,mean_error
+agdd,Accum. GDD (base 50 °F),0.010076,0.960217,27,ns,mean_error
+irradiance_mean,Irradiance mean (W m⁻²),-0.153846,0.443581,27,ns,mean_error
+irradiance_cv,Irradiance CV,0.058608,0.771529,27,ns,mean_error
+shadow_row_angle,Shadow–row angle (°),0.096459,0.632210,27,ns,mean_error

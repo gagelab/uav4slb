@@ -1,0 +1,21 @@
+{
+  "model": "maxvit_small",
+  "cv_type": "cv0",
+  "n_folds": 3,
+  "mean_val_r2": 0.854592502117157,
+  "std_val_r2": 0.009681039926797926,
+  "mean_val_loss": 0.618978192901435,
+  "std_val_loss": 0.08879816815312117,
+  "mean_test_r2": 0.5784277121225992,
+  "std_test_r2": 0.04959511778879165,
+  "mean_test_rmse": 1.227686745720851,
+  "std_test_rmse": 0.32748492957222525,
+  "mean_test_mae": 0.9633114536603292,
+  "agreement_rate": {
+    "threshold": 0.25,
+    "overall": 0.171838,
+    "fold_2023": 0.257978,
+    "fold_2024": 0.121834,
+    "fold_2025": 0.184387
+  }
+}

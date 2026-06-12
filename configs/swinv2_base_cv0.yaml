@@ -1,0 +1,197 @@
+# =============================================================================
+# SwinV2-B — CV0 Leave-One-Year-Out Configuration
+# =============================================================================
+# Structured to be directly comparable with all other architectures in this
+# study, with particular attention to the three most informative pairings:
+#
+#   SwinV2-B vs. ConvNeXt V2-B  — sliding-window ViT vs. pure CNN at ~88 M
+#     Both ~88 M params, 224/256px input, supervised/FCMAE pretraining.
+#     Isolates the effect of attention-based vs. convolutional feature extraction
+#     at matched scale and similar pretraining data.
+#
+#   SwinV2-B vs. MaxViT-S  — local-window-only vs. local+global hybrid at 224/256px
+#     MaxViT adds dilated grid attention on top of window attention; SwinV2 uses
+#     only local shifted-window attention.  Tests whether global attention helps
+#     for plot-level disease gradient capture.
+#
+#   SwinV2-B vs. DINOv2 ViT-B/14  — local window vs. global ViT at ~86-88 M
+#     Tests whether global self-attention pretraining (DINOv2) outperforms
+#     local shifted-window supervised pretraining for year-to-year generalisation.
+#
+# Key SwinV2-B-specific choices
+#   architecture : swinv2_base_window12to16_192to256.ms_in22k_ft_in1k (timm)
+#                  ~88 M params; feature dim = 1024; patch size = 4.
+#                  Window size 12 during IN-22k pretraining; adapted to 16 at
+#                  256px via log-spaced relative position bias interpolation.
+#   image_size   : 256  — native fine-tuning resolution for this checkpoint.
+#                  Input must be divisible by patch_size × window_size grid,
+#                  which requires multiples of 32.  256 matches exactly.
+#                  Valid alternatives: 192, 224, 288, 320, 384.
+#                  NOTE: 224 will work but is slightly off-native-resolution.
+#   backbone_lr  : 2e-5 (same as ConvNeXt V2-B; matched-scale comparison)
+#   head_lr      : 2e-4 (10× ratio maintained throughout all baselines)
+#   batch_size   : 32   (256-px tiles at FP16 fits comfortably on 24 GB GPU)
+#   weight_decay : 5e-2 (consistent with all other models in this study)
+#
+# Architecture comparison (all models in this study)
+#   EfficientNet-V2-S  : ~21 M  params, 384×384, supervised pretraining
+#   DINOv2 ViT-S/14   : ~22 M  params, 448×448, self-supervised pretraining
+#   MaxViT-S           : ~69 M  params, 224×224, supervised pretraining (IN-1k)
+#   EVA-02-B           : ~86 M  params, 448×448, CLIP-MIM pretraining
+#   DINOv2 ViT-B/14   : ~86 M  params, 518×518, self-supervised pretraining
+#   ConvNeXt V2-B     : ~88 M  params, 224×224, FCMAE self-supervised pretraining
+#   SwinV2-B           : ~88 M  params, 256×256, supervised (IN-22k → IN-1k) ← this
+#   ConvNeXt V2-L     : ~198 M params, 224×224, FCMAE self-supervised pretraining
+# =============================================================================
+
+experiment:
+  name: "swinv2_base_cv0"
+  description: "SwinV2-B leave-one-year-out temporal generalization (CV0)"
+  tags:
+    - "swinv2"
+    - "swinv2_base"
+    - "shifted_window_vit"
+    - "hierarchical"
+    - "cv0"
+    - "regression"
+    - "slb"
+
+# -----------------------------------------------------------------------------
+# Model
+# -----------------------------------------------------------------------------
+model:
+  name: "swinv2_base"
+  architecture: "swinv2_base_window12to16_192to256.ms_in22k_ft_in1k"
+  pretrained: true                # Load IN-22k MS → IN-1k 256px weights via timm
+  dropout_rate: 0.3
+  freeze_backbone: false          # Set true for quick linear-probe baseline
+
+# -----------------------------------------------------------------------------
+# Data
+# -----------------------------------------------------------------------------
+data:
+  image_dir: "/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/final_image/final_sliced"
+  labels_csv: "/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav4slb/data/labels/full_dataset.csv"
+
+  image_filename_column: "image_filename"
+  target_column: "score"
+  year_column: "year"
+  image_extension: ".tif"
+
+  # 256×256 is the native fine-tuning resolution for this checkpoint.
+  # SwinV2 window attention requires input divisible by the patch-merge grid.
+  # For this model: patch_size=4, window_size=16 → inputs must be multiples
+  # of 32.  Valid sizes: 192, 224, 256, 288, 320, 384.
+  # 256 matches the pretrained FT checkpoint exactly and is recommended.
+  image_size: [256, 256]
+
+  # Normalization — SwinV2 pretrained with ImageNet statistics (via timm)
+  normalize:
+    mean: [0.485, 0.456, 0.406]
+    std:  [0.229, 0.224, 0.225]
+
+  dataloader:
+    batch_size: 32          # 256-px tiles at FP16 fits 24 GB GPU comfortably
+    batch_size_val: 64      # No grad at val/test — can double up
+    num_workers: 4
+    pin_memory: true
+
+  splits:
+    random_seed: 42
+    stratify: true
+
+# -----------------------------------------------------------------------------
+# Augmentation  (identical to all other baselines for fair comparison)
+# -----------------------------------------------------------------------------
+augmentation:
+  train:
+    enabled: true
+    horizontal_flip:
+      enabled: true
+      p: 0.5
+    vertical_flip:
+      enabled: true
+      p: 0.5
+    rotation:
+      enabled: true
+      limit: 30
+      p: 0.33
+    brightness_contrast:
+      enabled: true
+      brightness_limit: 0.15
+      contrast_limit: 0.15
+      p: 0.33
+    gaussian_blur:
+      enabled: true
+      blur_limit: [3, 5]
+      p: 0.2
+    gaussian_noise:
+      enabled: false        # Disabled — noise can mask subtle lesion texture
+  val:
+    enabled: false          # No augmentation at inference time
+
+# -----------------------------------------------------------------------------
+# Training
+# -----------------------------------------------------------------------------
+training:
+  max_epochs: 60
+  seed: 42
+
+  # Mixed precision — float16 is safe for SwinV2 (no SwiGLU gate overflow risk)
+  use_amp: true
+  amp_dtype: "float16"      # Options: "float16" | "bfloat16"
+
+  # Gradient clipping — SwinV2 shifted-window attention can produce large
+  # gradients at fine-tuning boundaries; clipping is important
+  gradient_clip: 1.0
+
+  # Early stopping on val R²
+  early_stopping:
+    enabled: true
+    patience: 12
+    min_delta: 0.001
+    monitor: "val_r2"
+    mode: "max"
+
+  # Differential learning rates
+  # SwinV2-B is matched in scale to ConvNeXt V2-B (~88 M), so backbone_lr
+  # is kept identical (2e-5) for a fair comparison.  The 10× ratio to head_lr
+  # is maintained throughout all baselines in this study.
+  optimizer:
+    type: "AdamW"
+    backbone_lr: 2.0e-5     # Same as ConvNeXt V2-B for matched-scale comparison
+    head_lr:     2.0e-4     # 10× backbone_lr; consistent across all baselines
+    weight_decay: 5.0e-2    # Consistent with ConvNeXt V2 and ViT-B/14 configs
+    betas: [0.9, 0.999]
+    eps: 1.0e-8
+
+  scheduler:
+    type: "cosine_with_warmup"
+    warmup_epochs: 5
+    T_max: 55               # max_epochs - warmup_epochs
+    min_lr: 1.0e-7
+
+  loss:
+    type: "mse"
+
+# -----------------------------------------------------------------------------
+# Checkpointing & logging
+# -----------------------------------------------------------------------------
+checkpoint:
+  save_best: true
+  monitor: "val_r2"
+  mode: "max"
+  save_last: true
+
+logging:
+  log_interval: 10
+  tensorboard: true
+
+# -----------------------------------------------------------------------------
+# CV splits location  (shared across all architectures — same folds)
+# -----------------------------------------------------------------------------
+cv:
+  type: "cv0"
+  n_folds: 3
+  splits_dir: "data/cv_splits"
+  output_dir: "experiments/swinv2_base_cv0"

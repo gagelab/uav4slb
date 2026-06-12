@@ -1,0 +1,8 @@
+Covariate,Category,Spearman_rho,p_value,CI_lower_95,CI_upper_95,covariate_mean,covariate_sd,n,Significant?
+Solar zenith angle (°),Solar geometry,0.03968,0.84421,-0.34554,0.41346,20.48237,9.71612,27,No
+|Time from solar noon| (min),Solar geometry,-0.23783,0.23227,-0.56663,0.15632,55.48148,58.39183,27,No
+Days post-inoculation,Temporality,0.49037,0.00941,0.13562,0.73366,46.40741,8.44557,27,Yes
+Accum. GDD (base 50 °F),Temporality,0.59023,0.00119,0.27100,0.79249,1975.88667,260.51261,27,Yes
+Irradiance mean (W m⁻²),Lighting,-0.46276,0.01507,-0.71673,-0.10040,816.27663,194.28641,27,Yes
+Irradiance CV,Lighting,0.20513,0.30470,-0.18967,0.54283,0.20794,0.19585,27,No
+Shadow–row angle (°),Solar geometry,-0.29915,0.12957,-0.60983,0.09124,35.80910,23.87428,27,No

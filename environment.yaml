@@ -1,0 +1,114 @@
+# =============================================================================
+# uav4slb — Conda Environment
+# =============================================================================
+# UAV-based deep learning pipeline for Southern Leaf Blight (SLB) severity
+# prediction in maize from aerial imagery.
+#
+# INSTALLATION
+# ------------
+# Create the environment:
+#   conda env create -f environment.yaml
+#
+# Activate:
+#   conda activate uav4slb
+#
+# PYTORCH / CUDA NOTE
+# -------------------
+# PyTorch is installed via pip (see the pip section below) using the CPU-only
+# build as a safe default. If you have a CUDA-capable GPU, replace the torch
+# and torchvision lines with the appropriate CUDA build from:
+#   https://pytorch.org/get-started/locally/
+#
+# Example for CUDA 12.4 (used in the original study on NC State's Sunny HPC):
+#   pip install torch==2.5.1 torchvision==0.20.1 --index-url https://download.pytorch.org/whl/cu124
+#
+# PYTHON VERSION
+# --------------
+# Developed and tested with Python 3.11. Python 3.10+ should work but is
+# untested.
+# =============================================================================
+
+name: uav4slb
+
+channels:
+  - conda-forge
+  - defaults
+
+dependencies:
+  # ── Core Python ────────────────────────────────────────────────────────────
+  - python=3.11
+
+  # ── Geospatial stack ───────────────────────────────────────────────────────
+  # These are installed via conda rather than pip because they depend on
+  # compiled C/C++ libraries (GDAL, GEOS, PROJ) that are difficult to
+  # reconcile across platforms when pip-installed.
+  - gdal=3.10.3              # Geospatial Data Abstraction Library
+  - geos=3.14.1              # Geometry Engine — Open Source
+  - proj=9.7.1               # Cartographic projection library
+  - rasterio=1.4.4           # Raster I/O (orthomosaic reading, plot slicing)
+  - geopandas=1.1.2          # Geospatial DataFrames (shapefile I/O)
+  - pyproj=3.7.2             # Python bindings for PROJ
+  - shapely=2.1.2            # Geometric operations on vector data
+  - rasterstats=0.20.0       # Zonal statistics on rasters
+  - fiona=1.10.1             # Vector feature I/O (used by geopandas)
+
+  # ── Numerical / scientific computing ───────────────────────────────────────
+  - numpy=2.4.2
+  - scipy=1.17.1
+  - pandas=3.0.1
+  - scikit-learn=1.7.2       # Metrics, preprocessing, cross-validation helpers
+  - scikit-image=0.26.0      # Image statistics (Laplacian variance, contrast)
+  - statsmodels=0.14.6       # ICC computation for rater reliability analysis
+
+  # ── Solar geometry ─────────────────────────────────────────────────────────
+  - pvlib=0.15.0             # Solar position (SPA algorithm); flight covariate
+                             # computation (SZA, shadow-row angle, irradiance)
+
+  # ── Visualization ──────────────────────────────────────────────────────────
+  - matplotlib=3.10.8
+  - seaborn=0.13.2
+
+  # ── Data utilities ─────────────────────────────────────────────────────────
+  - openpyxl=3.1.5           # Reading EcoNet radiation station .xlsx files
+  - pyyaml=6.0.3             # YAML config loading (also pulled by omegaconf)
+  - tabulate=0.9.0           # Formatted table printing in evaluation scripts
+
+  # ── Experiment tracking / profiling ────────────────────────────────────────
+  - tensorboard=2.20.0       # Training loss and metric visualization
+  - tbparse=0.0.9            # Parsing TensorBoard event files for aggregation
+  - conda-forge::nvitop      # GPU utilization monitoring on HPC nodes
+
+  # ── pip-managed packages ───────────────────────────────────────────────────
+  # These are installed via pip either because no conda-forge package exists
+  # or because the pip version is more tightly version-controlled.
+  - pip=25
+  - pip:
+      # ── Deep learning framework ──────────────────────────────────────────
+      # CPU-only build by default. See the PYTORCH / CUDA NOTE above.
+      - torch==2.5.1
+      - torchvision==0.20.1
+
+      # ── Model library ────────────────────────────────────────────────────
+      # timm provides all nine pretrained architectures benchmarked in this
+      # study (EfficientNet V2-S, ConvNeXt V2-B/L, DINOv2 ViT-S/14,
+      # DINOv2 ViT-B/14, EVA-02-B, MaxViT-S, SwinV2-B, CoAtNet-2).
+      # Pin tightly — model registry names and checkpoint formats change
+      # between minor versions.
+      - timm==1.0.22
+
+      # ── Config management ────────────────────────────────────────────────
+      # OmegaConf/Hydra used for all experiment YAML configs in configs/.
+      - omegaconf==2.3.0
+      - hydra-core==1.3.2
+
+      # ── Image I/O and augmentation ───────────────────────────────────────
+      # opencv-python-headless: used for image reading/processing only;
+      # no GUI display functions (cv2.imshow etc.) are called in any
+      # published script. Use opencv-python if you need display support.
+      - opencv-python-headless==4.12.0.88
+      - albumentations==2.0.8    # Train-time augmentation pipeline
+      - pillow==12.0.0           # PIL backend for torchvision transforms
+
+      # ── Progress / display utilities ─────────────────────────────────────
+      - tqdm==4.67.1
+      - rich==13.9.4

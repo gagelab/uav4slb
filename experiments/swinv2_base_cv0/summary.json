@@ -1,0 +1,21 @@
+{
+  "model": "swinv2_base",
+  "cv_type": "cv0",
+  "n_folds": 3,
+  "mean_val_r2": 0.8679541746775309,
+  "std_val_r2": 0.009521733931167928,
+  "mean_val_loss": 0.5617692432452741,
+  "std_val_loss": 0.0785158259587145,
+  "mean_test_r2": 0.5948942502339681,
+  "std_test_r2": 0.10123102481621714,
+  "mean_test_rmse": 1.1827946825907896,
+  "std_test_rmse": 0.23960047046608943,
+  "mean_test_mae": 0.9255809187889099,
+  "agreement_rate": {
+    "threshold": 0.25,
+    "overall": 0.183806,
+    "fold_2023": 0.24875,
+    "fold_2024": 0.137515,
+    "fold_2025": 0.197958
+  }
+}

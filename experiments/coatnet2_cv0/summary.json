@@ -1,0 +1,21 @@
+{
+  "model": "coatnet2",
+  "cv_type": "cv0",
+  "n_folds": 3,
+  "mean_val_r2": 0.8635175228118896,
+  "std_val_r2": 0.009893515433343448,
+  "mean_val_loss": 0.5804928633022154,
+  "std_val_loss": 0.08009088583016133,
+  "mean_test_r2": 0.6405035257339478,
+  "std_test_r2": 0.08552310245392057,
+  "mean_test_rmse": 1.1375861884746308,
+  "std_test_rmse": 0.38218200459755236,
+  "mean_test_mae": 0.8996472358703613,
+  "agreement_rate": {
+    "threshold": 0.25,
+    "overall": 0.186683,
+    "fold_2023": 0.230681,
+    "fold_2024": 0.107841,
+    "fold_2025": 0.2222
+  }
+}

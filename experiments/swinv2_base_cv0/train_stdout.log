@@ -1,0 +1,550 @@
+2026-03-09 09:35:47 | INFO | train_swinv2_base_cv0 | Using specified GPU 1: NVIDIA A100 80GB PCIe
+2026-03-09 09:35:47 | INFO | train_swinv2_base_cv0 | ======================================================================
+2026-03-09 09:35:47 | INFO | train_swinv2_base_cv0 | SwinV2-B — CV0 Leave-One-Year-Out Training
+2026-03-09 09:35:47 | INFO | train_swinv2_base_cv0 | ======================================================================
+2026-03-09 09:35:47 | INFO | train_swinv2_base_cv0 | Config      : configs/swinv2_base_cv0.yaml
+2026-03-09 09:35:47 | INFO | train_swinv2_base_cv0 | Output dir  : experiments/swinv2_base_cv0
+2026-03-09 09:35:47 | INFO | train_swinv2_base_cv0 | Device      : cuda:1
+2026-03-09 09:35:47 | INFO | train_swinv2_base_cv0 | Image size  : [256, 256]
+2026-03-09 09:35:47 | INFO | train_swinv2_base_cv0 | Batch size  : 32
+2026-03-09 09:35:47 | INFO | train_swinv2_base_cv0 | Max epochs  : 60
+2026-03-09 09:35:47 | INFO | train_swinv2_base_cv0 | AMP enabled : True
+2026-03-09 09:35:47 | INFO | train_swinv2_base_cv0 | Found 3 CV0 folds: ['fold_23', 'fold_24', 'fold_25']
+2026-03-09 09:35:47 | INFO | train_swinv2_base_cv0 | 
+======================================================================
+2026-03-09 09:35:47 | INFO | train_swinv2_base_cv0 | FOLD: fold_23  |  train=19949  val=3521  test=2601
+2026-03-09 09:35:47 | INFO | train_swinv2_base_cv0 | ======================================================================
+2026-03-09 09:35:47 | INFO | src.data.dataset | Loaded 19949 samples from /tmp/swinv2_base_cv0_folds/train_42.csv
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/src/data/augmentation.py:158: UserWarning: Argument(s) 'always_apply' are not valid for transform Resize
+  A.Resize(height=image_size[0], width=image_size[1], always_apply=True),
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/src/data/augmentation.py:159: UserWarning: Argument(s) 'always_apply' are not valid for transform Normalize
+  A.Normalize(mean=mean, std=std, always_apply=True),
+2026-03-09 09:35:47 | INFO | src.data.dataset | Loaded 3521 samples from /tmp/swinv2_base_cv0_folds/val_42.csv
+2026-03-09 09:35:47 | INFO | src.data.dataset | Loaded 2601 samples from /tmp/swinv2_base_cv0_folds/test_42.csv
+2026-03-09 09:35:48 | INFO | timm.models._builder | Loading pretrained weights from Hugging Face hub (timm/swinv2_base_window12to16_192to256.ms_in22k_ft_in1k)
+2026-03-09 09:35:48 | INFO | httpx | HTTP Request: HEAD https://huggingface.co/timm/swinv2_base_window12to16_192to256.ms_in22k_ft_in1k/resolve/main/model.safetensors "HTTP/1.1 302 Found"
+2026-03-09 09:35:48 | INFO | httpx | HTTP Request: GET https://huggingface.co/api/models/timm/swinv2_base_window12to16_192to256.ms_in22k_ft_in1k/xet-read-token/57e3fd3cd45c37dca5c414f97cef29ca2134c221 "HTTP/1.1 200 OK"
+2026-03-09 09:35:50 | INFO | timm.models._hub | [timm/swinv2_base_window12to16_192to256.ms_in22k_ft_in1k] Safe alternative available for 'pytorch_model.bin' (as 'model.safetensors'). Loading weights using safetensors.
+2026-03-09 09:35:50 | INFO | src.models.swinv2_base | SwinV2-B backbone loaded  |  pretrained=True  feature_dim=1024  params=86.9M
+2026-03-09 09:35:50 | INFO | src.models.swinv2_base | SwinV2-B Regressor  |  total=87.2M  trainable=87.2M
+2026-03-09 09:35:50 | INFO | src.models.swinv2_base | Optimizer param groups  |  backbone_lr=2.0e-05  head_lr=2.0e-04  wd=5.00e-02  total_params=87.2M
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:374: FutureWarning: `torch.cuda.amp.GradScaler(args...)` is deprecated. Please use `torch.amp.GradScaler('cuda', args...)` instead.
+  scaler    = GradScaler(enabled=cfg.training.use_amp)
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:411: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:300: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+2026-03-09 09:44:47 | INFO | train_swinv2_base_cv0 | Epoch   1/60  train_loss=2.4179  train_r2=0.4520  val_loss=0.8079  val_r2=0.8172  val_rmse=0.8989  lr_backbone=8.00e-06  lr_head=8.00e-05  time=536.3s
+2026-03-09 09:44:54 | INFO | train_swinv2_base_cv0 |   ✓ Saved best checkpoint (val_r2=0.8172)
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:411: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:300: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+2026-03-09 09:47:24 | INFO | train_swinv2_base_cv0 | Epoch   2/60  train_loss=1.0965  train_r2=0.7517  val_loss=0.7591  val_r2=0.8282  val_rmse=0.8713  lr_backbone=1.20e-05  lr_head=1.20e-04  time=149.9s
+2026-03-09 09:47:28 | INFO | train_swinv2_base_cv0 |   ✓ Saved best checkpoint (val_r2=0.8282)
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:411: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:300: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+2026-03-09 09:49:56 | INFO | train_swinv2_base_cv0 | Epoch   3/60  train_loss=0.9807  train_r2=0.7778  val_loss=0.7415  val_r2=0.8322  val_rmse=0.8611  lr_backbone=1.60e-05  lr_head=1.60e-04  time=148.0s
+2026-03-09 09:50:01 | INFO | train_swinv2_base_cv0 |   ✓ Saved best checkpoint (val_r2=0.8322)
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:411: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:300: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+2026-03-09 09:52:30 | INFO | train_swinv2_base_cv0 | Epoch   4/60  train_loss=0.9293  train_r2=0.7897  val_loss=0.6984  val_r2=0.8419  val_rmse=0.8357  lr_backbone=2.00e-05  lr_head=2.00e-04  time=149.0s
+2026-03-09 09:52:34 | INFO | train_swinv2_base_cv0 |   ✓ Saved best checkpoint (val_r2=0.8419)
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:411: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+/home/chhammet/miniforge3/envs/uav_for_slb/lib/python3.11/site-packages/torch/optim/lr_scheduler.py:240: UserWarning: The epoch parameter in `scheduler.step()` was not necessary and is being deprecated where possible. Please use `scheduler.step()` to step the scheduler. During the deprecation, if epoch is different from None, the closed form is used instead of the new chainable form, where available. Please open an issue if you are unable to replicate your use case: https://github.com/pytorch/pytorch/issues/new/choose.
+  warnings.warn(EPOCH_DEPRECATION_WARNING, UserWarning)
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:300: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+2026-03-09 09:55:03 | INFO | train_swinv2_base_cv0 | Epoch   5/60  train_loss=0.8863  train_r2=0.7992  val_loss=0.6762  val_r2=0.8470  val_rmse=0.8223  lr_backbone=2.00e-05  lr_head=2.00e-04  time=149.1s
+2026-03-09 09:55:08 | INFO | train_swinv2_base_cv0 |   ✓ Saved best checkpoint (val_r2=0.8470)
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:411: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:300: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+2026-03-09 09:57:37 | INFO | train_swinv2_base_cv0 | Epoch   6/60  train_loss=0.8288  train_r2=0.8123  val_loss=0.6863  val_r2=0.8447  val_rmse=0.8284  lr_backbone=2.00e-05  lr_head=2.00e-04  time=149.0s
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:411: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:300: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+2026-03-09 10:00:06 | INFO | train_swinv2_base_cv0 | Epoch   7/60  train_loss=0.7701  train_r2=0.8255  val_loss=0.7496  val_r2=0.8304  val_rmse=0.8658  lr_backbone=1.99e-05  lr_head=1.99e-04  time=148.9s
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:411: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:300: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+2026-03-09 10:02:35 | INFO | train_swinv2_base_cv0 | Epoch   8/60  train_loss=0.7326  train_r2=0.8340  val_loss=0.6870  val_r2=0.8445  val_rmse=0.8288  lr_backbone=1.99e-05  lr_head=1.99e-04  time=148.9s
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:411: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:300: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+2026-03-09 10:05:05 | INFO | train_swinv2_base_cv0 | Epoch   9/60  train_loss=0.7072  train_r2=0.8398  val_loss=0.6819  val_r2=0.8457  val_rmse=0.8258  lr_backbone=1.97e-05  lr_head=1.97e-04  time=149.6s
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:411: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:300: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+2026-03-09 10:07:34 | INFO | train_swinv2_base_cv0 | Epoch  10/60  train_loss=0.6550  train_r2=0.8516  val_loss=0.6191  val_r2=0.8599  val_rmse=0.7868  lr_backbone=1.96e-05  lr_head=1.96e-04  time=148.9s
+2026-03-09 10:07:39 | INFO | train_swinv2_base_cv0 |   ✓ Saved best checkpoint (val_r2=0.8599)
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:411: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:300: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+2026-03-09 10:10:08 | INFO | train_swinv2_base_cv0 | Epoch  11/60  train_loss=0.6191  train_r2=0.8597  val_loss=0.6207  val_r2=0.8595  val_rmse=0.7878  lr_backbone=1.94e-05  lr_head=1.94e-04  time=149.0s
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:411: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:300: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+2026-03-09 10:12:38 | INFO | train_swinv2_base_cv0 | Epoch  12/60  train_loss=0.5894  train_r2=0.8665  val_loss=0.6052  val_r2=0.8631  val_rmse=0.7779  lr_backbone=1.92e-05  lr_head=1.92e-04  time=150.4s
+2026-03-09 10:12:43 | INFO | train_swinv2_base_cv0 |   ✓ Saved best checkpoint (val_r2=0.8631)
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:411: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:300: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+2026-03-09 10:15:12 | INFO | train_swinv2_base_cv0 | Epoch  13/60  train_loss=0.5539  train_r2=0.8747  val_loss=0.7783  val_r2=0.8239  val_rmse=0.8822  lr_backbone=1.90e-05  lr_head=1.90e-04  time=149.1s
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:411: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:300: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+2026-03-09 10:17:41 | INFO | train_swinv2_base_cv0 | Epoch  14/60  train_loss=0.5258  train_r2=0.8809  val_loss=0.6636  val_r2=0.8498  val_rmse=0.8146  lr_backbone=1.87e-05  lr_head=1.87e-04  time=149.2s
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:411: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:300: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+2026-03-09 10:20:10 | INFO | train_swinv2_base_cv0 | Epoch  15/60  train_loss=0.4929  train_r2=0.8883  val_loss=0.6083  val_r2=0.8623  val_rmse=0.7799  lr_backbone=1.84e-05  lr_head=1.84e-04  time=149.5s
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:411: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:300: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+2026-03-09 10:22:39 | INFO | train_swinv2_base_cv0 | Epoch  16/60  train_loss=0.4661  train_r2=0.8944  val_loss=0.6406  val_r2=0.8550  val_rmse=0.8004  lr_backbone=1.81e-05  lr_head=1.81e-04  time=149.1s
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:411: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:300: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+2026-03-09 10:25:08 | INFO | train_swinv2_base_cv0 | Epoch  17/60  train_loss=0.4422  train_r2=0.8999  val_loss=0.5876  val_r2=0.8670  val_rmse=0.7666  lr_backbone=1.78e-05  lr_head=1.77e-04  time=149.0s
+2026-03-09 10:25:14 | INFO | train_swinv2_base_cv0 |   ✓ Saved best checkpoint (val_r2=0.8670)
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:411: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:300: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+2026-03-09 10:27:44 | INFO | train_swinv2_base_cv0 | Epoch  18/60  train_loss=0.4143  train_r2=0.9063  val_loss=0.6505  val_r2=0.8528  val_rmse=0.8066  lr_backbone=1.74e-05  lr_head=1.74e-04  time=149.5s
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:411: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:300: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+2026-03-09 10:30:12 | INFO | train_swinv2_base_cv0 | Epoch  19/60  train_loss=0.3914  train_r2=0.9114  val_loss=0.6254  val_r2=0.8585  val_rmse=0.7908  lr_backbone=1.70e-05  lr_head=1.70e-04  time=149.0s
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:411: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:300: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+2026-03-09 10:32:42 | INFO | train_swinv2_base_cv0 | Epoch  20/60  train_loss=0.3667  train_r2=0.9169  val_loss=0.6507  val_r2=0.8528  val_rmse=0.8066  lr_backbone=1.66e-05  lr_head=1.66e-04  time=149.5s
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:411: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:300: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+2026-03-09 10:35:12 | INFO | train_swinv2_base_cv0 | Epoch  21/60  train_loss=0.3536  train_r2=0.9199  val_loss=0.6101  val_r2=0.8619  val_rmse=0.7811  lr_backbone=1.61e-05  lr_head=1.61e-04  time=149.5s
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:411: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:300: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+2026-03-09 10:37:58 | INFO | train_swinv2_base_cv0 | Epoch  22/60  train_loss=0.3439  train_r2=0.9221  val_loss=0.6074  val_r2=0.8625  val_rmse=0.7793  lr_backbone=1.57e-05  lr_head=1.56e-04  time=166.7s
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:411: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:300: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+2026-03-09 10:40:28 | INFO | train_swinv2_base_cv0 | Epoch  23/60  train_loss=0.3180  train_r2=0.9280  val_loss=0.6074  val_r2=0.8625  val_rmse=0.7794  lr_backbone=1.52e-05  lr_head=1.52e-04  time=149.6s
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:411: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:300: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+2026-03-09 10:42:57 | INFO | train_swinv2_base_cv0 | Epoch  24/60  train_loss=0.3029  train_r2=0.9314  val_loss=0.7990  val_r2=0.8192  val_rmse=0.8939  lr_backbone=1.47e-05  lr_head=1.47e-04  time=149.6s
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:411: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:300: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+2026-03-09 10:45:26 | INFO | train_swinv2_base_cv0 | Epoch  25/60  train_loss=0.2867  train_r2=0.9351  val_loss=0.6640  val_r2=0.8497  val_rmse=0.8148  lr_backbone=1.42e-05  lr_head=1.42e-04  time=149.1s
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:411: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:300: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+2026-03-09 10:47:54 | INFO | train_swinv2_base_cv0 | Epoch  26/60  train_loss=0.2780  train_r2=0.9371  val_loss=0.6401  val_r2=0.8551  val_rmse=0.8001  lr_backbone=1.37e-05  lr_head=1.36e-04  time=147.9s
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:411: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:300: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+2026-03-09 10:50:23 | INFO | train_swinv2_base_cv0 | Epoch  27/60  train_loss=0.2682  train_r2=0.9392  val_loss=0.6240  val_r2=0.8588  val_rmse=0.7899  lr_backbone=1.31e-05  lr_head=1.31e-04  time=148.8s
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:411: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:300: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+2026-03-09 10:52:52 | INFO | train_swinv2_base_cv0 | Epoch  28/60  train_loss=0.2526  train_r2=0.9429  val_loss=0.6002  val_r2=0.8642  val_rmse=0.7747  lr_backbone=1.26e-05  lr_head=1.25e-04  time=149.1s
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:411: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:300: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+2026-03-09 10:55:21 | INFO | train_swinv2_base_cv0 | Epoch  29/60  train_loss=0.2413  train_r2=0.9454  val_loss=0.6338  val_r2=0.8566  val_rmse=0.7961  lr_backbone=1.20e-05  lr_head=1.20e-04  time=148.9s
+2026-03-09 10:55:21 | INFO | train_swinv2_base_cv0 | Early stopping triggered at epoch 29 (no improvement for 12 epochs).
+2026-03-09 10:55:22 | INFO | train_swinv2_base_cv0 | 
+Loading best checkpoint for test evaluation: experiments/swinv2_base_cv0/checkpoints/fold_23/checkpoint_best.pt
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:511: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  ckpt = torch.load(best_ckpt, map_location=device)
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:300: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+2026-03-09 10:56:16 | INFO | train_swinv2_base_cv0 | 
+======================================================================
+TEST RESULTS — fold_23
+  R²   = 0.4781
+  RMSE = 0.9970
+  MAE  = 0.7513
+======================================================================
+2026-03-09 10:56:17 | INFO | train_swinv2_base_cv0 | Saved test predictions → experiments/swinv2_base_cv0/predictions/fold_23_test_predictions.csv
+2026-03-09 10:56:17 | INFO | train_swinv2_base_cv0 | Saved training history  → experiments/swinv2_base_cv0/history/fold_23_history.csv
+2026-03-09 10:56:17 | INFO | train_swinv2_base_cv0 | 
+======================================================================
+2026-03-09 10:56:17 | INFO | train_swinv2_base_cv0 | FOLD: fold_24  |  train=15113  val=2668  test=8290
+2026-03-09 10:56:17 | INFO | train_swinv2_base_cv0 | ======================================================================
+2026-03-09 10:56:17 | INFO | src.data.dataset | Loaded 15113 samples from /tmp/swinv2_base_cv0_folds/train_42.csv
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/src/data/augmentation.py:158: UserWarning: Argument(s) 'always_apply' are not valid for transform Resize
+  A.Resize(height=image_size[0], width=image_size[1], always_apply=True),
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/src/data/augmentation.py:159: UserWarning: Argument(s) 'always_apply' are not valid for transform Normalize
+  A.Normalize(mean=mean, std=std, always_apply=True),
+2026-03-09 10:56:17 | INFO | src.data.dataset | Loaded 2668 samples from /tmp/swinv2_base_cv0_folds/val_42.csv
+2026-03-09 10:56:17 | INFO | src.data.dataset | Loaded 8290 samples from /tmp/swinv2_base_cv0_folds/test_42.csv
+2026-03-09 10:56:18 | INFO | timm.models._builder | Loading pretrained weights from Hugging Face hub (timm/swinv2_base_window12to16_192to256.ms_in22k_ft_in1k)
+2026-03-09 10:56:18 | INFO | httpx | HTTP Request: HEAD https://huggingface.co/timm/swinv2_base_window12to16_192to256.ms_in22k_ft_in1k/resolve/main/model.safetensors "HTTP/1.1 302 Found"
+2026-03-09 10:56:18 | INFO | timm.models._hub | [timm/swinv2_base_window12to16_192to256.ms_in22k_ft_in1k] Safe alternative available for 'pytorch_model.bin' (as 'model.safetensors'). Loading weights using safetensors.
+2026-03-09 10:56:19 | INFO | src.models.swinv2_base | SwinV2-B backbone loaded  |  pretrained=True  feature_dim=1024  params=86.9M
+2026-03-09 10:56:19 | INFO | src.models.swinv2_base | SwinV2-B Regressor  |  total=87.2M  trainable=87.2M
+2026-03-09 10:56:19 | INFO | src.models.swinv2_base | Optimizer param groups  |  backbone_lr=2.0e-05  head_lr=2.0e-04  wd=5.00e-02  total_params=87.2M
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:374: FutureWarning: `torch.cuda.amp.GradScaler(args...)` is deprecated. Please use `torch.amp.GradScaler('cuda', args...)` instead.
+  scaler    = GradScaler(enabled=cfg.training.use_amp)
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:411: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:300: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+2026-03-09 10:58:13 | INFO | train_swinv2_base_cv0 | Epoch   1/60  train_loss=2.4378  train_r2=0.2749  val_loss=0.6823  val_r2=0.7968  val_rmse=0.8260  lr_backbone=8.00e-06  lr_head=8.00e-05  time=114.5s
+2026-03-09 10:58:19 | INFO | train_swinv2_base_cv0 |   ✓ Saved best checkpoint (val_r2=0.7968)
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:411: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:300: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+2026-03-09 11:00:12 | INFO | train_swinv2_base_cv0 | Epoch   2/60  train_loss=0.9216  train_r2=0.7260  val_loss=0.6562  val_r2=0.8045  val_rmse=0.8101  lr_backbone=1.20e-05  lr_head=1.20e-04  time=113.6s
+2026-03-09 11:00:17 | INFO | train_swinv2_base_cv0 |   ✓ Saved best checkpoint (val_r2=0.8045)
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:411: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:300: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+2026-03-09 11:02:11 | INFO | train_swinv2_base_cv0 | Epoch   3/60  train_loss=0.8224  train_r2=0.7554  val_loss=0.5660  val_r2=0.8314  val_rmse=0.7523  lr_backbone=1.60e-05  lr_head=1.60e-04  time=113.9s
+2026-03-09 11:02:16 | INFO | train_swinv2_base_cv0 |   ✓ Saved best checkpoint (val_r2=0.8314)
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:411: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:300: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+2026-03-09 11:04:10 | INFO | train_swinv2_base_cv0 | Epoch   4/60  train_loss=0.7958  train_r2=0.7633  val_loss=0.5522  val_r2=0.8355  val_rmse=0.7431  lr_backbone=2.00e-05  lr_head=2.00e-04  time=113.6s
+2026-03-09 11:04:16 | INFO | train_swinv2_base_cv0 |   ✓ Saved best checkpoint (val_r2=0.8355)
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:411: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+/home/chhammet/miniforge3/envs/uav_for_slb/lib/python3.11/site-packages/torch/optim/lr_scheduler.py:240: UserWarning: The epoch parameter in `scheduler.step()` was not necessary and is being deprecated where possible. Please use `scheduler.step()` to step the scheduler. During the deprecation, if epoch is different from None, the closed form is used instead of the new chainable form, where available. Please open an issue if you are unable to replicate your use case: https://github.com/pytorch/pytorch/issues/new/choose.
+  warnings.warn(EPOCH_DEPRECATION_WARNING, UserWarning)
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:300: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+2026-03-09 11:06:12 | INFO | train_swinv2_base_cv0 | Epoch   5/60  train_loss=0.7394  train_r2=0.7802  val_loss=0.5715  val_r2=0.8298  val_rmse=0.7560  lr_backbone=2.00e-05  lr_head=2.00e-04  time=115.8s
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:411: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:300: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+2026-03-09 11:08:08 | INFO | train_swinv2_base_cv0 | Epoch   6/60  train_loss=0.6751  train_r2=0.7992  val_loss=0.6654  val_r2=0.8018  val_rmse=0.8157  lr_backbone=2.00e-05  lr_head=2.00e-04  time=116.0s
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:411: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:300: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+2026-03-09 11:10:02 | INFO | train_swinv2_base_cv0 | Epoch   7/60  train_loss=0.6424  train_r2=0.8089  val_loss=0.5305  val_r2=0.8420  val_rmse=0.7284  lr_backbone=1.99e-05  lr_head=1.99e-04  time=114.0s
+2026-03-09 11:10:08 | INFO | train_swinv2_base_cv0 |   ✓ Saved best checkpoint (val_r2=0.8420)
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:411: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:300: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+2026-03-09 11:12:03 | INFO | train_swinv2_base_cv0 | Epoch   8/60  train_loss=0.5871  train_r2=0.8255  val_loss=0.5601  val_r2=0.8332  val_rmse=0.7484  lr_backbone=1.99e-05  lr_head=1.99e-04  time=114.2s
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:411: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:300: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+2026-03-09 11:13:57 | INFO | train_swinv2_base_cv0 | Epoch   9/60  train_loss=0.5522  train_r2=0.8360  val_loss=0.6363  val_r2=0.8105  val_rmse=0.7977  lr_backbone=1.97e-05  lr_head=1.97e-04  time=114.4s
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:411: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:300: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+2026-03-09 11:15:51 | INFO | train_swinv2_base_cv0 | Epoch  10/60  train_loss=0.5059  train_r2=0.8497  val_loss=0.5517  val_r2=0.8357  val_rmse=0.7428  lr_backbone=1.96e-05  lr_head=1.96e-04  time=113.8s
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:411: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:300: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+2026-03-09 11:17:45 | INFO | train_swinv2_base_cv0 | Epoch  11/60  train_loss=0.4797  train_r2=0.8574  val_loss=0.4846  val_r2=0.8556  val_rmse=0.6962  lr_backbone=1.94e-05  lr_head=1.94e-04  time=113.6s
+2026-03-09 11:17:50 | INFO | train_swinv2_base_cv0 |   ✓ Saved best checkpoint (val_r2=0.8556)
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:411: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:300: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+2026-03-09 11:19:44 | INFO | train_swinv2_base_cv0 | Epoch  12/60  train_loss=0.4402  train_r2=0.8691  val_loss=0.4736  val_r2=0.8589  val_rmse=0.6882  lr_backbone=1.92e-05  lr_head=1.92e-04  time=114.2s
+2026-03-09 11:19:50 | INFO | train_swinv2_base_cv0 |   ✓ Saved best checkpoint (val_r2=0.8589)
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:411: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:300: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+2026-03-09 11:21:44 | INFO | train_swinv2_base_cv0 | Epoch  13/60  train_loss=0.4319  train_r2=0.8717  val_loss=0.5093  val_r2=0.8483  val_rmse=0.7136  lr_backbone=1.90e-05  lr_head=1.90e-04  time=113.9s
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:411: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:300: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+2026-03-09 11:23:38 | INFO | train_swinv2_base_cv0 | Epoch  14/60  train_loss=0.3996  train_r2=0.8812  val_loss=0.5184  val_r2=0.8456  val_rmse=0.7200  lr_backbone=1.87e-05  lr_head=1.87e-04  time=113.9s
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:411: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:300: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+2026-03-09 11:25:32 | INFO | train_swinv2_base_cv0 | Epoch  15/60  train_loss=0.3801  train_r2=0.8872  val_loss=0.5007  val_r2=0.8509  val_rmse=0.7076  lr_backbone=1.84e-05  lr_head=1.84e-04  time=113.5s
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:411: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:300: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+2026-03-09 11:27:25 | INFO | train_swinv2_base_cv0 | Epoch  16/60  train_loss=0.3509  train_r2=0.8958  val_loss=0.4803  val_r2=0.8569  val_rmse=0.6930  lr_backbone=1.81e-05  lr_head=1.81e-04  time=113.7s
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:411: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:300: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+2026-03-09 11:29:20 | INFO | train_swinv2_base_cv0 | Epoch  17/60  train_loss=0.3337  train_r2=0.9009  val_loss=0.5019  val_r2=0.8505  val_rmse=0.7084  lr_backbone=1.78e-05  lr_head=1.77e-04  time=114.3s
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:411: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:300: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+2026-03-09 11:31:14 | INFO | train_swinv2_base_cv0 | Epoch  18/60  train_loss=0.3056  train_r2=0.9092  val_loss=0.5784  val_r2=0.8277  val_rmse=0.7606  lr_backbone=1.74e-05  lr_head=1.74e-04  time=114.3s
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:411: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:300: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+2026-03-09 11:33:08 | INFO | train_swinv2_base_cv0 | Epoch  19/60  train_loss=0.3007  train_r2=0.9107  val_loss=0.4900  val_r2=0.8540  val_rmse=0.7000  lr_backbone=1.70e-05  lr_head=1.70e-04  time=114.2s
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:411: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:300: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+2026-03-09 11:35:04 | INFO | train_swinv2_base_cv0 | Epoch  20/60  train_loss=0.2837  train_r2=0.9157  val_loss=0.4925  val_r2=0.8533  val_rmse=0.7018  lr_backbone=1.66e-05  lr_head=1.66e-04  time=116.0s
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:411: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:300: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+2026-03-09 11:36:59 | INFO | train_swinv2_base_cv0 | Epoch  21/60  train_loss=0.2682  train_r2=0.9203  val_loss=0.4938  val_r2=0.8529  val_rmse=0.7027  lr_backbone=1.61e-05  lr_head=1.61e-04  time=114.9s
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:411: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:300: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+2026-03-09 11:38:54 | INFO | train_swinv2_base_cv0 | Epoch  22/60  train_loss=0.2526  train_r2=0.9249  val_loss=0.4985  val_r2=0.8515  val_rmse=0.7061  lr_backbone=1.57e-05  lr_head=1.56e-04  time=114.5s
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:411: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:300: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+2026-03-09 11:40:47 | INFO | train_swinv2_base_cv0 | Epoch  23/60  train_loss=0.2431  train_r2=0.9278  val_loss=0.5071  val_r2=0.8489  val_rmse=0.7121  lr_backbone=1.52e-05  lr_head=1.52e-04  time=113.5s
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:411: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:300: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+2026-03-09 11:42:41 | INFO | train_swinv2_base_cv0 | Epoch  24/60  train_loss=0.2285  train_r2=0.9321  val_loss=0.4936  val_r2=0.8530  val_rmse=0.7026  lr_backbone=1.47e-05  lr_head=1.47e-04  time=113.6s
+2026-03-09 11:42:41 | INFO | train_swinv2_base_cv0 | Early stopping triggered at epoch 24 (no improvement for 12 epochs).
+2026-03-09 11:42:42 | INFO | train_swinv2_base_cv0 | 
+Loading best checkpoint for test evaluation: experiments/swinv2_base_cv0/checkpoints/fold_24/checkpoint_best.pt
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:511: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  ckpt = torch.load(best_ckpt, map_location=device)
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:300: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+2026-03-09 11:43:30 | INFO | train_swinv2_base_cv0 | 
+======================================================================
+TEST RESULTS — fold_24
+  R²   = 0.6489
+  RMSE = 1.4532
+  MAE  = 1.1641
+======================================================================
+2026-03-09 11:43:30 | INFO | train_swinv2_base_cv0 | Saved test predictions → experiments/swinv2_base_cv0/predictions/fold_24_test_predictions.csv
+2026-03-09 11:43:30 | INFO | train_swinv2_base_cv0 | Saved training history  → experiments/swinv2_base_cv0/history/fold_24_history.csv
+2026-03-09 11:43:31 | INFO | train_swinv2_base_cv0 | 
+======================================================================
+2026-03-09 11:43:31 | INFO | train_swinv2_base_cv0 | FOLD: fold_25  |  train=9257  val=1634  test=15180
+2026-03-09 11:43:31 | INFO | train_swinv2_base_cv0 | ======================================================================
+2026-03-09 11:43:31 | INFO | src.data.dataset | Loaded 9257 samples from /tmp/swinv2_base_cv0_folds/train_42.csv
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/src/data/augmentation.py:158: UserWarning: Argument(s) 'always_apply' are not valid for transform Resize
+  A.Resize(height=image_size[0], width=image_size[1], always_apply=True),
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/src/data/augmentation.py:159: UserWarning: Argument(s) 'always_apply' are not valid for transform Normalize
+  A.Normalize(mean=mean, std=std, always_apply=True),
+2026-03-09 11:43:31 | INFO | src.data.dataset | Loaded 1634 samples from /tmp/swinv2_base_cv0_folds/val_42.csv
+2026-03-09 11:43:31 | INFO | src.data.dataset | Loaded 15180 samples from /tmp/swinv2_base_cv0_folds/test_42.csv
+2026-03-09 11:43:32 | INFO | timm.models._builder | Loading pretrained weights from Hugging Face hub (timm/swinv2_base_window12to16_192to256.ms_in22k_ft_in1k)
+2026-03-09 11:43:32 | INFO | httpx | HTTP Request: HEAD https://huggingface.co/timm/swinv2_base_window12to16_192to256.ms_in22k_ft_in1k/resolve/main/model.safetensors "HTTP/1.1 302 Found"
+2026-03-09 11:43:32 | INFO | timm.models._hub | [timm/swinv2_base_window12to16_192to256.ms_in22k_ft_in1k] Safe alternative available for 'pytorch_model.bin' (as 'model.safetensors'). Loading weights using safetensors.
+2026-03-09 11:43:32 | INFO | src.models.swinv2_base | SwinV2-B backbone loaded  |  pretrained=True  feature_dim=1024  params=86.9M
+2026-03-09 11:43:32 | INFO | src.models.swinv2_base | SwinV2-B Regressor  |  total=87.2M  trainable=87.2M
+2026-03-09 11:43:32 | INFO | src.models.swinv2_base | Optimizer param groups  |  backbone_lr=2.0e-05  head_lr=2.0e-04  wd=5.00e-02  total_params=87.2M
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:374: FutureWarning: `torch.cuda.amp.GradScaler(args...)` is deprecated. Please use `torch.amp.GradScaler('cuda', args...)` instead.
+  scaler    = GradScaler(enabled=cfg.training.use_amp)
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:411: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:300: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+2026-03-09 11:44:43 | INFO | train_swinv2_base_cv0 | Epoch   1/60  train_loss=4.3934  train_r2=0.1348  val_loss=0.9592  val_r2=0.8124  val_rmse=0.9794  lr_backbone=8.00e-06  lr_head=8.00e-05  time=70.7s
+2026-03-09 11:44:48 | INFO | train_swinv2_base_cv0 |   ✓ Saved best checkpoint (val_r2=0.8124)
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:411: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:300: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+2026-03-09 11:45:59 | INFO | train_swinv2_base_cv0 | Epoch   2/60  train_loss=1.3382  train_r2=0.7366  val_loss=0.7980  val_r2=0.8439  val_rmse=0.8933  lr_backbone=1.20e-05  lr_head=1.20e-04  time=70.8s
+2026-03-09 11:46:05 | INFO | train_swinv2_base_cv0 |   ✓ Saved best checkpoint (val_r2=0.8439)
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:411: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:300: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+2026-03-09 11:47:15 | INFO | train_swinv2_base_cv0 | Epoch   3/60  train_loss=1.2089  train_r2=0.7621  val_loss=0.7526  val_r2=0.8528  val_rmse=0.8675  lr_backbone=1.60e-05  lr_head=1.60e-04  time=70.6s
+2026-03-09 11:47:20 | INFO | train_swinv2_base_cv0 |   ✓ Saved best checkpoint (val_r2=0.8528)
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:411: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:300: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+2026-03-09 11:48:30 | INFO | train_swinv2_base_cv0 | Epoch   4/60  train_loss=1.1307  train_r2=0.7778  val_loss=0.8279  val_r2=0.8380  val_rmse=0.9099  lr_backbone=2.00e-05  lr_head=2.00e-04  time=70.5s
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:411: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+/home/chhammet/miniforge3/envs/uav_for_slb/lib/python3.11/site-packages/torch/optim/lr_scheduler.py:240: UserWarning: The epoch parameter in `scheduler.step()` was not necessary and is being deprecated where possible. Please use `scheduler.step()` to step the scheduler. During the deprecation, if epoch is different from None, the closed form is used instead of the new chainable form, where available. Please open an issue if you are unable to replicate your use case: https://github.com/pytorch/pytorch/issues/new/choose.
+  warnings.warn(EPOCH_DEPRECATION_WARNING, UserWarning)
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:300: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+2026-03-09 11:49:41 | INFO | train_swinv2_base_cv0 | Epoch   5/60  train_loss=1.0273  train_r2=0.7978  val_loss=0.7482  val_r2=0.8536  val_rmse=0.8650  lr_backbone=2.00e-05  lr_head=2.00e-04  time=70.6s
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:411: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:300: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+2026-03-09 11:50:52 | INFO | train_swinv2_base_cv0 | Epoch   6/60  train_loss=0.9636  train_r2=0.8107  val_loss=0.7194  val_r2=0.8593  val_rmse=0.8482  lr_backbone=2.00e-05  lr_head=2.00e-04  time=70.9s
+2026-03-09 11:50:56 | INFO | train_swinv2_base_cv0 |   ✓ Saved best checkpoint (val_r2=0.8593)
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:411: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:300: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+2026-03-09 11:52:08 | INFO | train_swinv2_base_cv0 | Epoch   7/60  train_loss=0.9209  train_r2=0.8199  val_loss=0.8391  val_r2=0.8358  val_rmse=0.9160  lr_backbone=1.99e-05  lr_head=1.99e-04  time=71.3s
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:411: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:300: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+2026-03-09 11:53:18 | INFO | train_swinv2_base_cv0 | Epoch   8/60  train_loss=0.8772  train_r2=0.8273  val_loss=0.7338  val_r2=0.8565  val_rmse=0.8566  lr_backbone=1.99e-05  lr_head=1.99e-04  time=70.5s
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:411: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:300: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+2026-03-09 11:54:29 | INFO | train_swinv2_base_cv0 | Epoch   9/60  train_loss=0.7969  train_r2=0.8431  val_loss=0.8009  val_r2=0.8433  val_rmse=0.8950  lr_backbone=1.97e-05  lr_head=1.97e-04  time=70.5s
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:411: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:300: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+2026-03-09 11:55:39 | INFO | train_swinv2_base_cv0 | Epoch  10/60  train_loss=0.7610  train_r2=0.8503  val_loss=0.7419  val_r2=0.8549  val_rmse=0.8613  lr_backbone=1.96e-05  lr_head=1.96e-04  time=70.6s
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:411: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:300: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+2026-03-09 11:56:50 | INFO | train_swinv2_base_cv0 | Epoch  11/60  train_loss=0.6968  train_r2=0.8630  val_loss=0.6841  val_r2=0.8662  val_rmse=0.8271  lr_backbone=1.94e-05  lr_head=1.94e-04  time=70.7s
+2026-03-09 11:56:55 | INFO | train_swinv2_base_cv0 |   ✓ Saved best checkpoint (val_r2=0.8662)
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:411: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:300: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+2026-03-09 11:58:06 | INFO | train_swinv2_base_cv0 | Epoch  12/60  train_loss=0.6619  train_r2=0.8698  val_loss=0.7156  val_r2=0.8600  val_rmse=0.8459  lr_backbone=1.92e-05  lr_head=1.92e-04  time=70.4s
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:411: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:300: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+2026-03-09 11:59:16 | INFO | train_swinv2_base_cv0 | Epoch  13/60  train_loss=0.6323  train_r2=0.8756  val_loss=0.6241  val_r2=0.8779  val_rmse=0.7900  lr_backbone=1.90e-05  lr_head=1.90e-04  time=70.5s
+2026-03-09 11:59:23 | INFO | train_swinv2_base_cv0 |   ✓ Saved best checkpoint (val_r2=0.8779)
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:411: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:300: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+2026-03-09 12:00:34 | INFO | train_swinv2_base_cv0 | Epoch  14/60  train_loss=0.5947  train_r2=0.8832  val_loss=0.7159  val_r2=0.8599  val_rmse=0.8461  lr_backbone=1.87e-05  lr_head=1.87e-04  time=70.9s
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:411: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:300: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+2026-03-09 12:01:45 | INFO | train_swinv2_base_cv0 | Epoch  15/60  train_loss=0.5486  train_r2=0.8922  val_loss=0.6453  val_r2=0.8738  val_rmse=0.8033  lr_backbone=1.84e-05  lr_head=1.84e-04  time=70.7s
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:411: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:300: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+2026-03-09 12:02:56 | INFO | train_swinv2_base_cv0 | Epoch  16/60  train_loss=0.5117  train_r2=0.8997  val_loss=0.7202  val_r2=0.8591  val_rmse=0.8487  lr_backbone=1.81e-05  lr_head=1.81e-04  time=71.2s
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:411: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:300: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+2026-03-09 12:04:08 | INFO | train_swinv2_base_cv0 | Epoch  17/60  train_loss=0.4961  train_r2=0.9024  val_loss=0.6726  val_r2=0.8684  val_rmse=0.8201  lr_backbone=1.78e-05  lr_head=1.77e-04  time=71.6s
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:411: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:300: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+2026-03-09 12:05:19 | INFO | train_swinv2_base_cv0 | Epoch  18/60  train_loss=0.4616  train_r2=0.9093  val_loss=0.7119  val_r2=0.8607  val_rmse=0.8438  lr_backbone=1.74e-05  lr_head=1.74e-04  time=70.8s
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:411: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:300: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+2026-03-09 12:06:29 | INFO | train_swinv2_base_cv0 | Epoch  19/60  train_loss=0.4512  train_r2=0.9112  val_loss=0.6577  val_r2=0.8713  val_rmse=0.8110  lr_backbone=1.70e-05  lr_head=1.70e-04  time=70.7s
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:411: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:300: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+2026-03-09 12:07:40 | INFO | train_swinv2_base_cv0 | Epoch  20/60  train_loss=0.4153  train_r2=0.9184  val_loss=0.7171  val_r2=0.8597  val_rmse=0.8468  lr_backbone=1.66e-05  lr_head=1.66e-04  time=70.7s
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:411: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:300: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+2026-03-09 12:08:52 | INFO | train_swinv2_base_cv0 | Epoch  21/60  train_loss=0.3856  train_r2=0.9242  val_loss=0.6734  val_r2=0.8683  val_rmse=0.8206  lr_backbone=1.61e-05  lr_head=1.61e-04  time=71.6s
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:411: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:300: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+2026-03-09 12:10:02 | INFO | train_swinv2_base_cv0 | Epoch  22/60  train_loss=0.3670  train_r2=0.9278  val_loss=0.6730  val_r2=0.8683  val_rmse=0.8204  lr_backbone=1.57e-05  lr_head=1.56e-04  time=70.5s
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:411: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:300: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+2026-03-09 12:11:13 | INFO | train_swinv2_base_cv0 | Epoch  23/60  train_loss=0.3520  train_r2=0.9308  val_loss=0.6451  val_r2=0.8738  val_rmse=0.8032  lr_backbone=1.52e-05  lr_head=1.52e-04  time=70.9s
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:411: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:300: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+2026-03-09 12:12:24 | INFO | train_swinv2_base_cv0 | Epoch  24/60  train_loss=0.3338  train_r2=0.9344  val_loss=0.6643  val_r2=0.8700  val_rmse=0.8150  lr_backbone=1.47e-05  lr_head=1.47e-04  time=71.1s
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:411: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:300: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+2026-03-09 12:13:35 | INFO | train_swinv2_base_cv0 | Epoch  25/60  train_loss=0.3170  train_r2=0.9376  val_loss=0.6608  val_r2=0.8707  val_rmse=0.8129  lr_backbone=1.42e-05  lr_head=1.42e-04  time=70.6s
+2026-03-09 12:13:35 | INFO | train_swinv2_base_cv0 | Early stopping triggered at epoch 25 (no improvement for 12 epochs).
+2026-03-09 12:13:36 | INFO | train_swinv2_base_cv0 | 
+Loading best checkpoint for test evaluation: experiments/swinv2_base_cv0/checkpoints/fold_25/checkpoint_best.pt
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:511: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  ckpt = torch.load(best_ckpt, map_location=device)
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/scripts/train_swinv2_base_cv0.py:300: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with autocast(enabled=use_amp):
+2026-03-09 12:15:02 | INFO | train_swinv2_base_cv0 | 
+======================================================================
+TEST RESULTS — fold_25
+  R²   = 0.6576
+  RMSE = 1.0982
+  MAE  = 0.8613
+======================================================================
+2026-03-09 12:15:02 | INFO | train_swinv2_base_cv0 | Saved test predictions → experiments/swinv2_base_cv0/predictions/fold_25_test_predictions.csv
+2026-03-09 12:15:03 | INFO | train_swinv2_base_cv0 | Saved training history  → experiments/swinv2_base_cv0/history/fold_25_history.csv
+2026-03-09 12:15:03 | INFO | train_swinv2_base_cv0 | 
+======================================================================
+2026-03-09 12:15:03 | INFO | train_swinv2_base_cv0 | CV0 SUMMARY — SwinV2-B
+2026-03-09 12:15:03 | INFO | train_swinv2_base_cv0 | ======================================================================
+2026-03-09 12:15:03 | INFO | train_swinv2_base_cv0 | 
+  Mean Val R²:   0.8680 ± 0.0095
+2026-03-09 12:15:03 | INFO | train_swinv2_base_cv0 |   Mean Test R²   = 0.5949 ± 0.1012
+2026-03-09 12:15:03 | INFO | train_swinv2_base_cv0 |   Mean Test RMSE = 1.1828 ± 0.2396
+2026-03-09 12:15:03 | INFO | train_swinv2_base_cv0 |   Mean Test MAE  = 0.9256
+2026-03-09 12:15:03 | INFO | train_swinv2_base_cv0 | 
+✓ Results saved to experiments/swinv2_base_cv0
+fold_name  val_samples  test_samples  best_val_r2  test_r2  test_loss
+  fold_23         3521          2601     0.867025 0.478111   0.993939
+  fold_24         2668          8290     0.858931 0.648932   2.111839
+  fold_25         1634         15180     0.877907 0.657640   1.206048

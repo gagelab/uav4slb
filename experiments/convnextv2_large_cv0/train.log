@@ -1,0 +1,182 @@
+======================================================================
+ConvNeXt V2-L — CV0 Leave-One-Year-Out Training
+======================================================================
+Config      : configs/convnextv2_large_cv0.yaml
+Output dir  : experiments/convnextv2_large_cv0
+Device      : cuda:1
+Image size  : [224, 224]
+Batch size  : 16
+Max epochs  : 60
+AMP enabled : True
+Found 3 CV0 folds: ['fold_23', 'fold_24', 'fold_25']
+
+======================================================================
+FOLD: fold_23  |  train=19949  val=3521  test=2601
+======================================================================
+Loaded 19949 samples from /tmp/convnextv2_large_cv0_folds/train_42.csv
+Loaded 3521 samples from /tmp/convnextv2_large_cv0_folds/val_42.csv
+Loaded 2601 samples from /tmp/convnextv2_large_cv0_folds/test_42.csv
+Loading pretrained weights from Hugging Face hub (timm/convnextv2_large.fcmae_ft_in22k_in1k)
+HTTP Request: HEAD https://huggingface.co/timm/convnextv2_large.fcmae_ft_in22k_in1k/resolve/main/model.safetensors "HTTP/1.1 302 Found"
+[timm/convnextv2_large.fcmae_ft_in22k_in1k] Safe alternative available for 'pytorch_model.bin' (as 'model.safetensors'). Loading weights using safetensors.
+ConvNeXt V2-L backbone loaded  |  pretrained=True  feature_dim=1536  params=196.4M
+ConvNeXt V2-L Regressor  |  total=196.8M  trainable=196.8M
+Optimizer param groups  |  backbone_lr=1.0e-05  head_lr=1.0e-04  wd=5.00e-02  total_params=196.8M
+Epoch   1/60  train_loss=2.6245  train_r2=0.4056  val_loss=0.9087  val_r2=0.7944  val_rmse=0.9533  lr_backbone=4.00e-06  lr_head=4.00e-05  time=205.4s
+  ✓ Saved best checkpoint (val_r2=0.7944)
+Epoch   2/60  train_loss=1.0353  train_r2=0.7655  val_loss=0.7500  val_r2=0.8303  val_rmse=0.8660  lr_backbone=6.00e-06  lr_head=6.00e-05  time=269.3s
+  ✓ Saved best checkpoint (val_r2=0.8303)
+Epoch   3/60  train_loss=0.9317  train_r2=0.7890  val_loss=0.7709  val_r2=0.8255  val_rmse=0.8780  lr_backbone=8.00e-06  lr_head=8.00e-05  time=276.9s
+Epoch   4/60  train_loss=0.8523  train_r2=0.8070  val_loss=0.7071  val_r2=0.8400  val_rmse=0.8409  lr_backbone=1.00e-05  lr_head=1.00e-04  time=285.1s
+  ✓ Saved best checkpoint (val_r2=0.8400)
+Epoch   5/60  train_loss=0.8173  train_r2=0.8149  val_loss=0.7665  val_r2=0.8265  val_rmse=0.8755  lr_backbone=1.00e-05  lr_head=1.00e-04  time=287.3s
+Epoch   6/60  train_loss=0.7341  train_r2=0.8337  val_loss=0.7951  val_r2=0.8201  val_rmse=0.8917  lr_backbone=9.99e-06  lr_head=9.99e-05  time=286.1s
+Epoch   7/60  train_loss=0.6744  train_r2=0.8473  val_loss=0.6467  val_r2=0.8537  val_rmse=0.8041  lr_backbone=9.97e-06  lr_head=9.97e-05  time=374.9s
+  ✓ Saved best checkpoint (val_r2=0.8537)
+Epoch   8/60  train_loss=0.6196  train_r2=0.8597  val_loss=0.6802  val_r2=0.8461  val_rmse=0.8248  lr_backbone=9.93e-06  lr_head=9.93e-05  time=370.7s
+Epoch   9/60  train_loss=0.5754  train_r2=0.8697  val_loss=0.6416  val_r2=0.8548  val_rmse=0.8010  lr_backbone=9.87e-06  lr_head=9.87e-05  time=340.9s
+  ✓ Saved best checkpoint (val_r2=0.8548)
+Epoch  10/60  train_loss=0.5203  train_r2=0.8822  val_loss=0.6380  val_r2=0.8556  val_rmse=0.7987  lr_backbone=9.80e-06  lr_head=9.80e-05  time=352.9s
+Epoch  11/60  train_loss=0.4837  train_r2=0.8905  val_loss=0.6362  val_r2=0.8560  val_rmse=0.7976  lr_backbone=9.71e-06  lr_head=9.71e-05  time=358.5s
+  ✓ Saved best checkpoint (val_r2=0.8560)
+Epoch  12/60  train_loss=0.4448  train_r2=0.8993  val_loss=0.6296  val_r2=0.8575  val_rmse=0.7935  lr_backbone=9.61e-06  lr_head=9.61e-05  time=307.4s
+  ✓ Saved best checkpoint (val_r2=0.8575)
+Epoch  13/60  train_loss=0.4115  train_r2=0.9068  val_loss=0.6265  val_r2=0.8582  val_rmse=0.7915  lr_backbone=9.49e-06  lr_head=9.49e-05  time=322.0s
+Epoch  14/60  train_loss=0.3783  train_r2=0.9143  val_loss=0.6280  val_r2=0.8579  val_rmse=0.7925  lr_backbone=9.36e-06  lr_head=9.35e-05  time=320.5s
+Epoch  15/60  train_loss=0.3577  train_r2=0.9190  val_loss=0.6491  val_r2=0.8531  val_rmse=0.8057  lr_backbone=9.21e-06  lr_head=9.21e-05  time=375.2s
+Epoch  16/60  train_loss=0.3318  train_r2=0.9248  val_loss=0.6485  val_r2=0.8532  val_rmse=0.8053  lr_backbone=9.05e-06  lr_head=9.05e-05  time=315.4s
+Epoch  17/60  train_loss=0.3110  train_r2=0.9296  val_loss=0.6088  val_r2=0.8622  val_rmse=0.7803  lr_backbone=8.88e-06  lr_head=8.87e-05  time=295.0s
+  ✓ Saved best checkpoint (val_r2=0.8622)
+Epoch  18/60  train_loss=0.2863  train_r2=0.9352  val_loss=0.6299  val_r2=0.8575  val_rmse=0.7937  lr_backbone=8.70e-06  lr_head=8.69e-05  time=333.8s
+Epoch  19/60  train_loss=0.2727  train_r2=0.9382  val_loss=0.6262  val_r2=0.8583  val_rmse=0.7913  lr_backbone=8.50e-06  lr_head=8.49e-05  time=273.2s
+Epoch  20/60  train_loss=0.2570  train_r2=0.9418  val_loss=0.6250  val_r2=0.8586  val_rmse=0.7905  lr_backbone=8.29e-06  lr_head=8.28e-05  time=260.1s
+Epoch  21/60  train_loss=0.2386  train_r2=0.9459  val_loss=0.6237  val_r2=0.8589  val_rmse=0.7898  lr_backbone=8.07e-06  lr_head=8.06e-05  time=252.2s
+Epoch  22/60  train_loss=0.2289  train_r2=0.9482  val_loss=0.6258  val_r2=0.8584  val_rmse=0.7911  lr_backbone=7.84e-06  lr_head=7.82e-05  time=253.7s
+Epoch  23/60  train_loss=0.2212  train_r2=0.9499  val_loss=0.6248  val_r2=0.8586  val_rmse=0.7905  lr_backbone=7.61e-06  lr_head=7.58e-05  time=264.5s
+Epoch  24/60  train_loss=0.2057  train_r2=0.9534  val_loss=0.6313  val_r2=0.8571  val_rmse=0.7945  lr_backbone=7.36e-06  lr_head=7.34e-05  time=271.4s
+Epoch  25/60  train_loss=0.1959  train_r2=0.9556  val_loss=0.6444  val_r2=0.8542  val_rmse=0.8027  lr_backbone=7.11e-06  lr_head=7.08e-05  time=257.0s
+Epoch  26/60  train_loss=0.1885  train_r2=0.9573  val_loss=0.6302  val_r2=0.8574  val_rmse=0.7938  lr_backbone=6.85e-06  lr_head=6.82e-05  time=247.5s
+Epoch  27/60  train_loss=0.1789  train_r2=0.9595  val_loss=0.6432  val_r2=0.8544  val_rmse=0.8020  lr_backbone=6.58e-06  lr_head=6.55e-05  time=246.1s
+Epoch  28/60  train_loss=0.1769  train_r2=0.9599  val_loss=0.6109  val_r2=0.8618  val_rmse=0.7816  lr_backbone=6.31e-06  lr_head=6.27e-05  time=246.1s
+Epoch  29/60  train_loss=0.1658  train_r2=0.9624  val_loss=0.6116  val_r2=0.8616  val_rmse=0.7821  lr_backbone=6.03e-06  lr_head=6.00e-05  time=255.7s
+Early stopping triggered at epoch 29 (no improvement for 12 epochs).
+
+Loading best checkpoint for test evaluation: experiments/convnextv2_large_cv0/checkpoints/fold_23/checkpoint_best.pt
+
+======================================================================
+TEST RESULTS — fold_23
+  R²   = 0.4701
+  RMSE = 1.0046
+  MAE  = 0.7634
+======================================================================
+Saved test predictions → experiments/convnextv2_large_cv0/predictions/fold_23_test_predictions.csv
+Saved training history  → experiments/convnextv2_large_cv0/history/fold_23_history.csv
+
+======================================================================
+FOLD: fold_24  |  train=15113  val=2668  test=8290
+======================================================================
+Loaded 15113 samples from /tmp/convnextv2_large_cv0_folds/train_42.csv
+Loaded 2668 samples from /tmp/convnextv2_large_cv0_folds/val_42.csv
+Loaded 8290 samples from /tmp/convnextv2_large_cv0_folds/test_42.csv
+Loading pretrained weights from Hugging Face hub (timm/convnextv2_large.fcmae_ft_in22k_in1k)
+HTTP Request: HEAD https://huggingface.co/timm/convnextv2_large.fcmae_ft_in22k_in1k/resolve/main/model.safetensors "HTTP/1.1 302 Found"
+[timm/convnextv2_large.fcmae_ft_in22k_in1k] Safe alternative available for 'pytorch_model.bin' (as 'model.safetensors'). Loading weights using safetensors.
+ConvNeXt V2-L backbone loaded  |  pretrained=True  feature_dim=1536  params=196.4M
+ConvNeXt V2-L Regressor  |  total=196.8M  trainable=196.8M
+Optimizer param groups  |  backbone_lr=1.0e-05  head_lr=1.0e-04  wd=5.00e-02  total_params=196.8M
+Epoch   1/60  train_loss=2.6263  train_r2=0.2194  val_loss=0.7325  val_r2=0.7818  val_rmse=0.8559  lr_backbone=4.00e-06  lr_head=4.00e-05  time=171.5s
+  ✓ Saved best checkpoint (val_r2=0.7818)
+Epoch   2/60  train_loss=0.8525  train_r2=0.7468  val_loss=0.6151  val_r2=0.8168  val_rmse=0.7843  lr_backbone=6.00e-06  lr_head=6.00e-05  time=176.5s
+  ✓ Saved best checkpoint (val_r2=0.8168)
+Epoch   3/60  train_loss=0.7769  train_r2=0.7691  val_loss=0.5619  val_r2=0.8326  val_rmse=0.7496  lr_backbone=8.00e-06  lr_head=8.00e-05  time=180.9s
+  ✓ Saved best checkpoint (val_r2=0.8326)
+Epoch   4/60  train_loss=0.7277  train_r2=0.7838  val_loss=0.6373  val_r2=0.8102  val_rmse=0.7983  lr_backbone=1.00e-05  lr_head=1.00e-04  time=180.1s
+Epoch   5/60  train_loss=0.6868  train_r2=0.7959  val_loss=0.6069  val_r2=0.8192  val_rmse=0.7790  lr_backbone=1.00e-05  lr_head=1.00e-04  time=196.1s
+Epoch   6/60  train_loss=0.6276  train_r2=0.8135  val_loss=0.5838  val_r2=0.8261  val_rmse=0.7641  lr_backbone=9.99e-06  lr_head=9.99e-05  time=170.4s
+Epoch   7/60  train_loss=0.5955  train_r2=0.8230  val_loss=0.5150  val_r2=0.8466  val_rmse=0.7176  lr_backbone=9.97e-06  lr_head=9.97e-05  time=180.3s
+  ✓ Saved best checkpoint (val_r2=0.8466)
+Epoch   8/60  train_loss=0.5337  train_r2=0.8414  val_loss=0.5048  val_r2=0.8496  val_rmse=0.7105  lr_backbone=9.93e-06  lr_head=9.93e-05  time=179.8s
+  ✓ Saved best checkpoint (val_r2=0.8496)
+Epoch   9/60  train_loss=0.5015  train_r2=0.8510  val_loss=0.5220  val_r2=0.8445  val_rmse=0.7225  lr_backbone=9.87e-06  lr_head=9.87e-05  time=170.1s
+Epoch  10/60  train_loss=0.4614  train_r2=0.8629  val_loss=0.5239  val_r2=0.8439  val_rmse=0.7238  lr_backbone=9.80e-06  lr_head=9.80e-05  time=154.8s
+Epoch  11/60  train_loss=0.4351  train_r2=0.8708  val_loss=0.6145  val_r2=0.8170  val_rmse=0.7839  lr_backbone=9.71e-06  lr_head=9.71e-05  time=190.5s
+Epoch  12/60  train_loss=0.3927  train_r2=0.8833  val_loss=0.5205  val_r2=0.8450  val_rmse=0.7214  lr_backbone=9.61e-06  lr_head=9.61e-05  time=195.0s
+Epoch  13/60  train_loss=0.3702  train_r2=0.8900  val_loss=0.5478  val_r2=0.8368  val_rmse=0.7402  lr_backbone=9.49e-06  lr_head=9.49e-05  time=195.6s
+Epoch  14/60  train_loss=0.3449  train_r2=0.8975  val_loss=0.5734  val_r2=0.8292  val_rmse=0.7572  lr_backbone=9.36e-06  lr_head=9.35e-05  time=188.5s
+Epoch  15/60  train_loss=0.3206  train_r2=0.9047  val_loss=0.5123  val_r2=0.8474  val_rmse=0.7157  lr_backbone=9.21e-06  lr_head=9.21e-05  time=200.3s
+Epoch  16/60  train_loss=0.3118  train_r2=0.9073  val_loss=0.5104  val_r2=0.8480  val_rmse=0.7144  lr_backbone=9.05e-06  lr_head=9.05e-05  time=192.7s
+Epoch  17/60  train_loss=0.2815  train_r2=0.9164  val_loss=0.5443  val_r2=0.8379  val_rmse=0.7377  lr_backbone=8.88e-06  lr_head=8.87e-05  time=198.4s
+Epoch  18/60  train_loss=0.2604  train_r2=0.9226  val_loss=0.5473  val_r2=0.8370  val_rmse=0.7398  lr_backbone=8.70e-06  lr_head=8.69e-05  time=190.6s
+Epoch  19/60  train_loss=0.2510  train_r2=0.9255  val_loss=0.5518  val_r2=0.8356  val_rmse=0.7429  lr_backbone=8.50e-06  lr_head=8.49e-05  time=215.4s
+Epoch  20/60  train_loss=0.2356  train_r2=0.9300  val_loss=0.5208  val_r2=0.8449  val_rmse=0.7216  lr_backbone=8.29e-06  lr_head=8.28e-05  time=286.1s
+Early stopping triggered at epoch 20 (no improvement for 12 epochs).
+
+Loading best checkpoint for test evaluation: experiments/convnextv2_large_cv0/checkpoints/fold_24/checkpoint_best.pt
+
+======================================================================
+TEST RESULTS — fold_24
+  R²   = 0.6302
+  RMSE = 1.4916
+  MAE  = 1.2050
+======================================================================
+Saved test predictions → experiments/convnextv2_large_cv0/predictions/fold_24_test_predictions.csv
+Saved training history  → experiments/convnextv2_large_cv0/history/fold_24_history.csv
+
+======================================================================
+FOLD: fold_25  |  train=9257  val=1634  test=15180
+======================================================================
+Loaded 9257 samples from /tmp/convnextv2_large_cv0_folds/train_42.csv
+Loaded 1634 samples from /tmp/convnextv2_large_cv0_folds/val_42.csv
+Loaded 15180 samples from /tmp/convnextv2_large_cv0_folds/test_42.csv
+Loading pretrained weights from Hugging Face hub (timm/convnextv2_large.fcmae_ft_in22k_in1k)
+HTTP Request: HEAD https://huggingface.co/timm/convnextv2_large.fcmae_ft_in22k_in1k/resolve/main/model.safetensors "HTTP/1.1 302 Found"
+[timm/convnextv2_large.fcmae_ft_in22k_in1k] Safe alternative available for 'pytorch_model.bin' (as 'model.safetensors'). Loading weights using safetensors.
+ConvNeXt V2-L backbone loaded  |  pretrained=True  feature_dim=1536  params=196.4M
+ConvNeXt V2-L Regressor  |  total=196.8M  trainable=196.8M
+Optimizer param groups  |  backbone_lr=1.0e-05  head_lr=1.0e-04  wd=5.00e-02  total_params=196.8M
+Epoch   1/60  train_loss=5.0346  train_r2=0.0097  val_loss=1.1018  val_r2=0.7845  val_rmse=1.0496  lr_backbone=4.00e-06  lr_head=4.00e-05  time=168.2s
+  ✓ Saved best checkpoint (val_r2=0.7845)
+Epoch   2/60  train_loss=1.3690  train_r2=0.7308  val_loss=0.9280  val_r2=0.8185  val_rmse=0.9633  lr_backbone=6.00e-06  lr_head=6.00e-05  time=159.4s
+  ✓ Saved best checkpoint (val_r2=0.8185)
+Epoch   3/60  train_loss=1.1479  train_r2=0.7743  val_loss=0.8561  val_r2=0.8325  val_rmse=0.9252  lr_backbone=8.00e-06  lr_head=8.00e-05  time=159.3s
+  ✓ Saved best checkpoint (val_r2=0.8325)
+Epoch   4/60  train_loss=1.0361  train_r2=0.7963  val_loss=0.7516  val_r2=0.8530  val_rmse=0.8669  lr_backbone=1.00e-05  lr_head=1.00e-04  time=177.3s
+  ✓ Saved best checkpoint (val_r2=0.8530)
+Epoch   5/60  train_loss=0.9669  train_r2=0.8099  val_loss=0.8613  val_r2=0.8315  val_rmse=0.9281  lr_backbone=1.00e-05  lr_head=1.00e-04  time=163.1s
+Epoch   6/60  train_loss=0.8891  train_r2=0.8252  val_loss=0.6873  val_r2=0.8656  val_rmse=0.8290  lr_backbone=9.99e-06  lr_head=9.99e-05  time=162.1s
+  ✓ Saved best checkpoint (val_r2=0.8656)
+Epoch   7/60  train_loss=0.7988  train_r2=0.8430  val_loss=0.7108  val_r2=0.8609  val_rmse=0.8431  lr_backbone=9.97e-06  lr_head=9.97e-05  time=159.7s
+Epoch   8/60  train_loss=0.7568  train_r2=0.8512  val_loss=0.7763  val_r2=0.8481  val_rmse=0.8811  lr_backbone=9.93e-06  lr_head=9.93e-05  time=165.5s
+Epoch   9/60  train_loss=0.6796  train_r2=0.8664  val_loss=0.7369  val_r2=0.8558  val_rmse=0.8584  lr_backbone=9.87e-06  lr_head=9.87e-05  time=158.2s
+Epoch  10/60  train_loss=0.6261  train_r2=0.8769  val_loss=0.8608  val_r2=0.8316  val_rmse=0.9278  lr_backbone=9.80e-06  lr_head=9.80e-05  time=162.3s
+Epoch  11/60  train_loss=0.5770  train_r2=0.8866  val_loss=0.7705  val_r2=0.8493  val_rmse=0.8778  lr_backbone=9.71e-06  lr_head=9.71e-05  time=158.5s
+Epoch  12/60  train_loss=0.5440  train_r2=0.8930  val_loss=0.6994  val_r2=0.8632  val_rmse=0.8363  lr_backbone=9.61e-06  lr_head=9.61e-05  time=163.7s
+Epoch  13/60  train_loss=0.5089  train_r2=0.8999  val_loss=0.7228  val_r2=0.8586  val_rmse=0.8501  lr_backbone=9.49e-06  lr_head=9.49e-05  time=164.0s
+Epoch  14/60  train_loss=0.4712  train_r2=0.9074  val_loss=0.7399  val_r2=0.8552  val_rmse=0.8602  lr_backbone=9.36e-06  lr_head=9.35e-05  time=158.2s
+Epoch  15/60  train_loss=0.4242  train_r2=0.9166  val_loss=0.7329  val_r2=0.8566  val_rmse=0.8561  lr_backbone=9.21e-06  lr_head=9.21e-05  time=161.4s
+Epoch  16/60  train_loss=0.4124  train_r2=0.9190  val_loss=0.7312  val_r2=0.8570  val_rmse=0.8551  lr_backbone=9.05e-06  lr_head=9.05e-05  time=159.4s
+Epoch  17/60  train_loss=0.3812  train_r2=0.9250  val_loss=0.7858  val_r2=0.8463  val_rmse=0.8865  lr_backbone=8.88e-06  lr_head=8.87e-05  time=162.7s
+Epoch  18/60  train_loss=0.3645  train_r2=0.9283  val_loss=0.6960  val_r2=0.8638  val_rmse=0.8343  lr_backbone=8.70e-06  lr_head=8.69e-05  time=162.4s
+Early stopping triggered at epoch 18 (no improvement for 12 epochs).
+
+Loading best checkpoint for test evaluation: experiments/convnextv2_large_cv0/checkpoints/fold_25/checkpoint_best.pt
+
+======================================================================
+TEST RESULTS — fold_25
+  R²   = 0.7343
+  RMSE = 0.9674
+  MAE  = 0.7500
+======================================================================
+Saved test predictions → experiments/convnextv2_large_cv0/predictions/fold_25_test_predictions.csv
+Saved training history  → experiments/convnextv2_large_cv0/history/fold_25_history.csv
+
+======================================================================
+CV0 SUMMARY — ConvNeXt V2-L
+======================================================================
+
+  Mean Val R²:   0.8591 ± 0.0084
+  Mean Test R²   = 0.6115 ± 0.1331
+  Mean Test RMSE = 1.1545 ± 0.2925
+  Mean Test MAE  = 0.9061
+
+✓ Results saved to experiments/convnextv2_large_cv0

@@ -1,0 +1,17 @@
+type,pair,r,p,n
+rater-rater,PBK–TZ,0.858303,0.000000,99
+rater-rater,PBK–CH,0.855812,0.000000,99
+rater-rater,PBK–AH,0.822572,0.000000,100
+rater-rater,PBK–SK,0.733908,0.000000,99
+rater-rater,TZ–CH,0.853559,0.000000,99
+rater-rater,TZ–AH,0.840196,0.000000,99
+rater-rater,TZ–SK,0.795546,0.000000,98
+rater-rater,CH–AH,0.806771,0.000000,99
+rater-rater,CH–SK,0.727485,0.000000,98
+rater-rater,AH–SK,0.685746,0.000000,99
+model-rater,Model–PBK,0.771517,0.000000,100
+model-rater,Model–TZ,0.803041,0.000000,99
+model-rater,Model–CH,0.728699,0.000000,99
+model-rater,Model–AH,0.757791,0.000000,100
+model-rater,Model–SK,0.697193,0.000000,99
+"ICC(2,1)",all 5 raters,0.738127,,98

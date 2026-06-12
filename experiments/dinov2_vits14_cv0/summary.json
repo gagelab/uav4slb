@@ -1,0 +1,21 @@
+{
+  "model": "dinov2_vits14",
+  "cv_type": "cv0",
+  "n_folds": 3,
+  "mean_val_r2": 0.8523184061050415,
+  "std_val_r2": 0.012644174892625247,
+  "mean_val_loss": 0.6269825568876835,
+  "std_val_loss": 0.07873771138825972,
+  "mean_test_r2": 0.5296621918678284,
+  "std_test_r2": 0.07064608446607912,
+  "mean_test_rmse": 1.286697724322187,
+  "std_test_rmse": 0.28005875162996025,
+  "mean_test_mae": 1.0115168293317158,
+  "agreement_rate": {
+    "threshold": 0.25,
+    "overall": 0.164474,
+    "fold_2023": 0.209535,
+    "fold_2024": 0.131001,
+    "fold_2025": 0.175033
+  }
+}
