@@ -2,7 +2,7 @@
 build_image_covariates.py
 ─────────────────────────────────────────────────────────────────────────────
 Compute pixel-derived image-level covariates for every .jpg tile in
-final_sliced/ and join the CHM-derived frac_weed from weed_covariates.csv.
+final_sliced/ and join the CHM-derived frac_weed from frac_weed.csv.
 
 Covariates computed directly from each .jpg tile
 ─────────────────────────────────────────────────
@@ -48,7 +48,7 @@ Usage
 python scripts/build_image_covariates.py \\
     --image_dir  /path/to/final_sliced \\
     --labels_csv data/labels/full_dataset.csv \\
-    --weed_csv   data/covariates/raw/weed_covariates.csv \\
+    --weed_csv   data/covariates/raw/frac_weed.csv \\
     --out_dir    data/covariates
 
 # Without weed (omit --weed_csv; frac_weed column will be NaN):
@@ -279,7 +279,7 @@ def main() -> None:
         type=Path,
         default=None,
         help=(
-            "Optional: weed_covariates.csv produced by build_weed_covariates.py. "
+            "Optional: frac_weed.csv produced by weed_pressure_pipeline.py. "
             "If omitted, frac_weed column is written as NaN."
         ),
     )
@@ -378,7 +378,7 @@ def main() -> None:
         result = result.merge(weed, on="image_filename", how="left")
         assert len(result) == n_before, (
             "Row count changed after weed join — check for duplicate "
-            "image_filename values in weed_covariates.csv."
+            "image_filename values in frac_weed.csv."
         )
         n_null_weed = result["frac_weed"].isna().sum()
         if n_null_weed > 0:

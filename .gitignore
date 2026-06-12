@@ -40,11 +40,6 @@ figures/**/*.png
 *.bak
 *_old.csv
 
-# ---- EcoNet raw data (large xlsx; check redistribution terms) ---------------
-# If committing data/covariates/raw/ CSVs for reproducibility, remove this rule.
-# If excluded, add a README in that directory with acquisition instructions.
-data/covariates/raw/
-
 # ---- Open-Meteo disk cache --------------------------------------------------
 .openmeteo_cache*
 
