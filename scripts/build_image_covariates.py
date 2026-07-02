@@ -45,17 +45,23 @@ Column order matches the existing ground-truth file in the repository.
 Usage
 ─────
 # Full run with weed join:
-python scripts/build_image_covariates.py \\
-    --image_dir  /path/to/final_sliced \\
-    --labels_csv data/labels/full_dataset.csv \\
-    --weed_csv   data/covariates/raw/frac_weed.csv \\
-    --out_dir    data/covariates
+nohup python -u build_image_covariates.py \
+    --image_dir  /mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/final_image/final_sliced \
+    --labels_csv /mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav4slb/data/labels/full_dataset.csv \
+    --weed_csv   /mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav4slb/data/covariates/raw/frac_weed.csv \
+    --out_dir    /mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb > image_covariates.log 2>&1 &
+
+python -u build_image_covariates.py \
+    --image_dir  /mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/final_image/final_sliced \
+    --labels_csv /mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav4slb/data/labels/full_dataset.csv \
+    --weed_csv   /mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav4slb/data/covariates/raw/frac_weed.csv \
+    --out_dir    /mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb 
 
 # Without weed (omit --weed_csv; frac_weed column will be NaN):
-python scripts/build_image_covariates.py \\
-    --image_dir  /path/to/final_sliced \\
-    --labels_csv data/labels/full_dataset.csv \\
-    --out_dir    data/covariates
+nohup python -u build_image_covariates.py \
+    --image_dir  /mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/final_image/final_sliced \
+    --labels_csv /mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav4slb/data/labels/full_dataset.csv \
+    --out_dir    /mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb > image_covariates.log 2>&1 &
 
 Author : Gage Lab — Cole Hammett
 """
@@ -279,7 +285,7 @@ def main() -> None:
         type=Path,
         default=None,
         help=(
-            "Optional: frac_weed.csv produced by weed_pressure_pipeline.py. "
+            "Optional: frac_weed.csv produced by build_weed_covariates.py. "
             "If omitted, frac_weed column is written as NaN."
         ),
     )

@@ -433,6 +433,9 @@ Pre-computed covariate files are committed at `data/covariates/`. To regenerate 
 # Flight-level solar geometry and irradiance
 python scripts/build_flight_covariates.py
 
+# Per-image weed fraction (requires DSM and DTMs)
+python scripts/weed_pressure_pipeline.py --config configs/weed_pressure_config.yaml
+
 # Per-image quality metrics (requires image directory)
 python scripts/build_image_covariates.py --image-dir /path/to/plot/images
 

@@ -36,7 +36,10 @@ Outputs (written to this script's directory)
 
 Usage
 -----
-    python figures/fig08_image_covariates/plot_image_covariates.py
+    python figures/fig08_image_covariates/plot_image_covariates.py \
+        --covariates data/covariates/image_covariates_new.csv
+        --out_dir rerun
+
 """
 
 from __future__ import annotations
@@ -67,7 +70,7 @@ apply_style()
 ROOT = Path(__file__).resolve().parent.parent.parent
 
 PREDICTIONS_DEFAULT = (
-    ROOT / "results" / "eva02_base" / "predictions" / "cv0_combined_predictions.csv"
+    ROOT / "experiments" / "eva02_base_cv0" / "predictions" / "cv0_combined_predictions.csv"
 )
 COVARIATES_DEFAULT  = ROOT / "data" / "covariates" / "image_covariates.csv"
 OUTPUT_DIR          = Path(__file__).resolve().parent
