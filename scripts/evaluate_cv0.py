@@ -59,8 +59,6 @@ Prediction CSV columns (written by train_cv0.py)
 -------------------------------------------------
   image_filename, actual, predicted, signed_error, abs_error
   where signed_error = predicted − actual
-
-Author: Cole H. Hammett
 """
 
 import argparse

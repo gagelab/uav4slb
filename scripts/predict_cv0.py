@@ -58,8 +58,6 @@ Output columns
 image_filename, actual (NaN for unlabelled inference), predicted,
 signed_error (NaN for unlabelled), abs_error (NaN for unlabelled),
 fold, model
-
-Author: Cole Hammett
 """
 
 from __future__ import annotations
@@ -366,15 +364,15 @@ def predict_fold(
         _tmp_csv.unlink(missing_ok=True)
 
     # ---- Assemble output DataFrame ------------------------------------------
-    residuals  = (targets - preds) if has_labels else np.full_like(preds, np.nan)
-    abs_errors = np.abs(residuals) if has_labels else np.full_like(preds, np.nan)
-    actual_col = targets           if has_labels else np.full_like(preds, np.nan)
+    signed_error = (preds - targets) if has_labels else np.full_like(preds, np.nan)
+    abs_errors   = np.abs(signed_error) if has_labels else np.full_like(preds, np.nan)
+    actual_col   = targets              if has_labels else np.full_like(preds, np.nan)
 
     out_df = pd.DataFrame({
         "image_filename": filenames,
         "actual":         actual_col,
         "predicted":      preds,
-        "signed_error":   residuals,   # actual − predicted
+        "signed_error":   signed_error,   # predicted − actual
         "abs_error":      abs_errors,
         "fold":           fold_name,
         "model":          cfg.model.name,

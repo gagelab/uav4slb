@@ -9,9 +9,6 @@ Key differences from EfficientNet workflow:
   - Feature dim: 768 (CLS token from the last transformer block)
   - Two-phase LR: backbone gets 10× lower LR than regression head (common ViT practice)
   - ImageNet normalization statistics are identical to what DINOv2 was trained with
-
-Author: Cole Hammett
-Date: February 2026
 """
 
 import torch

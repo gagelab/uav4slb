@@ -29,9 +29,9 @@ Registry keys (must match ``model.name`` in the per-architecture YAML configs)
 """
 
 from src.models.coatnet2        import create_coatnet2
-from src.models.convnextv2      import create_convnextv2
+from src.models.convnextv2      import create_convnextv2_base
 from src.models.convnextv2_large import create_convnextv2_large
-from src.models.dinov2          import create_dinov2_vitb14
+from src.models.dinov2_vitb14   import create_dinov2_vitb14
 from src.models.dinov2_vits14   import create_dinov2_vits14
 from src.models.efficientnetv2s import create_efficientnetv2s
 from src.models.eva02_base      import create_eva02_base
@@ -49,7 +49,7 @@ from src.models.swinv2_base     import create_swinv2_base
 # ---------------------------------------------------------------------------
 MODEL_REGISTRY: dict = {
     "coatnet2":         create_coatnet2,
-    "convnextv2_base":  create_convnextv2,
+    "convnextv2_base":  create_convnextv2_base,
     "convnextv2_large": create_convnextv2_large,
     "dinov2_vitb14":    create_dinov2_vitb14,
     "dinov2_vits14":    create_dinov2_vits14,

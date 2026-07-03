@@ -23,22 +23,11 @@ Defaults:
 A tile is rejected when its nodata fraction exceeds
 ``max_nodata_fraction`` (default 0.05 — 5% of pixels).
 
-Usage (standalone scan)
------------------------
-  python scripts/validate_images.py \\
-    --image-dir /path/to/final_sliced \\
-    --labels-csv data/clean_scores_with_images_dedup.csv \\
-    --image-id-column image_filename \\
-    --output-dir data/validation \\
-    --max-nodata-fraction 0.05
-
 Integration with CV split generation
 -------------------------------------
   White-fill validation runs automatically in ``create_cv_splits.py`` when
   ``--image-source-dir`` is provided.  ``filter_incomplete_images()`` is
   called before any splits are made.
-
-Author: Cole Hammett
 """
 
 from __future__ import annotations

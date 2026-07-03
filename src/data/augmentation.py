@@ -163,6 +163,37 @@ def create_val_augmentation(
     return A.Compose(transforms)
 
 
+def build_transforms(
+    image_size: tuple,
+    mean: List[float],
+    std: List[float],
+    augment: bool = False,
+) -> A.Compose:
+    """
+    Build a resize + normalize transform pipeline for inference/evaluation.
+
+    Thin wrapper around create_val_augmentation for callers (e.g.
+    predict_cv0.py) that don't have a full augmentation config on hand.
+    Training pipelines that need the configurable augmentation set should
+    call create_train_augmentation directly.
+
+    Args:
+        image_size: Target image size (height, width)
+        mean: Mean values for normalization
+        std: Std values for normalization
+        augment: Must be False — no augmentation config is available here.
+
+    Returns:
+        Albumentations Compose object with preprocessing pipeline
+    """
+    if augment:
+        raise NotImplementedError(
+            "build_transforms(augment=True) requires a full augmentation "
+            "config — call create_train_augmentation directly instead."
+        )
+    return create_val_augmentation(image_size, mean, std)
+
+
 def create_augmentation_pipeline(
     config: DictConfig,
     split: str = 'train'

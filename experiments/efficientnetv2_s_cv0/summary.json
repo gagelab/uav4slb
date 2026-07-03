@@ -20,12 +20,5 @@
   "total_test_samples": 26071,
   "config_path": "/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/configs/cv_config.yaml",
   "output_dir": "/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/experiments/cv0_20260225_144148",
-  "device": "cuda:2",
-  "agreement_rate": {
-    "threshold": 0.25,
-    "overall": 0.140616,
-    "fold_2023": 0.175702,
-    "fold_2024": 0.08456,
-    "fold_2025": 0.165217
-  }
+  "device": "cuda:2"
 }

@@ -62,8 +62,6 @@ nohup python -u build_image_covariates.py \
     --image_dir  /mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/final_image/final_sliced \
     --labels_csv /mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav4slb/data/labels/full_dataset.csv \
     --out_dir    /mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb > image_covariates.log 2>&1 &
-
-Author : Gage Lab — Cole Hammett
 """
 
 import argparse

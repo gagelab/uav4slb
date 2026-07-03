@@ -8,7 +8,7 @@ This repository contains the complete, reproducible codebase for:
 
 > **Hammett, C. H., Rumley, K. R., Balint-Kurti, P. J., & Gage, J. L. (2026). Aerial imagery and deep learning accurately estimate maize foliar disease severity.** *The Plant Phenome Journal.*
 
-The study benchmarks nine pretrained deep learning architectures under a leave-one-year-out cross-validation scheme (CV0) across three field seasons (2023–2025) at six field sites in North Carolina. EVA-02-B achieved the highest aggregate test R² across folds (mean R² = 0.697; range 0.610–0.766) and is the primary model reported in the manuscript. All training code, evaluation scripts, covariate pipelines, and figure scripts required to reproduce every result and figure in the manuscript are provided.
+The study benchmarks nine pretrained deep learning architectures under a leave-one-year-out cross-validation scheme (CV0) across three field seasons (2023–2025) in North Carolina. EVA-02-B achieved the highest aggregate test R² across folds (mean R² = 0.697; range 0.610–0.766) and is the primary model reported in the manuscript. All training code, evaluation scripts, covariate pipelines, and figure scripts required to reproduce every result and figure in the manuscript are provided. The raw RGB images and plot images are located at [DOI]
 
 ---
 
@@ -33,49 +33,49 @@ The study benchmarks nine pretrained deep learning architectures under a leave-o
 ```
 uav4slb/
 ├── configs/                     # OmegaConf YAML experiment configs (one per model)
-│   ├── eva02_base_cv0.yaml      # EVA-02-B (primary model)
+│   ├── coatnet2_cv0.yaml
 │   ├── convnextv2_cv0.yaml
 │   ├── convnextv2_large_cv0.yaml
 │   ├── dinov2_vitb14_cv0.yaml
 │   ├── dinov2_vits14_cv0.yaml
 │   ├── efficientnetv2_s_cv0.yaml
+│   ├── eva02_base_cv0.yaml      # EVA-02-B (primary model)
+│   ├── eva02_base_retrain.yaml  # Warm-start config for expanded-dataset retraining
 │   ├── maxvit_small_cv0.yaml
 │   ├── swinv2_base_cv0.yaml
-│   ├── coatnet2_cv0.yaml
-│   ├── eva02_base_retrain.yaml  # Warm-start config for expanded-dataset retraining
 │   └── weed_pressure_config.yaml
 │
 ├── data/
-│   ├── labels/
-│   │   ├── full_dataset.csv         # Master label file (26,071 rows; see Data section)
-│   │   └── long_format_ratings.csv  # Multi-rater scoring experiment (Fig. 5)
+│   ├── covariates/
+│   │   ├── flight_covariates.csv    # Flight-level solar geometry + irradiance (28 rows)
+│   │   ├── image_covariates.csv     # Per-image quality metrics (26,071 rows)
+│   │   └── raw/                     # Source files for covariate scripts
+│   │       ├── flight_times.csv
+│   │       ├── frac_weed.csv
+│   │       ├── gdd.csv
+│   │       ├── inoculation_dates.csv
+│   │       ├── irradiance_minute.csv
+│   │       └── planting_dates.csv
 │   ├── cv_splits/cv0/
 │   │   ├── fold_2023/               # train / val / test CSVs; test year = 2023
 │   │   ├── fold_2024/               # test year = 2024
 │   │   └── fold_2025/               # test year = 2025
-│   └── covariates/
-│       ├── flight_covariates.csv    # Flight-level solar geometry + irradiance (32 rows)
-│       ├── image_covariates.csv     # Per-image quality metrics (26,071 rows)
-│       └── raw/                     # Source files for covariate scripts
-│           ├── flight_times.csv
-│           ├── frac_weed.csv
-│           ├── gdd.csv
-│           ├── inoculation_dates.csv
-│           ├── irradiance_minute.csv
-│           └── planting_dates.csv
+│   └── labels/
+│       ├── full_dataset.csv         # Master label file (26,071 rows; see Data section)
+│       └── long_format_ratings.csv  # Multi-rater scoring experiment (Fig. 5)
+│
+├── data_README.md               # Extended data dictionary
+├── environment.yaml
 │
 ├── experiments/                 # Training outputs (one directory per model)
 │   └── <model>_cv0/
-│       ├── checkpoints/<fold>/  # checkpoint_best.pt per fold
-│       ├── predictions/         # Per-fold and combined prediction CSVs
-│       ├── history/             # Epoch-level training curves
-│       ├── logs/                # Per-fold training logs
-│       ├── cv_results.csv       # Per-fold metrics table (3 rows × 16 cols)
 │       ├── config_resolved.yaml # Fully resolved config snapshot
+│       ├── cv_results.csv       # Per-fold metrics table (3 rows × 16 cols)
+│       ├── logs/                # Per-fold training logs
+│       ├── predictions/         # Per-fold and combined prediction CSVs
 │       └── summary.json         # Machine-readable aggregate metrics
 │
 ├── figures/                     # Figure scripts and outputs
-│   ├── style.py                 # Shared style (batlow colormap, rcParams)
 │   ├── fig02_dataset_composition/
 │   ├── fig03_model_comparison/
 │   ├── fig04_test_performance/
@@ -85,6 +85,7 @@ uav4slb/
 │   ├── fig08_image_covariates/
 │   ├── fig09_temporal_misalignment/
 │   ├── fig10_mislabelled_examples/
+│   ├── style.py                 # Shared style (batlow colormap, rcParams)
 │   └── supplemental/
 │       ├── figS1_flight_timeline/
 │       ├── figS2_score_distributions/
@@ -92,52 +93,47 @@ uav4slb/
 │       └── figS5_temporal_alignment/
 │
 ├── results/
-│   └── cv0_aggregate_results.csv    # 27 rows × 12 cols; all 9 models × 3 folds
+│   └── cv0_aggregate_results.csv    # 28 rows × 12 cols; all 9 models × 3 folds
 │
 ├── scripts/                     # Executable pipeline scripts
-│   ├── create_cv_splits.py
 │   ├── build_flight_covariates.py
 │   ├── build_image_covariates.py
-│   ├── weed_pressure_pipeline.py
-│   ├── train_cv0.py             # Unified training entry point (all 9 architectures)
-│   ├── predict_cv0.py           # Reproduce predictions / run inference on new data
+│   ├── create_cv_splits.py
 │   ├── evaluate_cv0.py          # Post-training evaluation and table generation
-│   ├── run_train_cv0.sh         # HPC launcher for train_cv0.py
-│   ├── run_predict_cv0.sh
+│   ├── predict_cv0.py           # Reproduce predictions / run inference on new data
+│   ├── run_all_models.sh        # Sequential launcher for all 9 models
 │   ├── run_evaluate_cv0.sh
-│   └── run_all_models.sh        # Sequential launcher for all 9 models
+│   ├── run_predict_cv0.sh
+│   ├── run_train_cv0.sh         # HPC launcher for train_cv0.py
+│   ├── train_cv0.py             # Unified training entry point (all 9 architectures)
+│   └── weed_pressure_pipeline.py
 │
-├── src/                         # Importable library
-│   ├── data/
-│   │   ├── dataset.py           # PyTorch Dataset for plot images + labels
-│   │   ├── augmentation.py      # Albumentations augmentation pipeline
-│   │   ├── preprocessing.py     # GeoTIFF and standard image loading
-│   │   ├── cv_splits.py         # Split loading and MD5 integrity checks
-│   │   ├── feature_engineering.py
-│   │   └── image_validation.py
-│   ├── models/
-│   │   ├── base_model.py        # Abstract base class for all model wrappers
-│   │   ├── eva02_base.py
-│   │   ├── dinov2.py
-│   │   ├── dinov2_vits14.py
-│   │   ├── convnextv2.py
-│   │   ├── convnextv2_large.py
-│   │   ├── efficientnetv2s.py
-│   │   ├── maxvit_small.py
-│   │   ├── swinv2_base.py
-│   │   └── coatnet2.py
-│   ├── evaluation/
-│   │   ├── metrics.py           # R², Pearson r, Spearman ρ, RMSE, MAE
-│   │   └── evaluator.py
-│   └── utils/
-│       ├── config.py
-│       ├── reproducibility.py
-│       ├── gpu_utils.py
-│       ├── cv_utils.py
-│       └── solar.py             # pvlib solar geometry helpers
-│
-├── environment.yaml
-└── data_README.md               # Extended data dictionary
+└── src/                         # Importable library
+    ├── data/
+    │   ├── augmentation.py      # Albumentations augmentation pipeline
+    │   ├── dataset.py           # PyTorch Dataset for plot images + labels
+    │   ├── image_validation.py
+    │   └── preprocessing.py     # GeoTIFF and standard image loading
+    ├── evaluation/
+    │   ├── evaluator.py
+    │   └── metrics.py           # R², Pearson r, Spearman ρ, RMSE, MAE
+    ├── models/
+    │   ├── base_model.py        # Abstract base class for all model wrappers
+    │   ├── coatnet2.py
+    │   ├── convnextv2.py
+    │   ├── convnextv2_large.py
+    │   ├── dinov2_vitb14.py
+    │   ├── dinov2_vits14.py
+    │   ├── efficientnetv2s.py
+    │   ├── eva02_base.py
+    │   ├── maxvit_small.py
+    │   └── swinv2_base.py
+    └── utils/
+        ├── config.py
+        ├── cv_utils.py
+        ├── gpu_utils.py
+        ├── reproducibility.py
+        └── solar.py             # pvlib solar geometry helpers
 ```
 
 ---
@@ -160,7 +156,7 @@ All scripts that require images accept an `--image-dir` argument (or read `data.
 
 ### data/labels/full_dataset.csv
 
-The master label file: **26,071 rows × 13 columns**. One row per scored plot image.
+The master label file: **26,071 rows × 8 columns**. One row per scored plot image.
 
 | Column | Type | Description |
 |--------|------|-------------|
@@ -209,13 +205,13 @@ python scripts/create_cv_splits.py \
     --seed 42
 ```
 
-The training script verifies split integrity via MD5 hash at startup; regenerated splits must be identical to the originals to use pre-trained checkpoints without the `--resume` flag.
+The training script verifies split integrity via an MD5 hash only when resuming with `--resume` (which also requires `--fold`); regenerated splits must match the original hash to resume a checkpoint this way. To load pre-trained weights onto a new or regenerated dataset, use `--warm-start` instead, which intentionally skips hash verification.
 
 ---
 
 ### data/covariates/flight_covariates.csv
 
-Flight-level environmental and solar covariates: **32 rows × 16 columns** (one row per flight).
+Flight-level environmental and solar covariates: **28 rows × 16 columns** (one row per flight).
 
 | Column | Type | Description |
 |--------|------|-------------|
@@ -272,12 +268,30 @@ Source files consumed by the covariate scripts. These are committed for reproduc
 
 | File | Rows | Description |
 |------|------|-------------|
-| `flight_times.csv` | 32 | Manual flight start/end times per flight |
+| `flight_times.csv` | 27 | Manual flight start/end times per flight |
 | `frac_weed.csv` | 26,197 | Raw weed fractions per image (pre-deduplication) |
 | `gdd.csv` | 324 | Daily GDD values (date, gdd) for AGDD computation |
 | `inoculation_dates.csv` | 3 | Inoculation date per season year |
 | `irradiance_minute.csv` | 19,066 | Minute-resolution EcoNet station data (radiation W m⁻², PAR µmol m⁻² s⁻¹); includes `QCF` quality-control flags |
 | `planting_dates.csv` | 6 | Planting date per field (used for AGDD base date) |
+
+---
+
+### Regenerating data/covariates/raw/frac_weed.csv
+
+`frac_weed.csv` records the fraction of weed-height pixels in each plot image, derived from per-flight Canopy Height Models (CHM = DSM − DTM). It is produced by [scripts/weed_pressure_pipeline.py](scripts/weed_pressure_pipeline.py) and archived here as the raw input to `build_image_covariates.py`.
+
+**The per-flight DSMs and DTMs are not distributed with this repository or the Ag Data Commons data deposit.** They must be regenerated from the raw UAV imagery using the Metashape photogrammetry processing pipeline maintained in a separate repository: [nirwan1265/metashape](https://github.com/nirwan1265/metashape). Run that pipeline first to produce the `*_dsm.tif` / `*_dtm.tif` outputs for each flight, then point `weed_pressure_pipeline.py` at the resulting directory tree:
+
+```bash
+python scripts/weed_pressure_pipeline.py \
+    --config configs/weed_pressure_config.yaml \
+    --base-dir /path/to/dsm_dtm/tree \
+    --shapefile-dir /path/to/plot_outline/shapefiles \
+    --output-dir data/covariates/raw
+```
+
+See the module docstring in `scripts/weed_pressure_pipeline.py` for the expected `{YEAR}/{FIELD}/{FLIGHT_FOLDER}/` directory layout, the DTM reference strategy (per-flight vs. earliest-flight-in-season), and the height classification thresholds.
 
 ---
 
@@ -292,13 +306,13 @@ Per-fold training and test metrics: **3 rows × 16 columns** (one row per fold).
 | `train_samples` | Training set size |
 | `val_samples` | Validation set size |
 | `test_samples` | Test set size |
-| `best_val_loss` | Best Huber loss on the validation set |
+| `best_val_loss` | Best MSE loss on the validation set |
 | `best_val_r2` | Validation R² at the best-loss checkpoint |
 | `final_train_loss` | Training loss at the final epoch |
 | `final_train_r2` | Training R² at the final epoch |
 | `final_val_loss` | Validation loss at the final epoch |
 | `final_val_r2` | Validation R² at the final epoch |
-| `test_loss` | Huber loss on the test set (best checkpoint) |
+| `test_loss` | MSE loss on the test set (best checkpoint) |
 | `test_r2` | Test R² (best checkpoint) |
 | `test_rmse` | Test RMSE |
 | `test_mae` | Test MAE |
@@ -313,9 +327,9 @@ Epoch-level training curves. Columns vary slightly by model but the standard sch
 | Column | Description |
 |--------|-------------|
 | `epoch` | Epoch number (1-indexed) |
-| `train_loss` | Training Huber loss |
+| `train_loss` | Training MSE loss |
 | `train_r2` | Training R² |
-| `val_loss` | Validation Huber loss |
+| `val_loss` | Validation MSE loss |
 | `val_r2` | Validation R² |
 | `val_rmse` | Validation RMSE |
 | `val_mae` | Validation MAE |
@@ -433,14 +447,12 @@ Pre-computed covariate files are committed at `data/covariates/`. To regenerate 
 # Flight-level solar geometry and irradiance
 python scripts/build_flight_covariates.py
 
-# Per-image weed fraction (requires DSM and DTMs)
+# Per-image weed fraction (requires DSMs/DTMs — see "Regenerating
+# data/covariates/raw/frac_weed.csv" below)
 python scripts/weed_pressure_pipeline.py --config configs/weed_pressure_config.yaml
 
 # Per-image quality metrics (requires image directory)
 python scripts/build_image_covariates.py --image-dir /path/to/plot/images
-
-# Weed fraction (requires orthomosaic access)
-python scripts/weed_pressure_pipeline.py --config configs/weed_pressure_config.yaml
 ```
 
 ### Step 3: Train All Models
@@ -578,9 +590,12 @@ All nine architectures are accessed via [timm](https://github.com/huggingface/py
 
 **EVA-02-B vs. DINOv2 ViT-B/14** is the controlled pairwise comparison that holds backbone size (~86 M parameters, ViT-B/14 patch size) constant while varying pretraining objective (CLIP-guided MIM vs. self-distillation) and positional encoding (RoPE vs. learned absolute).
 
-<sup>a MIM pretraining with a CLIP vision encoder as teacher
-<sup>b This input size is the timm default for this model ID, not a paper-specified training resolution
-<sup>c This is a timm pretrained weight, not the original paper's setup
+<sup>a</sup> MIM pretraining with a CLIP vision encoder as teacher
+
+<sup>b</sup> This input size is the timm default for this model ID, not a paper-specified training resolution
+
+<sup>c</sup>
+This is a timm pretrained weight, not the original paper's setup
 
 **Shared training hyperparameters:**
 
@@ -591,7 +606,7 @@ All nine architectures are accessed via [timm](https://github.com/huggingface/py
 | Backbone LR | 2 × 10⁻⁵ |
 | Head LR | 2 × 10⁻⁴ |
 | LR schedule | Cosine decay with linear warmup |
-| Loss function | Huber (δ = 5.0) |
+| Loss function | MSE |
 | Early stopping patience | 15 epochs |
 | Head dropout | 0.3 |
 
@@ -704,11 +719,11 @@ All scripts write paired PDF + PNG outputs (150 DPI, `pdf.fonttype=42` for edita
 
 ## Data Availability
 
-Raw UAV orthomosaics, processed plot images, and trained model checkpoints are deposited at:
+Raw UAV images, processed plot images, and trained model checkpoints are deposited at:
 
 > **USDA Ag Data Commons:** [DOI to be inserted upon acceptance]
 
-The deposit includes all 27 flight orthomosaics (all years and sites), the ~26,000 sliced plot images used for training and evaluation, and trained `checkpoint_best.pt` files for EVA-02-B across all three CV0 folds. Image filenames in the deposit match `data/labels/full_dataset.csv` exactly.
+The deposit includes all 27 flight images (all years and sites), the ~26,000 sliced plot images used for training and evaluation, and trained `checkpoint_best.pt` files for EVA-02-B across all three CV0 folds. Image filenames in the deposit match `data/labels/full_dataset.csv` exactly.
 
 ---
 

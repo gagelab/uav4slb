@@ -16,9 +16,6 @@ ViT-S/8 vs ViT-B/14 trade-offs
        (ViT-B/14 gives 37×37 = 1369 patches at 518 px)
   - (-) narrower feature space may capture less global context
   - Lesion-level interpretability may actually improve due to smaller patches
-
-Author: Cole Hammett
-Date: February 2026
 """
 
 import torch
@@ -188,7 +185,7 @@ def create_dinov2_vits14(
     freeze_backbone: bool = False,
 ) -> DINOv2vits14RegressionModel:
     """
-    Factory function — mirrors create_dinov2_vitb14() in dinov2.py.
+    Factory function — mirrors create_dinov2_vitb14() in dinov2_vitb14.py.
 
     Args:
         pretrained:      Load DINOv2-pretrained ViT-S/8 weights.

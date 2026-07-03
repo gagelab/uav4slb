@@ -55,8 +55,6 @@ Usage
       --year-column year \\
       --cv-strategies cv0 \\
       --auto-confirm-missing
-
-Author: Cole H. Hammett
 """
 
 import argparse

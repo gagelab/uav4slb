@@ -104,8 +104,6 @@ python scripts/weed_pressure_pipeline.py \\
 Dependencies
 ────────────
     conda install -c conda-forge rasterio geopandas rasterstats numpy pandas pyyaml
-
-Author : Gage Lab — Cole Hammett
 """
 
 import logging

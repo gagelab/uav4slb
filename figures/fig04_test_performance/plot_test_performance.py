@@ -62,7 +62,7 @@ apply_style()
 # ---------------------------------------------------------------------------
 ROOT           = Path(__file__).resolve().parent.parent.parent
 PREDICTIONS_DEFAULT = (
-    ROOT / "experiments" / "eva02_base_cv0" / "cv0_combined_predictions.csv"
+    ROOT / "experiments" / "eva02_base_cv0" / "predictions" / "cv0_combined_predictions.csv"
 )
 OUTPUT_DIR = Path(__file__).resolve().parent
 

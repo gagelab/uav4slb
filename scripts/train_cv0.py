@@ -95,9 +95,6 @@ Usage
   # Smoke-test: one fold, two epochs
   python scripts/train_cv0.py --config configs/eva02_base_cv0.yaml \\
       --max-folds 1 --max-epochs 2
-
-Author: Cole H. Hammett
-Date:   May 2026
 """
 
 import argparse
@@ -190,7 +187,7 @@ MODEL_REGISTRY: Dict[str, ModelEntry] = {
         default_config="configs/convnextv2_large_cv0.yaml",
     ),
     "dinov2_vitb14": ModelEntry(
-        module="src.models.dinov2",
+        module="src.models.dinov2_vitb14",
         factory="create_dinov2_vitb14",
         requires_mod32=False,
         default_config="configs/dinov2_cv0.yaml",
@@ -202,8 +199,8 @@ MODEL_REGISTRY: Dict[str, ModelEntry] = {
         default_config="configs/dinov2_vits14_cv0.yaml",
     ),
     "efficientnetv2_s": ModelEntry(
-        module="src.models.efficientnetv2_s",
-        factory="create_efficientnetv2_s",
+        module="src.models.efficientnetv2s",
+        factory="create_efficientnetv2s",
         requires_mod32=False,
         default_config="configs/efficientnetv2_s_cv0.yaml",
     ),
