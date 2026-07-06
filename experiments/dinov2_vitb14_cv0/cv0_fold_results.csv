@@ -1,4 +1,0 @@
-fold,best_val_r2,test_r2,test_rmse,test_mae,best_ckpt,n_epochs_ran
-fold_23,0.8636243939399719,0.5766161680221558,0.8979618877800816,0.6985429525375366,experiments/dinov2_vitb14_cv0/fold_23/checkpoints/best_model.pth,52
-fold_24,0.852599024772644,0.6287660598754883,1.4943711883942974,1.2062362432479858,experiments/dinov2_vitb14_cv0/fold_24/checkpoints/best_model.pth,37
-fold_25,0.8739281892776489,0.6403565406799316,1.1255815371738804,0.8670713901519775,experiments/dinov2_vitb14_cv0/fold_25/checkpoints/best_model.pth,42
