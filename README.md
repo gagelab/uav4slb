@@ -69,9 +69,9 @@ uav4slb/
 │
 ├── experiments/                 # Training outputs (one directory per model)
 │   └── <model>_cv0/
+│       ├── history/             # Per-fold per-epoch training results
 │       ├── config_resolved.yaml # Fully resolved config snapshot
 │       ├── cv_results.csv       # Per-fold metrics table (3 rows × 16 cols)
-│       ├── logs/                # Per-fold training logs
 │       ├── predictions/         # Per-fold and combined prediction CSVs
 │       └── summary.json         # Machine-readable aggregate metrics
 │
@@ -98,6 +98,7 @@ uav4slb/
 ├── scripts/                     # Executable pipeline scripts
 │   ├── build_flight_covariates.py
 │   ├── build_image_covariates.py
+│   ├── compile_cv0_predictions.py
 │   ├── create_cv_splits.py
 │   ├── evaluate_cv0.py          # Post-training evaluation and table generation
 │   ├── predict_cv0.py           # Reproduce predictions / run inference on new data
@@ -130,10 +131,7 @@ uav4slb/
     │   └── swinv2_base.py
     └── utils/
         ├── config.py
-        ├── cv_utils.py
-        ├── gpu_utils.py
-        ├── reproducibility.py
-        └── solar.py             # pvlib solar geometry helpers
+        └── reproducibility.py
 ```
 
 ---
@@ -368,7 +366,7 @@ Epoch-level training curves. Columns vary slightly by model but the standard sch
 
 ### results/cv0_aggregate_results.csv
 
-Long-format summary of test metrics for all nine models across all three folds: **27 rows × 12 columns**. This is the primary input for Fig. 3 and the manuscript results table.
+Long-format summary of test metrics for all nine models across all three folds: **28 rows × 12 columns**. This is the primary input for Fig. 3 and the manuscript results table.
 
 | Column | Description |
 |--------|-------------|
@@ -553,7 +551,7 @@ python scripts/evaluate_cv0.py \
 
 ```bash
 python scripts/evaluate_cv0.py --aggregate-table
-# Output: results/cv0_aggregate_results.csv (27 rows × 12 cols)
+# Output: results/cv0_aggregate_results.csv (28 rows × 12 cols)
 ```
 
 ### Step 6: Reproduce Figures

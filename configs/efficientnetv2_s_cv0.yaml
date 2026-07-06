@@ -71,7 +71,7 @@ data:
   image_filename_column: "image_filename"
   target_column: "score"
   year_column: "year"
-  image_extension: ".tif"
+  image_extension: ".jpg"
 
   # 384×384 is the native fine-tuning resolution for tf_efficientnetv2_s.
   # EfficientNet-V2-S is fully convolutional — valid alternatives:

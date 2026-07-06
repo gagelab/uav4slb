@@ -2,7 +2,7 @@
 2026-05-05 15:39:41 | INFO | train_dinov2_cv0 | ======================================================================
 2026-05-05 15:39:41 | INFO | train_dinov2_cv0 | DINOv2 ViT-B/14 — CV0 Leave-One-Year-Out Training
 2026-05-05 15:39:41 | INFO | train_dinov2_cv0 | ======================================================================
-2026-05-05 15:39:41 | INFO | train_dinov2_cv0 | Config      : configs/dinov2_cv0.yaml
+2026-05-05 15:39:41 | INFO | train_dinov2_cv0 | Config      : configs/dinov2_vitb14_cv0.yaml
 2026-05-05 15:39:41 | INFO | train_dinov2_cv0 | Output dir  : experiments/dinov2_vitb14_cv0
 2026-05-05 15:39:41 | INFO | train_dinov2_cv0 | Device      : cuda:1
 2026-05-05 15:39:41 | INFO | train_dinov2_cv0 | Image size  : [518, 518]

@@ -15,7 +15,7 @@ model:
   freeze_backbone: false
 data:
   image_dir: /mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/final_image/final_sliced
-  labels_csv: /mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/final_image/clean_scores_with_images_dedup.csv
+  labels_csv: /mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav4slb/data/labels/full_dataset.csv
   image_filename_column: image_filename
   target_column: score
   year_column: year

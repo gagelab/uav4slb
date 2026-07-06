@@ -88,7 +88,7 @@ data:
   image_filename_column: "image_filename"
   target_column: "score"
   year_column: "year"
-  image_extension: ".tif"
+  image_extension: ".jpg"
 
   # 224×224 is the native fine-tuning resolution for this checkpoint.
   # CoAtNet's relative position bias interpolates to other sizes, but inputs

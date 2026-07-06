@@ -76,7 +76,7 @@ data:
   image_filename_column: "image_filename"
   target_column: "score"
   year_column: "year"
-  image_extension: ".tif"
+  image_extension: ".jpg"
 
   # 256×256 is the native fine-tuning resolution for this checkpoint.
   # SwinV2 window attention requires input divisible by the patch-merge grid.

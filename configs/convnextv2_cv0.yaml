@@ -59,7 +59,7 @@ data:
   image_filename_column: "image_filename"
   target_column: "score"
   year_column: "year"
-  image_extension: ".tif"
+  image_extension: ".jpg"
 
   # ConvNeXt V2 is fully convolutional; 224 matches ImageNet pretraining.
   # Upgrade to [384, 384] for higher-resolution tiles if VRAM allows.

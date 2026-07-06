@@ -1,18 +1,18 @@
 """
-DINOv2 ViT-S/8 model for Southern Leaf Blight severity regression.
+DINOv2 ViT-S/14 model for Southern Leaf Blight severity regression.
 
-Wraps the DINOv2 ViT-S/8 backbone with a regression head.
+Wraps the DINOv2 ViT-S/14 backbone with a regression head.
 Loaded via torch.hub from facebookresearch/dinov2.
 
 Key differences from ViT-B/14:
-  - Patch size 8  → preferred input 448×448 (8×56) or 224×224 (8×28)
+  - Patch size 14 → preferred input 448×448 (14×32) or 224×224 (14×16)
   - Feature dim : 384  (vs 768 for ViT-B/14) — smaller, faster backbone
   - More patches per image at the same resolution → finer spatial granularity
   - Lower VRAM footprint allows larger batch sizes or higher resolution
 
-ViT-S/8 vs ViT-B/14 trade-offs
+ViT-S/14 vs ViT-B/14 trade-offs
   - (+) ~4× fewer backbone parameters (21 M vs 86 M)
-  - (+) patch-8 gives 56×56 = 3136 attention patches at 448 px
+  - (+) patch-14 gives 32×32 = 1024 attention patches at 448 px
        (ViT-B/14 gives 37×37 = 1369 patches at 518 px)
   - (-) narrower feature space may capture less global context
   - Lesion-level interpretability may actually improve due to smaller patches
@@ -28,11 +28,11 @@ logger = logging.getLogger(__name__)
 
 class DINOv2vits14RegressionModel(nn.Module):
     """
-    DINOv2 ViT-S/8 backbone with a regression head for disease severity scoring.
+    DINOv2 ViT-S/14 backbone with a regression head for disease severity scoring.
 
     Architecture
     ------------
-    Backbone : DINOv2 ViT-S/8 (384-d CLS token)
+    Backbone : DINOv2 ViT-S/14 (384-d CLS token)
     Head     : LayerNorm → Linear(384, 256) → GELU → Dropout → Linear(256, 1)
     """
 
@@ -56,16 +56,16 @@ class DINOv2vits14RegressionModel(nn.Module):
         # Backbone
         # ------------------------------------------------------------------
         if pretrained:
-            logger.info("Loading DINOv2 ViT-S/8 from torch.hub ...")
+            logger.info("Loading DINOv2 ViT-S/14 from torch.hub ...")
             self.backbone = torch.hub.load(
                 "facebookresearch/dinov2",
                 "dinov2_vits14",
                 pretrained=True,
             )
-            logger.info("DINOv2 ViT-S/8 backbone loaded successfully.")
+            logger.info("DINOv2 ViT-S/14 backbone loaded successfully.")
         else:
             logger.warning(
-                "pretrained=False: loading DINOv2 ViT-S/8 architecture WITHOUT weights. "
+                "pretrained=False: loading DINOv2 ViT-S/14 architecture WITHOUT weights. "
                 "Only use this for architecture inspection, not real training."
             )
             self.backbone = torch.hub.load(
@@ -75,7 +75,7 @@ class DINOv2vits14RegressionModel(nn.Module):
             )
 
         if freeze_backbone:
-            logger.info("Freezing DINOv2 ViT-S/8 backbone (linear-probe mode).")
+            logger.info("Freezing DINOv2 ViT-S/14 backbone (linear-probe mode).")
             for param in self.backbone.parameters():
                 param.requires_grad = False
 
@@ -110,7 +110,7 @@ class DINOv2vits14RegressionModel(nn.Module):
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         """
         Args:
-            x: (B, 3, H, W) — H and W must be multiples of 8.
+            x: (B, 3, H, W) — H and W must be multiples of 14.
         Returns:
             Tensor of shape (B,) with predicted severity scores.
         """
@@ -171,7 +171,7 @@ class DINOv2vits14RegressionModel(nn.Module):
         trainable = self.get_num_parameters(trainable_only=True)
         return (
             f"DINOv2vits14RegressionModel(\n"
-            f"  backbone=DINOv2 ViT-S/8 (feature_dim={self.FEATURE_DIM}),\n"
+            f"  backbone=DINOv2 ViT-S/14 (feature_dim={self.FEATURE_DIM}),\n"
             f"  head={self.head},\n"
             f"  total_params={total:,},\n"
             f"  trainable_params={trainable:,}\n"
@@ -188,7 +188,7 @@ def create_dinov2_vits14(
     Factory function — mirrors create_dinov2_vitb14() in dinov2_vitb14.py.
 
     Args:
-        pretrained:      Load DINOv2-pretrained ViT-S/8 weights.
+        pretrained:      Load DINOv2-pretrained ViT-S/14 weights.
         dropout_rate:    Head dropout probability.
         freeze_backbone: Freeze backbone for linear-probe experiments.
 
@@ -216,7 +216,7 @@ if __name__ == "__main__":
     model = model.to(device)
     model.eval()
 
-    # Test with 448×448 (recommended for patch-8) and 224×224
+    # Test with 448×448 (recommended for patch-14) and 224×224
     for h, w in [(448, 448), (224, 224)]:
         x = torch.randn(2, 3, h, w, device=device)
         with torch.no_grad():
@@ -225,7 +225,7 @@ if __name__ == "__main__":
 
     # Patch count comparison
     print(f"\nPatch counts at recommended resolutions:")
-    print(f"  ViT-S/8  @ 448×448 : {(448 // 8) ** 2:,} patches  (56×56)")
+    print(f"  ViT-S/14  @ 448×448 : {(448 // 14) ** 2:,} patches  (32×32)")
     print(f"  ViT-B/14 @ 518×518 : {(518 // 14) ** 2:,} patches  (37×37)")
 
     # Check param groups
@@ -234,4 +234,4 @@ if __name__ == "__main__":
         n_params = sum(p.numel() for p in g["params"])
         print(f"  Group '{g['name']}': {n_params:,} params, lr={g['lr']}")
 
-    print("\n✓ DINOv2 ViT-S/8 smoke-test passed.")
+    print("\n✓ DINOv2 ViT-S/14 smoke-test passed.")

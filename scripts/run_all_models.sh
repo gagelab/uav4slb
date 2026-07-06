@@ -63,10 +63,10 @@ CONFIGS=(
     "configs/dinov2_vits14_cv0.yaml"        # ViT  |  ~22 M  | 448×448 | DINOv2 self-supervised
     "configs/maxvit_small_cv0.yaml"         # Hybrid | ~69 M | 224×224 | supervised IN-1k
     "configs/swinv2_base_cv0.yaml"          # Hybrid | ~88 M | 256×256 | supervised IN-21k
-    "configs/coatnet2_cv0.yaml"             # Hybrid | ~75 M | 384×384 | supervised IN-21k
+    "configs/coatnet2_cv0.yaml"             # Hybrid | ~75 M | 224×224 | supervised IN-12k
     "configs/convnextv2_cv0.yaml"           # CNN  |  ~88 M  | 224×224 | FCMAE self-supervised
     "configs/convnextv2_large_cv0.yaml"     # CNN  |  ~197 M | 224×224 | FCMAE self-supervised
-    "configs/dinov2_cv0.yaml"               # ViT  |  ~86 M  | 518×518 | DINOv2 self-supervised
+    "configs/dinov2_vitb14_cv0.yaml"               # ViT  |  ~86 M  | 518×518 | DINOv2 self-supervised
     "configs/eva02_base_cv0.yaml"           # ViT  |  ~86 M  | 448×448 | CLIP-MIM merged-38M
 )
 

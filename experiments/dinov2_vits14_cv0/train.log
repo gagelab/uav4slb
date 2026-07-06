@@ -1,5 +1,5 @@
 ======================================================================
-DINOv2 ViT-S/8 — CV0 Leave-One-Year-Out Training
+DINOv2 ViT-S/14 — CV0 Leave-One-Year-Out Training
 ======================================================================
 Config      : configs/dinov2_cv0_vits14.yaml
 Output dir  : experiments/dinov2_vits14_cv0
@@ -16,11 +16,11 @@ FOLD: fold_23  |  train=19949  val=3521  test=2601
 Loaded 19949 samples from /tmp/dinov2_cv0_vits14_folds/train_42.csv
 Loaded 3521 samples from /tmp/dinov2_cv0_vits14_folds/val_42.csv
 Loaded 2601 samples from /tmp/dinov2_cv0_vits14_folds/test_42.csv
-Loading DINOv2 ViT-S/8 from torch.hub ...
+Loading DINOv2 ViT-S/14 from torch.hub ...
 using MLP layer as FFN
-DINOv2 ViT-S/8 backbone loaded successfully.
+DINOv2 ViT-S/14 backbone loaded successfully.
 DINOv2vits14RegressionModel(
-  backbone=DINOv2 ViT-S/8 (feature_dim=384),
+  backbone=DINOv2 ViT-S/14 (feature_dim=384),
   head=Sequential(
   (0): LayerNorm((384,), eps=1e-05, elementwise_affine=True)
   (1): Linear(in_features=384, out_features=256, bias=True)
@@ -104,11 +104,11 @@ FOLD: fold_24  |  train=15113  val=2668  test=8290
 Loaded 15113 samples from /tmp/dinov2_cv0_vits14_folds/train_42.csv
 Loaded 2668 samples from /tmp/dinov2_cv0_vits14_folds/val_42.csv
 Loaded 8290 samples from /tmp/dinov2_cv0_vits14_folds/test_42.csv
-Loading DINOv2 ViT-S/8 from torch.hub ...
+Loading DINOv2 ViT-S/14 from torch.hub ...
 using MLP layer as FFN
-DINOv2 ViT-S/8 backbone loaded successfully.
+DINOv2 ViT-S/14 backbone loaded successfully.
 DINOv2vits14RegressionModel(
-  backbone=DINOv2 ViT-S/8 (feature_dim=384),
+  backbone=DINOv2 ViT-S/14 (feature_dim=384),
   head=Sequential(
   (0): LayerNorm((384,), eps=1e-05, elementwise_affine=True)
   (1): Linear(in_features=384, out_features=256, bias=True)
@@ -194,11 +194,11 @@ FOLD: fold_25  |  train=9257  val=1634  test=15180
 Loaded 9257 samples from /tmp/dinov2_cv0_vits14_folds/train_42.csv
 Loaded 1634 samples from /tmp/dinov2_cv0_vits14_folds/val_42.csv
 Loaded 15180 samples from /tmp/dinov2_cv0_vits14_folds/test_42.csv
-Loading DINOv2 ViT-S/8 from torch.hub ...
+Loading DINOv2 ViT-S/14 from torch.hub ...
 using MLP layer as FFN
-DINOv2 ViT-S/8 backbone loaded successfully.
+DINOv2 ViT-S/14 backbone loaded successfully.
 DINOv2vits14RegressionModel(
-  backbone=DINOv2 ViT-S/8 (feature_dim=384),
+  backbone=DINOv2 ViT-S/14 (feature_dim=384),
   head=Sequential(
   (0): LayerNorm((384,), eps=1e-05, elementwise_affine=True)
   (1): Linear(in_features=384, out_features=256, bias=True)
@@ -275,7 +275,7 @@ Saved test predictions to experiments/dinov2_vits14_cv0/predictions/fold_25_test
 Saved training history to experiments/dinov2_vits14_cv0/history/fold_25_history.csv
 
 ======================================================================
-CV0 SUMMARY — DINOv2 ViT-S/8
+CV0 SUMMARY — DINOv2 ViT-S/14
 ======================================================================
 
   Mean Val R²:   0.8523 ± 0.0126

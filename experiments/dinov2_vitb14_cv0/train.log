@@ -1,7 +1,7 @@
 ======================================================================
 DINOv2 ViT-B/14 — CV0 Leave-One-Year-Out Training
 ======================================================================
-Config      : configs/dinov2_cv0.yaml
+Config      : configs/dinov2_vitb14_cv0.yaml
 Output dir  : experiments/dinov2_vitb14_cv0
 Device      : cuda:1
 Image size  : [518, 518]
@@ -267,7 +267,7 @@ CV0 SUMMARY — DINOv2 ViT-B/14
 ======================================================================
 DINOv2 ViT-B/14 — CV0 Leave-One-Year-Out Training
 ======================================================================
-Config      : configs/dinov2_cv0.yaml
+Config      : configs/dinov2_vitb14_cv0.yaml
 Output dir  : experiments/dinov2_vitb14_cv0
 Device      : cuda:0
 Image size  : [518, 518]
@@ -445,7 +445,7 @@ CV0 SUMMARY — DINOv2 ViT-B/14
 ======================================================================
 DINOv2 ViT-B/14 — CV0 Leave-One-Year-Out Training
 ======================================================================
-Config      : configs/dinov2_cv0.yaml
+Config      : configs/dinov2_vitb14_cv0.yaml
 Output dir  : experiments/dinov2_vitb14_cv0
 Device      : cuda:1
 Image size  : [518, 518]

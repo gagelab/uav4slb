@@ -10,7 +10,7 @@
 2026-02-27 17:32:58 | INFO | train_dinov2_cv0_vits14 |   GPU 9: NVIDIA A100 80GB PCIe — 85.1 GB free / 85.1 GB total
 2026-02-27 17:32:58 | INFO | train_dinov2_cv0_vits14 | Auto-selected GPU 0: NVIDIA A100 80GB PCIe
 2026-02-27 17:32:58 | INFO | train_dinov2_cv0_vits14 | ======================================================================
-2026-02-27 17:32:58 | INFO | train_dinov2_cv0_vits14 | DINOv2 ViT-S/8 — CV0 Leave-One-Year-Out Training
+2026-02-27 17:32:58 | INFO | train_dinov2_cv0_vits14 | DINOv2 ViT-S/14 — CV0 Leave-One-Year-Out Training
 2026-02-27 17:32:58 | INFO | train_dinov2_cv0_vits14 | ======================================================================
 2026-02-27 17:32:58 | INFO | train_dinov2_cv0_vits14 | Config      : configs/dinov2_cv0_vits14.yaml
 2026-02-27 17:32:58 | INFO | train_dinov2_cv0_vits14 | Output dir  : experiments/dinov2_vits14_cv0
@@ -35,7 +35,7 @@
 /mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/src/data/augmentation.py:159: UserWarning: Argument(s) 'always_apply' are not valid for transform Normalize
   A.Normalize(mean=mean, std=std, always_apply=True),
 2026-02-27 17:32:58 | INFO | src.data.dataset | Loaded 2601 samples from /tmp/dinov2_cv0_vits14_folds/test_42.csv
-2026-02-27 17:32:58 | INFO | src.models.dinov2_vits14 | Loading DINOv2 ViT-S/8 from torch.hub ...
+2026-02-27 17:32:58 | INFO | src.models.dinov2_vits14 | Loading DINOv2 ViT-S/14 from torch.hub ...
 Using cache found in /home/chhammet/.cache/torch/hub/facebookresearch_dinov2_main
 /home/chhammet/.cache/torch/hub/facebookresearch_dinov2_main/dinov2/layers/swiglu_ffn.py:51: UserWarning: xFormers is not available (SwiGLU)
   warnings.warn("xFormers is not available (SwiGLU)")
@@ -45,7 +45,14 @@ Using cache found in /home/chhammet/.cache/torch/hub/facebookresearch_dinov2_mai
   warnings.warn("xFormers is not available (Block)")
 2026-02-27 17:32:59 | INFO | dinov2 | using MLP layer as FFN
 Downloading: "https://dl.fbaipublicfiles.com/dinov2/dinov2_vits14/dinov2_vits14_pretrain.pth" to /home/chhammet/.cache/torch/hub/checkpoints/dinov2_vits14_pretrain.pth
-  0%|          | 0.00/84.2M [00:00<?, ?B/s]  3%|▎         | 2.38M/84.2M [00:00<00:03, 24.8MB/s] 25%|██▌       | 21.4M/84.2M [00:00<00:00, 127MB/s]  49%|████▊     | 40.9M/84.2M [00:00<00:00, 162MB/s] 71%|███████▏  | 60.1M/84.2M [00:00<00:00, 177MB/s] 95%|█████████▍| 79.6M/84.2M [00:00<00:00, 187MB/s]100%|██████████| 84.2M/84.2M [00:00<00:00, 167MB/s]
+
+  0%|          | 0.00/84.2M [00:00<?, ?B/s]ViT-S/14
+  3%|▎         | 2.38M/84.2M [00:00<00:03, 24.8MB/s]
+ 25%|██▌       | 2ViT-S/14.2M [00:00<00:00, 127MB/s] 
+ 49%|████▊     | 40.9M/84.2M [00:00<00:00, 162MB/s]
+ 71%|███████▏  | 60.1M/84.2M [00:00<00:00, 177MB/s]
+ 95%|█████████▍| 79.6M/84.2M [00:00<00:00, 187MB/s]
+100%|██████████| 84.2M/84.2M [00:00<00:00, 167MB/s]
 2026-02-27 17:33:00 | INFO | src.models.dinov2_vits14 | DINOv2 ViT-S/8 backbone loaded successfully.
 2026-02-27 17:33:00 | INFO | src.models.dinov2_vits14 | DINOv2vits14RegressionModel(
   backbone=DINOv2 ViT-S/8 (feature_dim=384),
@@ -321,12 +328,12 @@ TEST RESULTS — fold_23
 /mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/src/data/augmentation.py:158: UserWarning: Argument(s) 'always_apply' are not valid for transform Resize
   A.Resize(height=image_size[0], width=image_size[1], always_apply=True),
 /mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/src/data/augmentation.py:159: UserWarning: Argument(s) 'always_apply' are not valid for transform Normalize
-  A.Normalize(mean=mean, std=std, always_apply=True),
+  A.Normalize(mean=mean, std=std, always_apply=True),ViT-S/14
 2026-02-27 20:27:23 | INFO | src.data.dataset | Loaded 2668 samples from /tmp/dinov2_cv0_vits14_folds/val_42.csv
 /mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/src/data/augmentation.py:158: UserWarning: Argument(s) 'always_apply' are not valid for transform Resize
-  A.Resize(height=image_size[0], width=image_size[1], always_apply=True),
+  A.Resize(height=image_size[0], width=image_size[1], always_apViT-S/14e),
 /mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/src/data/augmentation.py:159: UserWarning: Argument(s) 'always_apply' are not valid for transform Normalize
-  A.Normalize(mean=mean, std=std, always_apply=True),
+  A.Normalize(meanViT-S/14std=std, always_apply=True),
 2026-02-27 20:27:23 | INFO | src.data.dataset | Loaded 8290 samples from /tmp/dinov2_cv0_vits14_folds/test_42.csv
 2026-02-27 20:27:23 | INFO | src.models.dinov2_vits14 | Loading DINOv2 ViT-S/8 from torch.hub ...
 Using cache found in /home/chhammet/.cache/torch/hub/facebookresearch_dinov2_main
@@ -620,12 +627,12 @@ TEST RESULTS — fold_24
 /mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/src/data/augmentation.py:158: UserWarning: Argument(s) 'always_apply' are not valid for transform Resize
   A.Resize(height=image_size[0], width=image_size[1], always_apply=True),
 /mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/src/data/augmentation.py:159: UserWarning: Argument(s) 'always_apply' are not valid for transform Normalize
-  A.Normalize(mean=mean, std=std, always_apply=True),
+  A.Normalize(mean=mean, std=std, always_apply=True),ViT-S/14
 2026-02-27 22:22:38 | INFO | src.data.dataset | Loaded 1634 samples from /tmp/dinov2_cv0_vits14_folds/val_42.csv
 /mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/src/data/augmentation.py:158: UserWarning: Argument(s) 'always_apply' are not valid for transform Resize
-  A.Resize(height=image_size[0], width=image_size[1], always_apply=True),
+  A.Resize(height=image_size[0], width=image_size[1], always_apViT-S/14e),
 /mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/src/data/augmentation.py:159: UserWarning: Argument(s) 'always_apply' are not valid for transform Normalize
-  A.Normalize(mean=mean, std=std, always_apply=True),
+  A.Normalize(meanViT-S/14std=std, always_apply=True),
 2026-02-27 22:22:38 | INFO | src.data.dataset | Loaded 15180 samples from /tmp/dinov2_cv0_vits14_folds/test_42.csv
 2026-02-27 22:22:38 | INFO | src.models.dinov2_vits14 | Loading DINOv2 ViT-S/8 from torch.hub ...
 Using cache found in /home/chhammet/.cache/torch/hub/facebookresearch_dinov2_main
@@ -878,7 +885,7 @@ Loading best checkpoint for test evaluation: experiments/dinov2_vits14_cv0/check
 ======================================================================
 TEST RESULTS — fold_25
   R²   = 0.4828
-  RMSE = 1.3497
+  RMSE = 1.3497ViT-S/14
   MAE  = 1.0447
 ======================================================================
 2026-02-27 23:32:45 | INFO | train_dinov2_cv0_vits14 | Saved test predictions to experiments/dinov2_vits14_cv0/predictions/fold_25_test_predictions.csv

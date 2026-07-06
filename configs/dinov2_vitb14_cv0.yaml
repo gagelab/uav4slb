@@ -44,7 +44,7 @@ data:
   image_filename_column: "image_filename"
   target_column: "score"
   year_column: "year"
-  image_extension: ".tif"
+  image_extension: ".jpg"
 
   # DINOv2 native patch size is 14; 518 = 14×37 gives optimal resolution.
   # Drop to 224 = 14×16 to halve GPU memory usage.

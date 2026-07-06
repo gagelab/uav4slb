@@ -72,7 +72,7 @@ data:
   image_filename_column: "image_filename"
   target_column: "score"
   year_column: "year"
-  image_extension: ".tif"
+  image_extension: ".jpg"
 
   # MaxViT-S tf_224 variant is trained at 224×224. The window attention grid
   # tiles require input dimensions divisible by 32 (stem stride 4 × 8 windows).

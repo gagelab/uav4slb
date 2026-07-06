@@ -190,7 +190,7 @@ MODEL_REGISTRY: Dict[str, ModelEntry] = {
         module="src.models.dinov2_vitb14",
         factory="create_dinov2_vitb14",
         requires_mod32=False,
-        default_config="configs/dinov2_cv0.yaml",
+        default_config="configs/dinov2_vitb14_cv0.yaml",
     ),
     "dinov2_vits14": ModelEntry(
         module="src.models.dinov2_vits14",

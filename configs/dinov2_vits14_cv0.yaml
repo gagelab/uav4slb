@@ -6,7 +6,7 @@
 #
 # Key ViT-S/14-specific choices
 #   image_size  : 448  (= 14 × 32 patches — optimal for patch-14 backbone)
-#                 Use 224 if GPU memory is tight (still divisible by 8).
+#                 Use 224 if GPU memory is tight (still divisible by 14).
 #   backbone_lr : 5e-5 (10× lower than head; slightly higher than ViT-B/14
 #                 because the smaller backbone is less prone to catastrophic
 #                 forgetting of pretrained features)
@@ -23,7 +23,7 @@
 
 experiment:
   name: "dinov2_vits14_cv0"
-  description: "DINOv2 ViT-S/8 leave-one-year-out temporal generalization (CV0)"
+  description: "DINOv2 ViT-S/14 leave-one-year-out temporal generalization (CV0)"
   tags:
     - "dinov2"
     - "vits14"
@@ -51,11 +51,11 @@ data:
   image_filename_column: "image_filename"
   target_column: "score"
   year_column: "year"
-  image_extension: ".tif"
+  image_extension: ".jpg"
 
-  # DINOv2 ViT-S/8 patch size is 8; 448 = 8×56 gives optimal resolution
+  # DINOv2 ViT-S/14 patch size is 14; 448 = 14×32 gives optimal resolution
   # without exceeding typical GPU memory at batch_size=32.
-  # Drop to 224 = 8×28 to further halve VRAM usage.
+  # Drop to 224 = 14×16 to further halve VRAM usage.
   image_size: [448, 448]
 
   # Normalization — DINOv2 was trained with ImageNet statistics
