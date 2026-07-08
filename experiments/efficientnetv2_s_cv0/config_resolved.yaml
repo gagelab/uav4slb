@@ -10,6 +10,7 @@ experiment:
   - regression
   - slb
 model:
+  name: efficientnetv2_s
   architecture: tf_efficientnetv2_s
   pretrained: true
   dropout_rate: 0.3
@@ -20,7 +21,7 @@ data:
   image_filename_column: image_filename
   target_column: score
   year_column: year
-  image_extension: .tif
+  image_extension: .jpg
   image_size:
   - 384
   - 384
@@ -107,5 +108,6 @@ logging:
   tensorboard: true
 cv:
   type: cv0
+  n_folds: 3
   splits_dir: data/cv_splits
-  output_dir: experiments/efficientnetv2_s_cv0
+  output_dir: /mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav4slb/results/efficientnetv2_s_cv0

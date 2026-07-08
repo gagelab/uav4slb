@@ -15,7 +15,7 @@ dist/
 build/
 
 # ---- Jupyter checkpoints ----------------------------------------------------
-.ipynb_checkpoints/
+.ipynbpoints/
 *.ipynb
 
 # ---- Experiment checkpoints and logs (large / regeneratable) ----------------
@@ -24,9 +24,6 @@ build/
 # for reproducibility (small CSVs).
 experiments/*/checkpoints/
 experiments/*/logs/
-experiments/*/train_stdout.log
-*.log
-
 
 # ---- TensorBoard event files ------------------------------------------------
 runs/
@@ -56,6 +53,7 @@ Thumbs.db
 .claude/
 CLAUDE.md
 audit_report.md
+nohup.out
 
 # ---- Reposcribe and tree dumps (development artifacts) ----------------------
 reposcribe.md
@@ -71,7 +69,6 @@ data_csv_descriptions.txt
 figures_defense/
 
 # ---- Training reruns ----------------------
-configs/dinov2_vitb14_cv0_check.yaml
-configs/efficientnetv2_s_cv0_check.yaml
-results/dinov2_vitb14_cv0_check
-results/efficientnetv2_s_cv0_check
+configs_rerun/
+rerun_results/
+scripts/*_rerun.sh

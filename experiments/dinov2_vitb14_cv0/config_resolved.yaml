@@ -1,7 +1,6 @@
 experiment:
   name: dinov2_vitb14_cv0
-  description: DINOv2 ViT-B/14 leave-one-year-out temporal generalization (CV0) with
-    weight decay
+  description: DINOv2 ViT-B/14 leave-one-year-out temporal generalization (CV0)
   tags:
   - dinov2
   - vitb14
@@ -9,6 +8,7 @@ experiment:
   - regression
   - slb
 model:
+  name: dinov2_vitb14
   architecture: dinov2_vitb14
   pretrained: true
   dropout_rate: 0.3
@@ -19,7 +19,7 @@ data:
   image_filename_column: image_filename
   target_column: score
   year_column: year
-  image_extension: .tif
+  image_extension: .jpg
   image_size:
   - 518
   - 518
@@ -106,5 +106,6 @@ logging:
   tensorboard: true
 cv:
   type: cv0
+  n_folds: 3
   splits_dir: data/cv_splits
-  output_dir: experiments/dinov2_vitb14_cv0
+  output_dir: /mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav4slb/results/dinov2_vitb14_cv0
