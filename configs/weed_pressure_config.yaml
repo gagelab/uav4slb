@@ -10,17 +10,14 @@
 # Root directory containing 2023/, 2024/, 2025/ folders
 base_dir: /mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/processed
 
-# Directory containing {FIELD}_{YEAR}_plots.shp files
-# e.g.  G3_2023_plots.shp,  B7_2024_plots.shp,  C10_2025_plots.shp
+# Directory containing {FIELD}_plot_outline.shp files
+# e.g.  G3_plot_outline.shp,  B7A_plot_outline.shp,  C10_plot_outline.shp
+# Falls back to any .shp whose filename contains the field name if the exact
+# {FIELD}_plot_outline.shp is not found.
 shapefile_dir: /mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/final_image/final_outline
 
 # Where to write output CSVs
 output_dir: /mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/covariates/weeds/weed_outputs
-
-# ── Ortho location ────────────────────────────────────────────────────────────
-# Flat directory where all *_ortho_dsm.tif and *_ortho_dtm.tif files live.
-# Only .tif files in this folder — no subdirectories expected.
-ortho_dir: /mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/final_image/final_unsliced
 
 # ── Shapefile plot ID column ──────────────────────────────────────────────────
 # The name of the attribute field that uniquely identifies each plot.
@@ -45,23 +42,6 @@ plot_id_field: plot
 # short maize as weed.
 ground_max_ft: 0.492
 weed_max_ft:   2.461
-
-# ── Surface roughness window ──────────────────────────────────────────────────
-# Window size in pixels for the local standard deviation roughness computation.
-# At ~1.4 mm GSD:
-#   214 px ≈ 0.30 m   (fine scale; captures leaf-level texture — too small)
-#   357 px ≈ 0.50 m   (default; good canopy-patch discrimination)
-#   500 px ≈ 0.70 m   (coarse; better for large weed infestations)
-#   714 px ≈ 1.00 m   (row-scale; use if weed patches are plot-wide)
-#
-# If GSD differs:  window_px = desired_meters / GSD_meters
-roughness_window_px: 357
-
-# ── VARI soil mask threshold ──────────────────────────────────────────────────
-# Pixels with VARI < this value are treated as bare soil and excluded from the
-# per-plot VARI mean.  Vegetation is typically VARI > 0.05–0.10.
-# Lower this threshold (e.g. 0.02) if dense canopy leaves very few valid pixels.
-vari_soil_threshold: 0.05
 
 # ── DTM reference strategy ────────────────────────────────────────────────────
 # Years listed here will use each flight's OWN Metashape DTM rather than the

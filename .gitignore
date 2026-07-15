@@ -71,4 +71,6 @@ figures_defense/
 # ---- Training reruns ----------------------
 configs_rerun/
 rerun_results/
+rerun_results_2/
+rerun_results_3/
 scripts/*_rerun.sh

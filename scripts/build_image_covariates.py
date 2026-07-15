@@ -2,7 +2,7 @@
 build_image_covariates.py
 ─────────────────────────────────────────────────────────────────────────────
 Compute pixel-derived image-level covariates for every .jpg tile in
-final_sliced/ and join the CHM-derived frac_weed from frac_weed.csv.
+directory containing the tiles and join the CHM-derived frac_weed from frac_weed.csv.
 
 Covariates computed directly from each .jpg tile
 ─────────────────────────────────────────────────
@@ -44,13 +44,7 @@ Column order matches the existing ground-truth file in the repository.
 
 Usage
 ─────
-# Full run with weed join:
-nohup python -u build_image_covariates.py \
-    --image_dir  /mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/final_image/final_sliced \
-    --labels_csv /mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav4slb/data/labels/full_dataset.csv \
-    --weed_csv   /mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav4slb/data/covariates/raw/frac_weed.csv \
-    --out_dir    /mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb > image_covariates.log 2>&1 &
-
+# Full run with weed join
 python -u build_image_covariates.py \
     --image_dir  /mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/final_image/final_sliced \
     --labels_csv /mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav4slb/data/labels/full_dataset.csv \

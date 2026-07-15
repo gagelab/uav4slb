@@ -158,7 +158,7 @@ class EfficientNetV2SRegressor(nn.Module):
         self,
         backbone_lr: float = 5e-5,
         head_lr: float = 5e-4,
-        weight_decay: float = 1e-2,
+        weight_decay: float = 5e-2,
     ) -> List[Dict]:
         """
         Return two parameter groups for differential learning rates:

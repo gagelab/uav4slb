@@ -1,10 +1,6 @@
 # =============================================================================
 # EfficientNet-V2-S — CV0 Leave-One-Year-Out Configuration
 # =============================================================================
-# CV0 uses leave-one-year-out cross-validation (3 folds: 2023, 2024, 2025).
-# Each fold withholds one complete growing season as the test set, training
-# on the remaining two years.  This is the PRIMARY evaluation protocol for
-# temporal domain generalisation — test-year R² is the headline metric.
 #
 # EfficientNet-V2-S is the smallest and fastest model in this study (~21 M
 # params, 384×384 native input).  It serves as the supervised-pretraining
@@ -41,7 +37,7 @@
 
 experiment:
   name: "efficientnetv2_s_cv0"
-  description: "EfficientNet-V2-S leave-one-year-out temporal generalisation (CV0)"
+  description: "EfficientNet-V2-S leave-one-year-out temporal generalization (CV0)"
   tags:
     - "efficientnetv2"
     - "efficientnetv2_s"

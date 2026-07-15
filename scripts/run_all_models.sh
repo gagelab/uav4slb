@@ -20,6 +20,10 @@
 #   bash scripts/run_all_models.sh --parallel --gpu 0
 #   bash scripts/run_all_models.sh --parallel --amp-dtype float16
 #
+#   # Round-robin models across 4 GPUs (model i -> GPU i % 4) to saturate a
+#   # multi-GPU node. Do not combine with --gpu.
+#   bash scripts/run_all_models.sh --parallel --num-gpus 4
+#
 #   # Smoke-test all models (1 fold, 2 epochs each)
 #   bash scripts/run_all_models.sh --parallel --max-folds 1 --max-epochs 2
 #
@@ -72,14 +76,23 @@ CONFIGS=(
 
 # ── Parse script-level flags (everything else forwarded to run_train_cv0.sh) ──
 PARALLEL=false
+NUM_GPUS=""
 PASSTHROUGH_ARGS=()
 
-for arg in "$@"; do
-    case "$arg" in
-        --parallel) PARALLEL=true ;;
-        *)          PASSTHROUGH_ARGS+=("$arg") ;;
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --parallel)  PARALLEL=true; shift ;;
+        --num-gpus)  NUM_GPUS="$2"; shift 2 ;;
+        --num-gpus=*) NUM_GPUS="${1#--num-gpus=}"; shift ;;
+        *)           PASSTHROUGH_ARGS+=("$1"); shift ;;
     esac
 done
+
+if [[ -n "${NUM_GPUS}" ]]; then
+    for arg in "${PASSTHROUGH_ARGS[@]+"${PASSTHROUGH_ARGS[@]}"}"; do
+        [[ "$arg" == "--gpu" ]] && { echo "❌  --num-gpus cannot be combined with --gpu."; exit 1; }
+    done
+fi
 
 # ── Print plan ────────────────────────────────────────────────────────────────
 echo ""
@@ -88,6 +101,7 @@ echo "  UAV-SLB  |  CV0 All-Models Training"
 echo "============================================================"
 echo "  Mode    : $(if $PARALLEL; then echo 'parallel (all launched immediately)'; else echo 'interactive (confirm each model)'; fi)"
 echo "  Models  : ${#CONFIGS[@]}"
+echo "  GPUs    : $(if [[ -n "${NUM_GPUS}" ]]; then echo "round-robin across ${NUM_GPUS}"; else echo 'not assigned (auto-select / --gpu passthrough)'; fi)"
 echo "  Extra   : ${PASSTHROUGH_ARGS[*]:-none}"
 echo "============================================================"
 echo ""
@@ -106,7 +120,8 @@ if [[ ${#MISSING_CONFIGS[@]} -gt 0 ]]; then
 fi
 
 # ── Launch each model ─────────────────────────────────────────────────────────
-for cfg in "${CONFIGS[@]}"; do
+for i in "${!CONFIGS[@]}"; do
+    cfg="${CONFIGS[$i]}"
     # Derive model label for display (strip path and _cv0.yaml suffix)
     model_label="$(basename "${cfg}" _cv0.yaml)"
 
@@ -125,8 +140,16 @@ for cfg in "${CONFIGS[@]}"; do
         esac
     fi
 
+    GPU_ARGS=()
+    if [[ -n "${NUM_GPUS}" ]]; then
+        gpu_id=$(( i % NUM_GPUS ))
+        echo "  GPU: ${gpu_id}"
+        GPU_ARGS=(--gpu "${gpu_id}")
+    fi
+
     bash "${SCRIPT_DIR}/run_train_cv0.sh" \
         --config "${cfg}" \
+        "${GPU_ARGS[@]+"${GPU_ARGS[@]}"}" \
         "${PASSTHROUGH_ARGS[@]+"${PASSTHROUGH_ARGS[@]}"}"
 
     # Brief pause between launches to avoid tmux socket race conditions

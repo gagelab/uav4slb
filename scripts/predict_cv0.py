@@ -7,8 +7,9 @@ Generate predictions from trained CV0 model checkpoints.
 Two operating modes
 -------------------
 1. **Reproduce paper results** (default)
-   Loads the best-checkpoint for each CV0 fold (fold_2023, fold_2024, fold_2025)
-   and runs inference on the *same test split CSVs* used during training.
+   Loads the best-checkpoint for each CV0 fold (discovered from
+   <splits-dir>/cv0/) and runs inference on the *same test split CSVs* used
+   during training.
    Outputs are written to:
        results/<model_name>_cv0/predictions/<fold>_test_predictions.csv
 
@@ -24,7 +25,7 @@ Two operating modes
 
 Usage examples
 --------------
-# Reproduce paper results for EVA-02-B (all three folds):
+# Reproduce paper results for EVA-02-B (all discovered folds):
 python scripts/predict_cv0.py \
     --config configs/eva02_base_cv0.yaml \
     --weights-dir results/eva02_base_cv0/checkpoints
@@ -83,7 +84,7 @@ from src.data.dataset import UAVDataset
 from src.data.augmentation import build_transforms
 from src.models import MODEL_REGISTRY
 from src.utils.config import load_config
-from src.utils.reproducibility import seed_everything
+from src.utils.reproducibility import set_seed
 
 logging.basicConfig(
     level=logging.INFO,
@@ -93,13 +94,23 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # ---------------------------------------------------------------------------
-# CV0 fold definitions (test year, fold directory name)
+# CV0 fold discovery
 # ---------------------------------------------------------------------------
-CV0_FOLDS = [
-    ("fold_2023", 2023),
-    ("fold_2024", 2024),
-    ("fold_2025", 2025),
-]
+
+def discover_cv0_folds(splits_dir: Path) -> list[str]:
+    """Discover fold_* directories under <splits_dir>/cv0/, sorted by name."""
+    cv0_dir = splits_dir / "cv0"
+    if not cv0_dir.exists():
+        raise FileNotFoundError(
+            f"CV0 splits directory not found: {cv0_dir}\n"
+            "Run scripts/create_cv_splits.py first."
+        )
+    folds = sorted(
+        p.name for p in cv0_dir.iterdir() if p.is_dir() and p.name.startswith("fold_")
+    )
+    if not folds:
+        raise FileNotFoundError(f"No fold_* directories found under {cv0_dir}")
+    return folds
 
 
 # ---------------------------------------------------------------------------
@@ -124,8 +135,10 @@ def parse_args() -> argparse.Namespace:
     )
     p.add_argument(
         "--fold", default=None,
-        choices=["fold_2023", "fold_2024", "fold_2025"],
-        help="Run a single fold only.  Omit to run all three folds.",
+        help=(
+            "Run a single fold only (e.g. 'fold_2025'), matching a fold "
+            "directory under <splits-dir>/cv0/.  Omit to run all discovered folds."
+        ),
     )
     p.add_argument(
         "--splits-dir", default=None,
@@ -261,7 +274,7 @@ def predict_fold(
         raise FileNotFoundError(
             f"Checkpoint not found: {ckpt_path}\n"
             f"Run train_cv0.py first, or verify --weights-dir points to the "
-            f"directory that contains fold_2023/, fold_2024/, fold_2025/ subdirectories."
+            f"directory that contains a '{fold_name}/' subdirectory."
         )
 
     logger.info(f"[{fold_name}] Loading checkpoint: {ckpt_path}")
@@ -387,7 +400,7 @@ def predict_fold(
 
 def main() -> None:
     args = parse_args()
-    seed_everything(args.seed)
+    set_seed(args.seed)
 
     # ---- Load config ---------------------------------------------------------
     cfg = load_config(args.config)
@@ -436,15 +449,26 @@ def main() -> None:
             raise FileNotFoundError(f"--labels-csv not found: {labels_csv_override}")
 
     # ---- Determine which folds to run ----------------------------------------
-    if args.fold:
-        folds_to_run = [(args.fold, int(args.fold.split("_")[1]))]
+    if image_dir_override is not None:
+        # New-image mode: --fold is required and doesn't need a splits_dir
+        # (the test split CSVs aren't used in this mode).
+        folds_to_run = [args.fold]
     else:
-        folds_to_run = CV0_FOLDS
+        available_folds = discover_cv0_folds(splits_dir)
+        if args.fold:
+            if args.fold not in available_folds:
+                raise ValueError(
+                    f"--fold '{args.fold}' not found under {splits_dir / 'cv0'}.  "
+                    f"Available folds: {available_folds}"
+                )
+            folds_to_run = [args.fold]
+        else:
+            folds_to_run = available_folds
 
     # ---- Run prediction per fold ---------------------------------------------
     all_fold_dfs = []
 
-    for fold_name, _ in folds_to_run:
+    for fold_name in folds_to_run:
         logger.info(f"\n{'='*60}\nFold: {fold_name}\n{'='*60}")
         fold_df = predict_fold(
             fold_name           = fold_name,

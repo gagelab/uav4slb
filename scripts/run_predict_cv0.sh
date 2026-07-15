@@ -2,7 +2,8 @@
 # =============================================================================
 # scripts/run_predict_cv0.sh
 # =============================================================================
-# Batch-generate predictions for all 9 CV0 model checkpoints.
+# Batch-generate predictions for all 9 CV0 model checkpoints, or run
+# inference on new images with a single model/fold checkpoint.
 #
 # This script assumes:
 #   1. train_cv0.py has already been run for every architecture and the
@@ -11,15 +12,28 @@
 #   2. The published CV0 splits are at data/cv_splits/cv0/
 #   3. The conda environment uav_for_slb is active.
 #
-# Usage
-# -----
+# Usage — reproduce paper results
+# --------------------------------
 #   bash scripts/run_predict_cv0.sh               # all 9 models
 #   MODEL=eva02_base_cv0 bash scripts/run_predict_cv0.sh   # single model
 #
+# Usage — inference on new images
+# --------------------------------
+#   MODEL=eva02_base_cv0 FOLD=fold_2025 \
+#   IMAGE_DIR=/path/to/new/plot_images LABELS_CSV=/path/to/new_labels.csv \
+#   bash scripts/run_predict_cv0.sh
+#
+#   # Optional custom output path (default: <weights-dir>/predictions_new_images.csv)
+#   MODEL=eva02_base_cv0 FOLD=fold_2025 \
+#   IMAGE_DIR=/path/to/new/plot_images LABELS_CSV=/path/to/new_labels.csv \
+#   OUTPUT=predictions_new_images.csv \
+#   bash scripts/run_predict_cv0.sh
+#
 # Output
 # ------
-#   experiments/<model>_cv0/predictions/fold_*_test_predictions.csv
-#   experiments/<model>_cv0/predictions/cv0_all_folds_predictions.csv
+#   Reproduce mode  : experiments/<model>_cv0/predictions/fold_*_test_predictions.csv
+#                     experiments/<model>_cv0/predictions/cv0_all_folds_predictions.csv
+#   New-image mode  : $OUTPUT (or <weights-dir>/predictions_new_images.csv)
 # =============================================================================
 
 set -euo pipefail
@@ -44,6 +58,15 @@ declare -a MODELS=(
 # If MODEL env var is set, run only that one
 if [[ -n "${MODEL:-}" ]]; then
     MODELS=("$MODEL")
+fi
+
+# New-image inference mode is enabled by setting IMAGE_DIR; requires MODEL,
+# FOLD, and LABELS_CSV to be set too (see predict_cv0.py's --image-dir mode).
+if [[ -n "${IMAGE_DIR:-}" ]]; then
+    if [[ -z "${MODEL:-}" || -z "${FOLD:-}" || -z "${LABELS_CSV:-}" ]]; then
+        echo "[ERROR] New-image inference mode requires MODEL, FOLD, IMAGE_DIR, and LABELS_CSV to all be set." >&2
+        exit 1
+    fi
 fi
 
 # Activate conda environment if not already active
@@ -78,10 +101,17 @@ for MODEL_NAME in "${MODELS[@]}"; do
         continue
     fi
 
+    EXTRA_ARGS=()
+    if [[ -n "${IMAGE_DIR:-}" ]]; then
+        EXTRA_ARGS+=(--fold "$FOLD" --image-dir "$IMAGE_DIR" --labels-csv "$LABELS_CSV")
+        [[ -n "${OUTPUT:-}" ]] && EXTRA_ARGS+=(--output "$OUTPUT")
+    fi
+
     python "$SCRIPT" \
         --config      "$CONFIG" \
         --weights-dir "$WEIGHTS_DIR" \
-        --num-workers 4
+        --num-workers 4 \
+        "${EXTRA_ARGS[@]}"
 
     echo "  [OK] $MODEL_NAME predictions complete."
 done

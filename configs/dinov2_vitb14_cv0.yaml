@@ -1,17 +1,35 @@
 # =============================================================================
 # DINOv2 ViT-B/14 — CV0 Leave-One-Year-Out Configuration
 # =============================================================================
-# Mirrors cv_config.yaml / base_training.yaml structure so train_dinov2_cv0.py
-# and the existing train_cv.py share the same data / split conventions.
+# Structured to be directly comparable with all other architectures in this
+# study, particularly dinov2_vits14_cv0.yaml (DINOv2 ViT-S/14), which shares
+# the same self-supervised pretraining objective and macro-architecture but
+# differs in model scale and input resolution — the cleanest DINOv2 scaling
+# comparison — and eva02_base_cv0.yaml (EVA-02-B), which shares backbone size
+# and patch size but differs in pretraining objective and positional encoding.
 #
-# Key DINOv2-specific choices
-#   image_size  : 518  (= 14 × 37 patches — DINOv2's recommended resolution)
-#                 Use 224 if GPU memory is tight (still divisible by 14).
-#   backbone_lr : 3e-5 (10× lower than head to preserve pretrained features)
-#   head_lr     : 3e-4
-#   warmup      : 5 epochs linear warm-up followed by cosine decay
-#   batch_size  : 16  (518-px tiles are ~3× larger than 224-px; adjust if OOM)
-#   amp         : true (bfloat16 recommended for A100/H100, float16 otherwise)
+# Key DINOv2 ViT-B/14-specific choices
+#   architecture : dinov2_vitb14 (torch.hub / timm)
+#                  ~86 M params; feature dim = 768; patch size 14.
+#   image_size   : 518  (= 14 × 37 patches — DINOv2's recommended resolution)
+#                  Use 224 if GPU memory is tight (still divisible by 14).
+#   backbone_lr  : 3e-5 (10× lower than head to preserve pretrained features)
+#   head_lr      : 3e-4
+#   warmup       : 5 epochs linear warm-up followed by cosine decay
+#   batch_size   : 16   (518-px tiles are ~3× larger than 224-px; adjust if OOM)
+#   amp          : true (bfloat16 recommended for A100/H100, float16 otherwise)
+#   weight_decay : 5e-2 (consistent with all other models in this study)
+#
+# Architecture comparison (all models in this study)
+#   EfficientNet-V2-S  : ~21 M  params, 384×384, supervised pretraining
+#   DINOv2 ViT-S/14   : ~22 M  params, 448×448, self-supervised pretraining
+#   MaxViT-S           : ~69 M  params, 224×224, supervised (IN-1k)
+#   CoAtNet-2          : ~75 M  params, 224×224, supervised (IN-12k → IN-1k)
+#   EVA-02-B           : ~86 M  params, 448×448, CLIP-MIM pretraining
+#   DINOv2 ViT-B/14   : ~86 M  params, 518×518, self-supervised pretraining ← this
+#   ConvNeXt V2-B     : ~88 M  params, 224×224, FCMAE self-supervised pretraining
+#   SwinV2-B           : ~88 M  params, 256×256, supervised (IN-22k → IN-1k)
+#   ConvNeXt V2-L     : ~198 M params, 224×224, FCMAE self-supervised pretraining
 # =============================================================================
 
 experiment:

@@ -6,12 +6,7 @@ table to ``data/covariates/flight_covariates.csv``.
 
 This script is the single authoritative ETL step that sits between the raw
 input files (committed to the repository) and the figure/analysis scripts
-that consume ``flight_covariates.csv``.  It must be run before any downstream
-script that reads that file.
-
-``flight_covariates.csv`` is .gitignored and always regenerated from raw
-inputs rather than committed, so the four raw files below are the true source
-of record.
+that consume ``flight_covariates.csv``. 
 
 Raw inputs (relative to repo root)
 ------------------------------------

@@ -97,10 +97,10 @@ class DINOv2vits14RegressionModel(nn.Module):
     # ------------------------------------------------------------------
 
     def _init_head(self):
-        """Xavier-uniform init for linear layers; const init for LN."""
+        """Truncated-normal init for linear layers; const init for LN."""
         for m in self.head.modules():
             if isinstance(m, nn.Linear):
-                nn.init.xavier_uniform_(m.weight)
+                nn.init.trunc_normal_(m.weight, std=0.02)
                 if m.bias is not None:
                     nn.init.zeros_(m.bias)
             elif isinstance(m, nn.LayerNorm):

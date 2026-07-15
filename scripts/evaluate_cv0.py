@@ -121,14 +121,8 @@ matplotlib.rcParams.update({
     "axes.spines.right": False,
 })
 
-# tab10 colors per test year — consistent with the year/field coloring
-# convention used across the entire uav_for_slb analysis pipeline
-FOLD_COLORS: Dict[str, str] = {
-    "fold_2023": "#1f77b4",   # tab10 blue
-    "fold_2024": "#ff7f0e",   # tab10 orange
-    "fold_2025": "#2ca02c",   # tab10 green
-}
-# Fallback for unexpected fold names (future years, smoke-tests, etc.)
+# Color assigned to each fold by position — tab10, consistent with the
+# year/field coloring convention used across the entire uav_for_slb pipeline
 _FALLBACK_PALETTE = sns.color_palette("tab10", 10)
 
 # SLB severity axis bounds (ordinal 1–9 scale; padding for aesthetics)
@@ -184,18 +178,10 @@ MODEL_SORT_ORDER: List[str] = [
     "coatnet2",
 ]
 
-# CV0 fold identifiers (as written in cv_results.csv) and the held-out test
-# year each one corresponds to ("Leave Out <year>" in Table 1).
-FOLD_TEST_YEAR: Dict[str, str] = {
-    "fold_23": "2023",
-    "fold_24": "2024",
-    "fold_25": "2025",
-}
-
 
 def _fold_color(fold_name: str, idx: int) -> str:
-    """Return the canonical tab10 color for a fold, with fallback."""
-    return FOLD_COLORS.get(fold_name, _FALLBACK_PALETTE[idx % len(_FALLBACK_PALETTE)])
+    """Return the tab10 color assigned to a fold by its position."""
+    return _FALLBACK_PALETTE[idx % len(_FALLBACK_PALETTE)]
 
 
 # ===========================================================================
@@ -430,18 +416,37 @@ def _signed_error_cell(
 # Panel figure generation
 # ===========================================================================
 
+def _panel_grid_shape(n_cells: int) -> Tuple[int, int]:
+    """Return (nrows, ncols) for an approximately-square grid of n_cells panels."""
+    ncols = int(np.ceil(np.sqrt(n_cells)))
+    nrows = int(np.ceil(n_cells / ncols))
+    return nrows, ncols
+
+
+def _label_outer_edges(
+    axes: np.ndarray, n_cells: int, ncols: int, *, ylabel: str, xlabel: str,
+) -> None:
+    """Set ylabel on each row's first cell and xlabel on each column's last cell."""
+    for i in range(n_cells):
+        row, col = divmod(i, ncols)
+        if col == 0:
+            axes[row, col].set_ylabel(ylabel)
+        if i + ncols >= n_cells:   # no populated cell below this one
+            axes[row, col].set_xlabel(xlabel)
+    for j in range(n_cells, axes.size):
+        row, col = divmod(j, ncols)
+        axes[row, col].axis("off")
+
+
 def make_scatter_panel(
     fold_dfs:         Dict[str, pd.DataFrame],
     per_fold_metrics: Dict[str, Dict],
     save_stem:        Path,
 ) -> None:
     """
-    Generate and save the 2×2 actual-vs-predicted scatter panel.
-
-    Layout
-    ------
-      [0,0] fold_2023   [0,1] fold_2024
-      [1,0] fold_2025   [1,1] All Folds (pooled, colour-coded by year)
+    Generate and save the actual-vs-predicted scatter panel: one cell per
+    fold plus a pooled "All Folds" cell, laid out in an approximately-square
+    grid sized to the number of folds present.
 
     The "All Folds" cell pools predictions from all test years; points are
     coloured by fold so the temporal separation is still visible.
@@ -451,14 +456,18 @@ def make_scatter_panel(
     <save_stem>.pdf  (vector, fonts embedded as TrueType for Illustrator)
     <save_stem>.png  (raster at 150 DPI for quick review)
     """
-    fold_names = list(fold_dfs.keys())
+    fold_names  = list(fold_dfs.keys())
+    n_cells     = len(fold_names) + 1   # per-fold cells + "All Folds"
+    nrows, ncols = _panel_grid_shape(n_cells)
 
-    fig, axes = plt.subplots(2, 2, figsize=(6.0, 5.5), constrained_layout=True)
+    fig, axes = plt.subplots(
+        nrows, ncols, figsize=(3.0 * ncols, 2.75 * nrows), constrained_layout=True,
+    )
+    axes = np.atleast_2d(axes)
 
-    # ---- Per-fold cells (positions [0,0], [0,1], [1,0]) ---------------------
-    positions = [(0, 0), (0, 1), (1, 0)]
-    for i, fold_name in enumerate(fold_names[:3]):
-        row, col = positions[i]
+    # ---- Per-fold cells -------------------------------------------------------
+    for i, fold_name in enumerate(fold_names):
+        row, col = divmod(i, ncols)
         df       = fold_dfs[fold_name]
         color    = _fold_color(fold_name, i)
         year     = fold_name.replace("fold_", "")
@@ -471,8 +480,9 @@ def make_scatter_panel(
             color=color,
         )
 
-    # ---- "All Folds" cell (position [1,1]) ----------------------------------
-    ax_all = axes[1, 1]
+    # ---- "All Folds" cell -------------------------------------------------------
+    all_row, all_col = divmod(len(fold_names), ncols)
+    ax_all = axes[all_row, all_col]
     pooled_actual, pooled_pred = [], []
 
     for i, (fold_name, df) in enumerate(fold_dfs.items()):
@@ -511,11 +521,11 @@ def make_scatter_panel(
     sns.despine(ax=ax_all)
     _metrics_textbox(ax_all, all_metrics)
 
-    # ---- Shared axis labels (outer edges only) --------------------------------
-    for ax in axes[:, 0]:
-        ax.set_ylabel("Predicted SLB severity")
-    for ax in axes[1, :]:
-        ax.set_xlabel("Actual SLB severity")
+    # ---- Shared axis labels (outer edges only); hide unused trailing cells ----
+    _label_outer_edges(
+        axes, n_cells, ncols,
+        ylabel="Predicted SLB severity", xlabel="Actual SLB severity",
+    )
 
     _save_figure(fig, save_stem)
 
@@ -525,11 +535,9 @@ def make_signed_error_panel(
     save_stem: Path,
 ) -> None:
     """
-    Generate and save the 2×2 signed-error diagnostic panel.
-
-    Layout mirrors the scatter panel:
-      [0,0] fold_2023   [0,1] fold_2024
-      [1,0] fold_2025   [1,1] All Folds (pooled, colour-coded by year)
+    Generate and save the signed-error diagnostic panel: one cell per fold
+    plus a pooled "All Folds" cell, laid out in an approximately-square grid
+    sized to the number of folds present (mirrors the scatter panel layout).
 
     A binned mean line in each cell exposes conditional bias: the inverted-U
     pattern (over-prediction at high severity, under-prediction at low
@@ -541,14 +549,18 @@ def make_signed_error_panel(
     <save_stem>.pdf
     <save_stem>.png
     """
-    fold_names = list(fold_dfs.keys())
+    fold_names   = list(fold_dfs.keys())
+    n_cells      = len(fold_names) + 1   # per-fold cells + "All Folds"
+    nrows, ncols = _panel_grid_shape(n_cells)
 
-    fig, axes = plt.subplots(2, 2, figsize=(6.0, 5.5), constrained_layout=True)
+    fig, axes = plt.subplots(
+        nrows, ncols, figsize=(3.0 * ncols, 2.75 * nrows), constrained_layout=True,
+    )
+    axes = np.atleast_2d(axes)
 
     # ---- Per-fold cells ------------------------------------------------------
-    positions = [(0, 0), (0, 1), (1, 0)]
-    for i, fold_name in enumerate(fold_names[:3]):
-        row, col = positions[i]
+    for i, fold_name in enumerate(fold_names):
+        row, col = divmod(i, ncols)
         df       = fold_dfs[fold_name]
         color    = _fold_color(fold_name, i)
         year     = fold_name.replace("fold_", "")
@@ -561,12 +573,10 @@ def make_signed_error_panel(
             title=f"Test year {year}",
             color=color,
         )
-        # Only label axes on the outer edges to avoid clutter
-        ax.set_ylabel("Signed error (predicted − actual)" if col == 0 else "")
-        ax.set_xlabel("Actual SLB severity" if row == 1 else "")
 
     # ---- "All Folds" cell ---------------------------------------------------
-    ax_all = axes[1, 1]
+    all_row, all_col = divmod(len(fold_names), ncols)
+    ax_all = axes[all_row, all_col]
     pooled_actual, pooled_signed_error = [], []
 
     for i, (fold_name, df) in enumerate(fold_dfs.items()):
@@ -605,7 +615,6 @@ def make_signed_error_panel(
     ax_all.set_xlim(SLB_MIN, SLB_MAX)
     ax_all.xaxis.set_major_locator(mticker.MultipleLocator(2))
     ax_all.set_title("All Folds", pad=4)
-    ax_all.set_xlabel("Actual SLB severity")
     ax_all.legend(
         title="Test year", title_fontsize=6,
         fontsize=6, loc="upper right",
@@ -613,6 +622,12 @@ def make_signed_error_panel(
         frameon=True, framealpha=0.85, edgecolor="#cccccc",
     )
     sns.despine(ax=ax_all)
+
+    # ---- Shared axis labels (outer edges only); hide unused trailing cells ----
+    _label_outer_edges(
+        axes, n_cells, ncols,
+        ylabel="Signed error (predicted − actual)", xlabel="Actual SLB severity",
+    )
 
     _save_figure(fig, save_stem)
 
@@ -899,7 +914,7 @@ def build_aggregate_results_table(
                 "family":       MODEL_FAMILY.get(model, "Unknown"),
                 "fold":         int(r["fold"]),
                 "fold_name":    fold_name,
-                "test_year":    FOLD_TEST_YEAR.get(fold_name, fold_name),
+                "test_year":    fold_name.replace("fold_", ""),
                 "n_train":      int(r["train_samples"]),
                 "n_val":        int(r["val_samples"]),
                 "n_test":       int(r["test_samples"]),

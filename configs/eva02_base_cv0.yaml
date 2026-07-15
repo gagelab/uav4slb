@@ -3,7 +3,8 @@
 # =============================================================================
 # Structured to be directly comparable with all other architectures in this
 # study, particularly the DINOv2 ViT-B/14 baseline, which shares the same
-# macro-architecture but differs in pretraining objective and input resolution.
+# macro-architecture but differs in pretraining objective, input resolution, and
+# positional encoding strategy.
 #
 # For incremental retraining on expanded datasets (new field season), use
 # configs/eva02_base_retrain.yaml with --warm-start.  Do not use this file

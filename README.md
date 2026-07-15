@@ -59,7 +59,8 @@ uav4slb/
 │   ├── cv_splits/cv0/
 │   │   ├── fold_2023/               # train / val / test CSVs; test year = 2023
 │   │   ├── fold_2024/               # test year = 2024
-│   │   └── fold_2025/               # test year = 2025
+│   │   ├── fold_2025/               # test year = 2025
+│   │   └── cv_splits_summary.text   
 │   └── labels/
 │       ├── full_dataset.csv         # Master label file (26,071 rows; see Data section)
 │       └── long_format_ratings.csv  # Multi-rater scoring experiment (Fig. 5)
@@ -199,7 +200,7 @@ To regenerate splits from `full_dataset.csv`:
 ```bash
 python scripts/create_cv_splits.py \
     --labels-csv data/labels/full_dataset.csv \
-    --output-dir data/cv_splits/cv0 \
+    --output-dir data/cv_splits \
     --seed 42
 ```
 

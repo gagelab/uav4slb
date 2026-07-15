@@ -94,10 +94,10 @@ class DINOv2RegressionModel(nn.Module):
     # ------------------------------------------------------------------
 
     def _init_head(self):
-        """Xavier-uniform init for linear layers; const init for LN."""
+        """Truncated-normal init for linear layers; const init for LN."""
         for m in self.head.modules():
             if isinstance(m, nn.Linear):
-                nn.init.xavier_uniform_(m.weight)
+                nn.init.trunc_normal_(m.weight, std=0.02)
                 if m.bias is not None:
                     nn.init.zeros_(m.bias)
             elif isinstance(m, nn.LayerNorm):
@@ -129,7 +129,7 @@ class DINOv2RegressionModel(nn.Module):
         self,
         backbone_lr: float,
         head_lr: float,
-        weight_decay: float = 1e-4,
+        weight_decay: float = 5e-2,
     ):
         """
         Return parameter groups with separate LRs for backbone and head.

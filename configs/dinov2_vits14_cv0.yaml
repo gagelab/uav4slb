@@ -1,7 +1,7 @@
 # =============================================================================
 # DINOv2 ViT-S/14 — CV0 Leave-One-Year-Out Configuration
 # =============================================================================
-# Structured to be directly comparable with dinov2_cv0.yaml (ViT-B/14) so
+# Structured to be directly comparable with dinov2_vitb14_cv0.yaml (ViT-B/14) so
 # results can be meaningfully contrasted across architectures.
 #
 # Key ViT-S/14-specific choices

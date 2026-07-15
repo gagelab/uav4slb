@@ -34,7 +34,7 @@
 #           "EfficientNet V2-S" "DINOv2 ViT-S/14" "DINOv2 ViT-B/14" \
 #           "MaxViT-S" "SwinV2-B" "CoAtNet-2" \
 #           "ConvNeXt V2-B" "ConvNeXt V2-L" "EVA-02-B" \
-#       --output-dir .results/model_comparison
+#       --output-dir results/model_comparison
 #
 #   # Re-evaluate from raw prediction CSVs (skip cached metrics_aggregate.json)
 #   bash scripts/run_evaluate_cv0.sh \
