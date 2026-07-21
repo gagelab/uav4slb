@@ -8,7 +8,7 @@ This repository contains the complete, reproducible codebase for:
 
 > **Hammett, C. H., Rumley, K. R., Balint-Kurti, P. J., & Gage, J. L. (2026). Aerial imagery and deep learning accurately estimate maize foliar disease severity.** *The Plant Phenome Journal.*
 
-The study benchmarks nine pretrained deep learning architectures under a leave-one-year-out cross-validation scheme (CV0) across three field seasons (2023–2025) in North Carolina. EVA-02-B achieved the highest aggregate test R² across folds (mean R² = 0.697; range 0.610–0.766) and is the primary model reported in the manuscript. All training code, evaluation scripts, covariate pipelines, and figure scripts required to reproduce every result and figure in the manuscript are provided. The raw RGB images and plot images are located at [DOI]
+The study benchmarks nine pretrained deep learning architectures under a leave-one-year-out cross-validation scheme (CV0) across three field seasons (2023–2025) in North Carolina. EVA-02-B achieved the highest aggregate test R² across folds (mean R² = 0.697; range 0.610–0.766) and is the primary model reported in the manuscript. All training code, evaluation scripts, covariate pipelines, and figure scripts required to reproduce every result and figure in the manuscript are provided. The raw UAV imagery, plot images, and trained model checkpoints are deposited on Data Dryad: [https://doi.org/10.5061/dryad.tht76hffg](https://doi.org/10.5061/dryad.tht76hffg) (see [Data Availability](#data-availability))
 
 ---
 
@@ -61,11 +61,11 @@ uav4slb/
 │   │   ├── fold_2024/               # test year = 2024
 │   │   ├── fold_2025/               # test year = 2025
 │   │   └── cv_splits_summary.text   
-│   └── labels/
-│       ├── full_dataset.csv         # Master label file (26,071 rows; see Data section)
-│       └── long_format_ratings.csv  # Multi-rater scoring experiment (Fig. 5)
+│   ├── labels/
+│   │   ├── full_dataset.csv         # Master label file (26,071 rows; see Data section)
+│   │   └── long_format_ratings.csv  # Multi-rater scoring experiment (Fig. 5)
+│   └── dryad_README.md          # Data dictionary for the Data Dryad deposit
 │
-├── data_README.md               # Extended data dictionary
 ├── environment.yaml
 │
 ├── experiments/                 # Training outputs (one directory per model)
@@ -141,7 +141,7 @@ uav4slb/
 
 ### Image Data
 
-Plot-level UAV images (~26,000 JPEG files) are stored separately from this repository due to their size and are available from the USDA Ag Data Commons (see [Data Availability](#data-availability)). Image filenames follow the convention:
+Plot-level UAV images (~26,000 JPEG files) are stored separately from this repository due to their size and are available from Data Dryad (see [Data Availability](#data-availability)). Image filenames follow the convention:
 
 ```
 YYYYMMDD_FIELD_{PLOT:05d}.jpg
@@ -280,7 +280,7 @@ Source files consumed by the covariate scripts. These are committed for reproduc
 
 `frac_weed.csv` records the fraction of weed-height pixels in each plot image, derived from per-flight Canopy Height Models (CHM = DSM − DTM). It is produced by [scripts/weed_pressure_pipeline.py](scripts/weed_pressure_pipeline.py) and archived here as the raw input to `build_image_covariates.py`.
 
-**The per-flight DSMs and DTMs are not distributed with this repository or the Ag Data Commons data deposit.** They must be regenerated from the raw UAV imagery using the Metashape photogrammetry processing pipeline maintained in a separate repository: [nirwan1265/metashape](https://github.com/nirwan1265/metashape). Run that pipeline first to produce the `*_dsm.tif` / `*_dtm.tif` outputs for each flight, then point `weed_pressure_pipeline.py` at the resulting directory tree:
+**The per-flight DSMs and DTMs are not distributed with this repository or the Data Dryad data deposit.** They must be regenerated from the raw UAV imagery using the Metashape photogrammetry processing pipeline maintained in a separate repository: [nirwan1265/metashape](https://github.com/nirwan1265/metashape). Run that pipeline first to produce the `*_dsm.tif` / `*_dtm.tif` outputs for each flight, then point `weed_pressure_pipeline.py` at the resulting directory tree:
 
 ```bash
 python scripts/weed_pressure_pipeline.py \
@@ -718,11 +718,19 @@ All scripts write paired PDF + PNG outputs (150 DPI, `pdf.fonttype=42` for edita
 
 ## Data Availability
 
-Raw UAV images, processed plot images, and trained model checkpoints are deposited at:
+Raw UAV images, processed plot images, plot boundary shapefiles, and trained model checkpoints are deposited at:
 
-> **Data Dryad:** [DOI to be inserted upon acceptance]
+> **Data Dryad:** [https://doi.org/10.5061/dryad.tht76hffg](https://doi.org/10.5061/dryad.tht76hffg)
 
-The deposit includes all 27 flight images (all years and sites), the ~26,000 sliced plot images used for training and evaluation, and trained `checkpoint_best.pt` files for EVA-02-B across all three CV0 folds. Image filenames in the deposit match `data/labels/full_dataset.csv` exactly.
+The deposit (~867 GB, 45 files) includes:
+
+- 27 raw UAV flight archives (`DJI_<flightdate>_<field>-<year>.tar.gz`) — raw `.JPG` imagery plus GNSS PPK correction files (`.nav`, `.obs`, `.bin`, `.MRK`) for each flight
+- 6 plot-level image archives (`plot_images_<field>_<year>.tar.gz`) — the ~26,000 cropped plot image tiles used for training and evaluation
+- 6 plot boundary shapefile archives (`<field>_plot_outline.tar.gz`)
+- 3 trained `checkpoint_best.pt` files for EVA-02-B (CV0 folds 23, 24, 25)
+- `full_dataset.csv` and `flight_covariates.csv` — identical to the copies committed at `data/labels/full_dataset.csv` and `data/covariates/flight_covariates.csv` in this repository
+
+Image filenames in the deposit match `data/labels/full_dataset.csv` exactly. See `data/dryad_README.md` for the full data dictionary and column-level definitions. Data are released under CC0 1.0.
 
 ---
 
