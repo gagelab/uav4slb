@@ -643,6 +643,13 @@ def build_dataloaders(
     g       = create_generator(seed)
     val_bsz = dl_cfg.get("batch_size_val", dl_cfg.batch_size)
 
+    # persistent_workers/prefetch_factor only apply when workers are used —
+    # both are invalid arguments to DataLoader when num_workers=0.
+    persist_kwargs = (
+        {"persistent_workers": True, "prefetch_factor": 4}
+        if dl_cfg.num_workers > 0 else {}
+    )
+
     train_loader = DataLoader(
         train_ds,
         batch_size=dl_cfg.batch_size,
@@ -652,14 +659,17 @@ def build_dataloaders(
         worker_init_fn=seed_worker,   # seeds each worker deterministically
         generator=g,
         drop_last=False,
+        **persist_kwargs,
     )
     val_loader = DataLoader(
         val_ds, batch_size=val_bsz, shuffle=False,
         num_workers=dl_cfg.num_workers, pin_memory=dl_cfg.pin_memory,
+        **persist_kwargs,
     )
     test_loader = DataLoader(
         test_ds, batch_size=val_bsz, shuffle=False,
         num_workers=dl_cfg.num_workers, pin_memory=dl_cfg.pin_memory,
+        **persist_kwargs,
     )
     return train_loader, val_loader, test_loader
 
@@ -1199,7 +1209,8 @@ def run_cv0(
         "Run scripts/create_cv_splits.py --cv-strategies cv0 first."
     )
 
-    fold_dirs = sorted(splits_dir.iterdir())
+    all_fold_dirs = sorted(d for d in splits_dir.iterdir() if d.is_dir())
+    fold_dirs = all_fold_dirs
 
     # When a specific fold is targeted (--resume or single-fold re-run),
     # filter to only that fold.
@@ -1208,7 +1219,7 @@ def run_cv0(
         if not fold_dirs:
             raise ValueError(
                 f"--fold '{target_fold}' not found in {splits_dir}.  "
-                f"Available folds: {[d.name for d in sorted(splits_dir.iterdir())]}"
+                f"Available folds: {[d.name for d in all_fold_dirs]}"
             )
 
     if max_folds:
@@ -1451,6 +1462,7 @@ def main() -> None:
     device = select_gpu(args.gpu)
     if device.type == "cuda":
         torch.cuda.set_device(device)
+        torch.backends.cudnn.benchmark = True
 
     # ---- Attach global log file handler -------------------------------------
     fh = logging.FileHandler(output_dir / "train.log")

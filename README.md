@@ -720,7 +720,7 @@ All scripts write paired PDF + PNG outputs (150 DPI, `pdf.fonttype=42` for edita
 
 Raw UAV images, processed plot images, and trained model checkpoints are deposited at:
 
-> **USDA Ag Data Commons:** [DOI to be inserted upon acceptance]
+> **Data Dryad:** [DOI to be inserted upon acceptance]
 
 The deposit includes all 27 flight images (all years and sites), the ~26,000 sliced plot images used for training and evaluation, and trained `checkpoint_best.pt` files for EVA-02-B across all three CV0 folds. Image filenames in the deposit match `data/labels/full_dataset.csv` exactly.
 

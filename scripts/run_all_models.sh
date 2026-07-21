@@ -24,6 +24,9 @@
 #   # multi-GPU node. Do not combine with --gpu.
 #   bash scripts/run_all_models.sh --parallel --num-gpus 4
 #
+#   # Auto-detect the number of visible GPUs and round-robin across all of them
+#   bash scripts/run_all_models.sh --parallel --num-gpus auto
+#
 #   # Smoke-test all models (1 fold, 2 epochs each)
 #   bash scripts/run_all_models.sh --parallel --max-folds 1 --max-epochs 2
 #
@@ -92,6 +95,19 @@ if [[ -n "${NUM_GPUS}" ]]; then
     for arg in "${PASSTHROUGH_ARGS[@]+"${PASSTHROUGH_ARGS[@]}"}"; do
         [[ "$arg" == "--gpu" ]] && { echo "❌  --num-gpus cannot be combined with --gpu."; exit 1; }
     done
+
+    if [[ "${NUM_GPUS}" == "auto" ]]; then
+        if command -v nvidia-smi &>/dev/null; then
+            NUM_GPUS="$(nvidia-smi --query-gpu=index --format=csv,noheader | wc -l)"
+        else
+            NUM_GPUS="$(python3 -c 'import torch; print(torch.cuda.device_count())' 2>/dev/null || echo 0)"
+        fi
+        if [[ -z "${NUM_GPUS}" || "${NUM_GPUS}" -eq 0 ]]; then
+            echo "❌  --num-gpus auto: no visible GPUs detected (checked nvidia-smi / torch.cuda.device_count())."
+            exit 1
+        fi
+        echo "  Auto-detected ${NUM_GPUS} visible GPU(s)."
+    fi
 fi
 
 # ── Print plan ────────────────────────────────────────────────────────────────

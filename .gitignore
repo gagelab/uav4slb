@@ -73,4 +73,12 @@ configs_rerun/
 rerun_results/
 rerun_results_2/
 rerun_results_3/
+rerun_results_4/
+rerun_results_5/
 scripts/*_rerun.sh
+
+# ---- Specifications ----------------------
+cpu_specs.txt
+ece_linux_guide.pdf
+gpu_datasheet.pdf
+sunny_guide.pdf
