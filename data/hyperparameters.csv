@@ -1,0 +1,10 @@
+config_file,experiment_name,architecture,approx_params_M,image_size,pretrained,dropout_rate,batch_size_train,batch_size_val,max_epochs,optimizer,backbone_lr,head_lr,weight_decay,betas,eps,scheduler,warmup_epochs,T_max,min_lr,gradient_clip,early_stopping_patience,amp_dtype,loss
+coatnet2_cv0.yaml,coatnet2_cv0,coatnet_2_rw_224.sw_in12k_ft_in1k,75,224,true,0.3,32,64,60,AdamW,2.0e-5,2.0e-4,5.0e-2,"[0.9, 0.999]",1.0e-8,cosine_with_warmup,5,55,1.0e-7,1.0,12,bfloat16,mse
+convnextv2_cv0.yaml,convnextv2_base_cv0,convnextv2_base,88,224,true,0.3,32,64,60,AdamW,2.0e-5,2.0e-4,5.0e-2,"[0.9, 0.999]",1.0e-8,cosine_with_warmup,5,55,1.0e-7,1.0,12,float16,mse
+convnextv2_large_cv0.yaml,convnextv2_large_cv0,convnextv2_large,198,224,true,0.3,16,32,60,AdamW,1.0e-5,1.0e-4,5.0e-2,"[0.9, 0.999]",1.0e-8,cosine_with_warmup,5,55,1.0e-7,1.0,12,float16,mse
+dinov2_cv0.yaml,dinov2_vitb14_cv0,dinov2_vitb14,86,518,true,0.3,16,32,60,AdamW,3.0e-5,3.0e-4,1.0e-4,"[0.9, 0.999]",1.0e-8,cosine_with_warmup,5,55,1.0e-7,1.0,12,float16,mse
+dinov2_cv0_vits14.yaml,dinov2_vits14_cv0,dinov2_vits14,22,448,true,0.3,32,64,60,AdamW,5.0e-5,5.0e-4,1.0e-4,"[0.9, 0.999]",1.0e-8,cosine_with_warmup,5,55,1.0e-7,1.0,12,float16,mse
+efficientnetv2_s_cv0.yaml,efficientnetv2_s_cv0,tf_efficientnetv2_s,21,384,true,0.3,32,64,60,AdamW,5.0e-5,5.0e-4,1.0e-4,"[0.9, 0.999]",1.0e-8,cosine_with_warmup,5,55,1.0e-7,1.0,12,float16,mse
+eva02_base_cv0.yaml,eva02_base_cv0,eva02_base_patch14_448.mim_in22k_ft_in22k_in1k,86,448,true,0.3,16,32,60,AdamW,2.0e-5,2.0e-4,5.0e-2,"[0.9, 0.999]",1.0e-8,cosine_with_warmup,5,55,1.0e-7,1.0,12,bfloat16,mse
+maxvit_small_cv0.yaml,maxvit_small_cv0,maxvit_small_tf_224,69,224,true,0.3,32,64,60,AdamW,2.0e-5,2.0e-4,5.0e-2,"[0.9, 0.999]",1.0e-8,cosine_with_warmup,5,55,1.0e-7,1.0,12,float16,mse
+swinv2_base_cv0.yaml,swinv2_base_cv0,swinv2_base_window12to16_192to256.ms_in22k_ft_in1k,88,256,true,0.3,32,64,60,AdamW,2.0e-5,2.0e-4,5.0e-2,"[0.9, 0.999]",1.0e-8,cosine_with_warmup,5,55,1.0e-7,1.0,12,float16,mse

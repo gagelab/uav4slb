@@ -1,7 +1,7 @@
 """
-figures/supplemental/figS5_temporal_alignment/plot_temporal_alignment.py
+figures/supplemental/figS6_temporal_alignment/plot_temporal_alignment.py
 ========================================================================
-Figure S5 — Distribution of score-flight temporal offset, stacked by year.
+Figure S6 — Distribution of score-flight temporal offset, stacked by year.
 
 Shows how many images (y-axis) were captured at each signed day offset
 relative to the human scoring date (x-axis).  Bars are stacked by year and
@@ -22,12 +22,12 @@ Data source
 
 Output (written to this script's directory)
 ------------------------------------------
-    figS5_temporal_alignment.{pdf,png}
-    figS5_temporal_alignment_stats.csv  — per-day-offset × year counts
+    figS6_temporal_alignment.{pdf,png}
+    figS6_temporal_alignment_stats.csv  — per-day-offset × year counts
 
 Usage
 -----
-    python figures/supplemental/figS5_temporal_alignment/plot_temporal_alignment.py
+    python figures/supplemental/figS6_temporal_alignment/plot_temporal_alignment.py
 """
 
 from __future__ import annotations
@@ -89,7 +89,7 @@ def load_data(data_path: Path) -> pd.DataFrame:
 
 
 # ---------------------------------------------------------------------------
-# Figure S5
+# Figure S6
 # ---------------------------------------------------------------------------
 
 def make_figure(df: pd.DataFrame) -> plt.Figure:
@@ -167,7 +167,7 @@ def make_figure(df: pd.DataFrame) -> plt.Figure:
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Figure S5 — temporal alignment stacked bar chart.",
+        description="Figure S6 — temporal alignment stacked bar chart.",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
     parser.add_argument("--data",    default=str(DATA_CSV))
@@ -178,16 +178,16 @@ def main() -> None:
     out_dir   = Path(args.out_dir)
 
     print("=" * 60)
-    print("FIGURE S5 — TEMPORAL ALIGNMENT")
+    print("FIGURE S6 — TEMPORAL ALIGNMENT")
     print("=" * 60)
 
     df = load_data(data_path)
 
     fig, year_dd = make_figure(df)
-    save_fig(fig, out_dir, "figS5_temporal_alignment")
+    save_fig(fig, out_dir, "figS6_temporal_alignment")
 
     out_dir.mkdir(parents=True, exist_ok=True)
-    csv_path = out_dir / "figS5_temporal_alignment_stats.csv"
+    csv_path = out_dir / "figS6_temporal_alignment_stats.csv"
     year_dd.to_csv(csv_path, float_format="%.0f")
     print(f"\n[stats] saved → {csv_path}")
     print("Done.")

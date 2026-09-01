@@ -22,9 +22,10 @@ The study benchmarks nine pretrained deep learning architectures under a leave-o
 6. [Cross-Validation Design (CV0)](#cross-validation-design-cv0)
 7. [Configuration System](#configuration-system)
 8. [Checkpointing and Resumption](#checkpointing-and-resumption)
-9. [Figure Reference](#figure-reference)
-10. [Data Availability](#data-availability)
-11. [Citation](#citation)
+9. [Hardware Used and Portability](#hardware-used-and-portability)
+10. [Figure Reference](#figure-reference)
+11. [Data Availability](#data-availability)
+12. [Citation](#citation)
 
 ---
 
@@ -91,10 +92,13 @@ uav4slb/
 │       ├── figS1_flight_timeline/
 │       ├── figS2_score_distributions/
 │       ├── figS3_fold_r2/
-│       └── figS5_temporal_alignment/
+│       ├── figS4_fold_r2_downsample/
+│       ├── figS5_plot_variability/
+│       └── figS6_temporal_alignment/
 │
 ├── results/
-│   └── cv0_aggregate_results.csv    # 28 rows × 12 cols; all 9 models × 3 folds
+│   ├── cv0_aggregate_results.csv    # 28 rows × 12 cols; all 9 models × 3 folds
+│   └── deployment_metrics_cv0.csv   # 9 rows × 8 cols; per-model train/inference timing
 │
 ├── scripts/                     # Executable pipeline scripts
 │   ├── build_flight_covariates.py
@@ -383,6 +387,25 @@ Long-format summary of test metrics for all nine models across all three folds: 
 | `r2` | Test R² |
 | `mae` | Test MAE |
 | `rmse` | Test RMSE |
+
+---
+
+### results/deployment_metrics_cv0.csv
+
+Per-model training and inference timing, measured on the hardware described in [Hardware Used and Portability](#hardware-used-and-portability): **9 rows × 8 columns** (one row per model, averaged/summed across the three CV0 folds).
+
+| Column | Description |
+|--------|-------------|
+| `display_name` | Human-readable model name (e.g., `EVA-02-B`) |
+| `total_train_time_h` | Summed wall-clock training time across all three folds (hours) |
+| `mean_train_time_h_per_fold` | Mean wall-clock training time per fold (hours) |
+| `total_epochs` | Summed epochs completed across all three folds (post early-stopping) |
+| `mean_epoch_time_s` | Mean wall-clock time per training epoch (seconds) |
+| `test_time_s` | Wall-clock time to run inference over the full test set for one fold (seconds) |
+| `test_images` | Number of images in the timed inference pass |
+| `inference_img_per_sec` | Throughput at test time (images/second) |
+
+These are wall-clock, single-GPU figures on shared HPC hardware and will vary with GPU model, data loading, and system load; they are intended as a rough guide to relative model cost, not an absolute benchmark.
 
 ---
 
@@ -694,6 +717,29 @@ python scripts/train_cv0.py \
 
 ---
 
+## Hardware Used and Portability
+
+### Hardware used in the study
+
+- **GPU:** 1× NVIDIA A100 (80 GB PCIe) per training/inference run, on a node with 10× A100 80 GB total. Mixed precision (AMP; bfloat16 for EVA-02-B, float16 + `GradScaler` for the other eight models).
+- **CPU:** Dual Intel Xeon Gold 6258R @ 2.70 GHz (28 cores / 56 threads each; 112 threads total), 4 DataLoader workers per run.
+- **RAM:** 1.5 TB system memory.
+- **System:** NC State Plant Sciences "sunny" HPC node.
+
+Despite the 80 GB GPUs available on this node, none of the nine models require that much memory: `checkpoint_best.pt` files range from ~237 MB (EfficientNetV2-S) to ~2.3 GB (ConvNeXt V2-L), and every config's batch size is documented as fitting comfortably on a 24 GB GPU at the resolutions used (see the `batch_size` comments in `configs/*.yaml`). A single mid-range GPU (16–24 GB) is sufficient to train or run inference with any of these models; the A100s were used because they were the shared resource available, not because the workloads need them.
+
+### Running on different hardware
+
+The codebase does not hardcode the "sunny" topology; hardware selection happens at three levels, from a single desktop GPU up to a large multi-GPU/multi-socket node:
+
+1. **GPU selection** (`scripts/train_cv0.py`, `select_gpu()`): pass `--gpu N` to pin to a specific device, or omit it to auto-select the GPU with the most free memory. If no CUDA device is visible, training falls back to CPU automatically (much slower, but functional for small-scale testing).
+2. **Batch size and precision**: `--batch-size` and `--amp-dtype`/`--no-amp` on `train_cv0.py` override the values in the YAML config, so a given architecture can be re-tuned for a smaller GPU without editing the config file (e.g., halve `batch_size` if you hit an out-of-memory error on a 24 GB card).
+3. **CPU/NUMA affinity** (`scripts/select_cpu_affinity.py`): on multi-socket machines, this script inspects the live topology (`nvidia-smi topo -m`, `lscpu -p`, `/proc/stat` idle sampling) to pick physical cores on the NUMA node local to the target GPU, rather than assuming a fixed core layout. It prints an `AFFINITY_PREFIX` (a `numactl`/`taskset` command) for use with `eval "$(...)"` before launching training, and degrades gracefully to no pinning if `numactl`/`taskset`/`nvidia-smi` aren't available (e.g., a single-socket desktop or a container without those tools) — no code changes are needed to run on such machines.
+
+`scripts/run_train_cv0.sh` ties these together as an HPC/tmux launcher (`--config`, `--gpu`, plus pass-through args), but the underlying `train_cv0.py` can also be invoked directly on any machine with Python, PyTorch, and (optionally) a CUDA GPU.
+
+---
+
 ## Figure Reference
 
 All scripts write paired PDF + PNG outputs (150 DPI, `pdf.fonttype=42` for editable PDF text). Run from the repository root. The [batlow](https://www.fabiocrameri.ch/batlow/) perceptually uniform colormap is used throughout (colorblind-safe).
@@ -712,7 +758,9 @@ All scripts write paired PDF + PNG outputs (150 DPI, `pdf.fonttype=42` for edita
 | Fig. S1 | Rating and flight timeline by season and field | `supplemental/figS1_flight_timeline/plot_flight_timeline.py` | `data/labels/full_dataset.csv` |
 | Fig. S2 | Score distributions by year | `supplemental/figS2_score_distributions/plot_score_distributions.py` | `data/labels/full_dataset.csv` → `figS2_score_distributions_stats.csv` |
 | Fig. S3 | Per-fold R² bar chart for all 9 models | `supplemental/figS3_fold_r2/` | `results/cv0_aggregate_results.csv` |
-| Fig. S5 | Temporal alignment: distribution of signed days-diff by year | `supplemental/figS5_temporal_alignment/plot_temporal_alignment.py` | `data/labels/full_dataset.csv` → `figS5_temporal_alignment_stats.csv` |
+| Fig. S4 | Per-fold R² bar chart for all 9 models (downsampled) | `supplemental/figS4_fold_r2_downsample/plot_model_comparison_downsample.py` | `downsample_results/` |
+| Fig. S5 | Within-flight variability in illumination and weed pressure | `supplemental/figS5_plot_variability/plot_condition_variability.py` | `data/covariates/image_covariates.csv` → `figS5_condition_variability_selected_plots.csv` |
+| Fig. S6 | Temporal alignment: distribution of signed days-diff by year | `supplemental/figS6_temporal_alignment/plot_temporal_alignment.py` | `data/labels/full_dataset.csv` → `figS6_temporal_alignment_stats.csv` |
 
 ---
 
