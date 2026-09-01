@@ -1,0 +1,216 @@
+======================================================================
+maxvit_small — CV0 Leave-One-Year-Out Training
+======================================================================
+Config      : configs_downsample/maxvit_small_cv0.yaml
+Output dir  : /mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav4slb/downsample_results/maxvit_small_cv0
+Device      : cuda:1
+Image size  : [224, 224]
+Batch size  : 32
+Max epochs  : 60
+AMP         : True  dtype=float16
+Mode        : fresh training from pretrained weights
+Found 3 CV0 fold(s): ['fold_2023', 'fold_2024', 'fold_2025']
+
+======================================================================
+FOLD 1: fold_2023  |  train=4421  val=781  test=2601
+======================================================================
+Loaded 4421 samples from /tmp/slb_cv0_folds/train_42.csv
+Loaded 781 samples from /tmp/slb_cv0_folds/val_42.csv
+Loaded 2601 samples from /tmp/slb_cv0_folds/test_42.csv
+Loading pretrained weights from Hugging Face hub (timm/maxvit_small_tf_224.in1k)
+HTTP Request: HEAD https://huggingface.co/timm/maxvit_small_tf_224.in1k/resolve/main/model.safetensors "HTTP/1.1 302 Found"
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[timm/maxvit_small_tf_224.in1k] Safe alternative available for 'pytorch_model.bin' (as 'model.safetensors'). Loading weights using safetensors.
+MaxViT-S backbone loaded  |  pretrained=True  feature_dim=768  params=68.2M
+MaxViT-S Regressor  |  total=68.4M  trainable=68.4M
+Model : maxvit_small  (68,356,077 params, 68,356,077 trainable)
+Optimizer param groups  |  backbone_lr=2.0e-05  head_lr=2.0e-04  wd=5.00e-02  total_params=68.4M
+Epoch   1/60  train_loss=24.2976  train_r2=-4.0590  val_loss=7.2180  val_r2=-0.5226  val_rmse=2.6866  lr_backbone=8.00e-06  lr_head=8.00e-05  time=51.3s
+  ✓ Saved best checkpoint  (val_r2=-0.5226)
+Epoch   2/60  train_loss=2.9897  train_r2=0.3786  val_loss=1.3815  val_r2=0.7086  val_rmse=1.1754  lr_backbone=1.20e-05  lr_head=1.20e-04  time=42.8s
+  ✓ Saved best checkpoint  (val_r2=0.7086)
+Epoch   3/60  train_loss=1.4996  train_r2=0.6888  val_loss=1.1028  val_r2=0.7674  val_rmse=1.0501  lr_backbone=1.60e-05  lr_head=1.60e-04  time=40.0s
+  ✓ Saved best checkpoint  (val_r2=0.7674)
+Epoch   4/60  train_loss=1.2771  train_r2=0.7353  val_loss=0.9759  val_r2=0.7941  val_rmse=0.9879  lr_backbone=2.00e-05  lr_head=2.00e-04  time=38.5s
+  ✓ Saved best checkpoint  (val_r2=0.7941)
+Epoch   5/60  train_loss=1.1854  train_r2=0.7565  val_loss=0.9812  val_r2=0.7930  val_rmse=0.9905  lr_backbone=2.00e-05  lr_head=2.00e-04  time=38.2s
+Epoch   6/60  train_loss=1.0794  train_r2=0.7756  val_loss=0.9080  val_r2=0.8085  val_rmse=0.9529  lr_backbone=2.00e-05  lr_head=2.00e-04  time=38.1s
+  ✓ Saved best checkpoint  (val_r2=0.8085)
+Epoch   7/60  train_loss=0.9992  train_r2=0.7937  val_loss=0.9283  val_r2=0.8042  val_rmse=0.9635  lr_backbone=1.99e-05  lr_head=1.99e-04  time=37.8s
+Epoch   8/60  train_loss=0.9619  train_r2=0.8004  val_loss=0.8809  val_r2=0.8142  val_rmse=0.9386  lr_backbone=1.99e-05  lr_head=1.99e-04  time=38.0s
+  ✓ Saved best checkpoint  (val_r2=0.8142)
+Epoch   9/60  train_loss=0.8800  train_r2=0.8171  val_loss=1.0931  val_r2=0.7694  val_rmse=1.0455  lr_backbone=1.97e-05  lr_head=1.97e-04  time=38.4s
+Epoch  10/60  train_loss=0.8204  train_r2=0.8297  val_loss=0.8685  val_r2=0.8168  val_rmse=0.9319  lr_backbone=1.96e-05  lr_head=1.96e-04  time=38.3s
+  ✓ Saved best checkpoint  (val_r2=0.8168)
+Epoch  11/60  train_loss=0.7896  train_r2=0.8365  val_loss=0.8192  val_r2=0.8272  val_rmse=0.9051  lr_backbone=1.94e-05  lr_head=1.94e-04  time=39.7s
+  ✓ Saved best checkpoint  (val_r2=0.8272)
+Epoch  12/60  train_loss=0.7644  train_r2=0.8434  val_loss=0.8814  val_r2=0.8141  val_rmse=0.9388  lr_backbone=1.92e-05  lr_head=1.92e-04  time=42.4s
+Epoch  13/60  train_loss=0.7458  train_r2=0.8458  val_loss=0.7908  val_r2=0.8332  val_rmse=0.8893  lr_backbone=1.90e-05  lr_head=1.90e-04  time=42.6s
+  ✓ Saved best checkpoint  (val_r2=0.8332)
+Epoch  14/60  train_loss=0.7083  train_r2=0.8530  val_loss=0.8221  val_r2=0.8266  val_rmse=0.9067  lr_backbone=1.87e-05  lr_head=1.87e-04  time=41.7s
+Epoch  15/60  train_loss=0.6599  train_r2=0.8627  val_loss=0.8195  val_r2=0.8271  val_rmse=0.9053  lr_backbone=1.84e-05  lr_head=1.84e-04  time=42.5s
+Epoch  16/60  train_loss=0.6128  train_r2=0.8732  val_loss=1.0594  val_r2=0.7765  val_rmse=1.0293  lr_backbone=1.81e-05  lr_head=1.81e-04  time=41.9s
+Epoch  17/60  train_loss=0.6083  train_r2=0.8735  val_loss=0.8116  val_r2=0.8288  val_rmse=0.9009  lr_backbone=1.78e-05  lr_head=1.77e-04  time=42.5s
+Epoch  18/60  train_loss=0.5783  train_r2=0.8800  val_loss=0.8410  val_r2=0.8226  val_rmse=0.9170  lr_backbone=1.74e-05  lr_head=1.74e-04  time=43.8s
+Epoch  19/60  train_loss=0.5243  train_r2=0.8913  val_loss=0.8171  val_r2=0.8276  val_rmse=0.9039  lr_backbone=1.70e-05  lr_head=1.70e-04  time=42.3s
+Epoch  20/60  train_loss=0.5255  train_r2=0.8909  val_loss=0.8041  val_r2=0.8304  val_rmse=0.8967  lr_backbone=1.66e-05  lr_head=1.66e-04  time=41.8s
+Epoch  21/60  train_loss=0.5242  train_r2=0.8910  val_loss=0.8439  val_r2=0.8220  val_rmse=0.9187  lr_backbone=1.61e-05  lr_head=1.61e-04  time=41.7s
+Epoch  22/60  train_loss=0.4807  train_r2=0.9002  val_loss=0.7936  val_r2=0.8326  val_rmse=0.8908  lr_backbone=1.57e-05  lr_head=1.56e-04  time=40.9s
+Epoch  23/60  train_loss=0.4658  train_r2=0.9040  val_loss=0.8911  val_r2=0.8120  val_rmse=0.9440  lr_backbone=1.52e-05  lr_head=1.52e-04  time=41.1s
+Epoch  24/60  train_loss=0.4481  train_r2=0.9068  val_loss=0.8080  val_r2=0.8295  val_rmse=0.8989  lr_backbone=1.47e-05  lr_head=1.47e-04  time=41.8s
+Epoch  25/60  train_loss=0.4405  train_r2=0.9094  val_loss=0.8060  val_r2=0.8300  val_rmse=0.8978  lr_backbone=1.42e-05  lr_head=1.42e-04  time=41.1s
+  Early stopping triggered at epoch 25 (no improvement for 12 epochs).
+
+Loading best checkpoint for test evaluation: /mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav4slb/downsample_results/maxvit_small_cv0/checkpoints/fold_2023/checkpoint_best.pt
+
+======================================================================
+TEST RESULTS — fold_2023
+  R²   = 0.3810
+  RMSE = 1.0858
+  MAE  = 0.8116
+======================================================================
+Saved test predictions   → /mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav4slb/downsample_results/maxvit_small_cv0/predictions/fold_2023_test_predictions.csv
+Saved training history   → /mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav4slb/downsample_results/maxvit_small_cv0/history/fold_2023_history.csv
+
+======================================================================
+FOLD 2: fold_2024  |  train=4421  val=781  test=2601
+======================================================================
+Loaded 4421 samples from /tmp/slb_cv0_folds/train_42.csv
+Loaded 781 samples from /tmp/slb_cv0_folds/val_42.csv
+Loaded 2601 samples from /tmp/slb_cv0_folds/test_42.csv
+Loading pretrained weights from Hugging Face hub (timm/maxvit_small_tf_224.in1k)
+HTTP Request: HEAD https://huggingface.co/timm/maxvit_small_tf_224.in1k/resolve/main/model.safetensors "HTTP/1.1 302 Found"
+[timm/maxvit_small_tf_224.in1k] Safe alternative available for 'pytorch_model.bin' (as 'model.safetensors'). Loading weights using safetensors.
+MaxViT-S backbone loaded  |  pretrained=True  feature_dim=768  params=68.2M
+MaxViT-S Regressor  |  total=68.4M  trainable=68.4M
+Model : maxvit_small  (68,356,077 params, 68,356,077 trainable)
+Optimizer param groups  |  backbone_lr=2.0e-05  head_lr=2.0e-04  wd=5.00e-02  total_params=68.4M
+Epoch   1/60  train_loss=23.6329  train_r2=-7.2416  val_loss=5.0177  val_r2=-0.7977  val_rmse=2.2400  lr_backbone=8.00e-06  lr_head=8.00e-05  time=34.5s
+  ✓ Saved best checkpoint  (val_r2=-0.7977)
+Epoch   2/60  train_loss=1.8673  train_r2=0.3497  val_loss=0.9971  val_r2=0.6428  val_rmse=0.9985  lr_backbone=1.20e-05  lr_head=1.20e-04  time=34.0s
+  ✓ Saved best checkpoint  (val_r2=0.6428)
+Epoch   3/60  train_loss=1.0736  train_r2=0.6259  val_loss=0.7426  val_r2=0.7340  val_rmse=0.8617  lr_backbone=1.60e-05  lr_head=1.60e-04  time=34.9s
+  ✓ Saved best checkpoint  (val_r2=0.7340)
+Epoch   4/60  train_loss=0.9441  train_r2=0.6728  val_loss=0.6479  val_r2=0.7679  val_rmse=0.8049  lr_backbone=2.00e-05  lr_head=2.00e-04  time=32.6s
+  ✓ Saved best checkpoint  (val_r2=0.7679)
+Epoch   5/60  train_loss=0.8626  train_r2=0.7013  val_loss=0.5966  val_r2=0.7862  val_rmse=0.7724  lr_backbone=2.00e-05  lr_head=2.00e-04  time=32.7s
+  ✓ Saved best checkpoint  (val_r2=0.7862)
+Epoch   6/60  train_loss=0.7631  train_r2=0.7342  val_loss=0.5884  val_r2=0.7892  val_rmse=0.7671  lr_backbone=2.00e-05  lr_head=2.00e-04  time=35.0s
+  ✓ Saved best checkpoint  (val_r2=0.7892)
+Epoch   7/60  train_loss=0.7322  train_r2=0.7501  val_loss=0.5574  val_r2=0.8003  val_rmse=0.7466  lr_backbone=1.99e-05  lr_head=1.99e-04  time=36.0s
+  ✓ Saved best checkpoint  (val_r2=0.8003)
+Epoch   8/60  train_loss=0.7037  train_r2=0.7561  val_loss=0.5458  val_r2=0.8045  val_rmse=0.7388  lr_backbone=1.99e-05  lr_head=1.99e-04  time=35.2s
+  ✓ Saved best checkpoint  (val_r2=0.8045)
+Epoch   9/60  train_loss=0.6361  train_r2=0.7782  val_loss=0.5925  val_r2=0.7877  val_rmse=0.7698  lr_backbone=1.97e-05  lr_head=1.97e-04  time=35.6s
+Epoch  10/60  train_loss=0.6509  train_r2=0.7754  val_loss=0.5486  val_r2=0.8035  val_rmse=0.7407  lr_backbone=1.96e-05  lr_head=1.96e-04  time=35.7s
+Epoch  11/60  train_loss=0.5981  train_r2=0.7929  val_loss=0.5712  val_r2=0.7953  val_rmse=0.7558  lr_backbone=1.94e-05  lr_head=1.94e-04  time=34.9s
+Epoch  12/60  train_loss=0.5619  train_r2=0.8072  val_loss=0.5572  val_r2=0.8004  val_rmse=0.7465  lr_backbone=1.92e-05  lr_head=1.92e-04  time=35.0s
+Epoch  13/60  train_loss=0.5674  train_r2=0.8035  val_loss=0.5274  val_r2=0.8111  val_rmse=0.7262  lr_backbone=1.90e-05  lr_head=1.90e-04  time=35.0s
+  ✓ Saved best checkpoint  (val_r2=0.8111)
+Epoch  14/60  train_loss=0.5226  train_r2=0.8194  val_loss=0.5532  val_r2=0.8018  val_rmse=0.7438  lr_backbone=1.87e-05  lr_head=1.87e-04  time=35.0s
+Epoch  15/60  train_loss=0.4826  train_r2=0.8318  val_loss=0.5641  val_r2=0.7979  val_rmse=0.7511  lr_backbone=1.84e-05  lr_head=1.84e-04  time=33.8s
+Epoch  16/60  train_loss=0.4597  train_r2=0.8409  val_loss=0.5573  val_r2=0.8004  val_rmse=0.7465  lr_backbone=1.81e-05  lr_head=1.81e-04  time=32.4s
+Epoch  17/60  train_loss=0.4535  train_r2=0.8432  val_loss=0.5243  val_r2=0.8122  val_rmse=0.7241  lr_backbone=1.78e-05  lr_head=1.77e-04  time=33.1s
+  ✓ Saved best checkpoint  (val_r2=0.8122)
+Epoch  18/60  train_loss=0.4277  train_r2=0.8511  val_loss=0.5717  val_r2=0.7952  val_rmse=0.7561  lr_backbone=1.74e-05  lr_head=1.74e-04  time=32.5s
+Epoch  19/60  train_loss=0.4240  train_r2=0.8521  val_loss=0.5335  val_r2=0.8089  val_rmse=0.7304  lr_backbone=1.70e-05  lr_head=1.70e-04  time=31.1s
+Epoch  20/60  train_loss=0.3737  train_r2=0.8699  val_loss=0.5852  val_r2=0.7904  val_rmse=0.7650  lr_backbone=1.66e-05  lr_head=1.66e-04  time=31.5s
+Epoch  21/60  train_loss=0.4073  train_r2=0.8593  val_loss=0.5780  val_r2=0.7929  val_rmse=0.7603  lr_backbone=1.61e-05  lr_head=1.61e-04  time=30.8s
+Epoch  22/60  train_loss=0.3644  train_r2=0.8735  val_loss=0.5971  val_r2=0.7861  val_rmse=0.7727  lr_backbone=1.57e-05  lr_head=1.56e-04  time=31.4s
+Epoch  23/60  train_loss=0.3569  train_r2=0.8769  val_loss=0.5250  val_r2=0.8119  val_rmse=0.7246  lr_backbone=1.52e-05  lr_head=1.52e-04  time=32.4s
+Epoch  24/60  train_loss=0.3417  train_r2=0.8814  val_loss=0.5888  val_r2=0.7891  val_rmse=0.7673  lr_backbone=1.47e-05  lr_head=1.47e-04  time=30.7s
+Epoch  25/60  train_loss=0.3414  train_r2=0.8815  val_loss=0.6755  val_r2=0.7580  val_rmse=0.8219  lr_backbone=1.42e-05  lr_head=1.42e-04  time=31.2s
+Epoch  26/60  train_loss=0.3330  train_r2=0.8841  val_loss=0.5427  val_r2=0.8056  val_rmse=0.7367  lr_backbone=1.37e-05  lr_head=1.36e-04  time=29.2s
+Epoch  27/60  train_loss=0.3026  train_r2=0.8950  val_loss=0.5216  val_r2=0.8131  val_rmse=0.7222  lr_backbone=1.31e-05  lr_head=1.31e-04  time=28.8s
+Epoch  28/60  train_loss=0.2958  train_r2=0.8982  val_loss=0.5605  val_r2=0.7992  val_rmse=0.7486  lr_backbone=1.26e-05  lr_head=1.25e-04  time=29.7s
+Epoch  29/60  train_loss=0.2915  train_r2=0.8984  val_loss=0.5528  val_r2=0.8019  val_rmse=0.7435  lr_backbone=1.20e-05  lr_head=1.20e-04  time=33.1s
+  Early stopping triggered at epoch 29 (no improvement for 12 epochs).
+
+Loading best checkpoint for test evaluation: /mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav4slb/downsample_results/maxvit_small_cv0/checkpoints/fold_2024/checkpoint_best.pt
+
+======================================================================
+TEST RESULTS — fold_2024
+  R²   = 0.5681
+  RMSE = 1.6216
+  MAE  = 1.3269
+======================================================================
+Saved test predictions   → /mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav4slb/downsample_results/maxvit_small_cv0/predictions/fold_2024_test_predictions.csv
+Saved training history   → /mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav4slb/downsample_results/maxvit_small_cv0/history/fold_2024_history.csv
+
+======================================================================
+FOLD 3: fold_2025  |  train=4421  val=781  test=2601
+======================================================================
+Loaded 4421 samples from /tmp/slb_cv0_folds/train_42.csv
+Loaded 781 samples from /tmp/slb_cv0_folds/val_42.csv
+Loaded 2601 samples from /tmp/slb_cv0_folds/test_42.csv
+Loading pretrained weights from Hugging Face hub (timm/maxvit_small_tf_224.in1k)
+HTTP Request: HEAD https://huggingface.co/timm/maxvit_small_tf_224.in1k/resolve/main/model.safetensors "HTTP/1.1 302 Found"
+[timm/maxvit_small_tf_224.in1k] Safe alternative available for 'pytorch_model.bin' (as 'model.safetensors'). Loading weights using safetensors.
+MaxViT-S backbone loaded  |  pretrained=True  feature_dim=768  params=68.2M
+MaxViT-S Regressor  |  total=68.4M  trainable=68.4M
+Model : maxvit_small  (68,356,077 params, 68,356,077 trainable)
+Optimizer param groups  |  backbone_lr=2.0e-05  head_lr=2.0e-04  wd=5.00e-02  total_params=68.4M
+Epoch   1/60  train_loss=26.7788  train_r2=-5.6109  val_loss=7.7626  val_r2=-0.8892  val_rmse=2.7861  lr_backbone=8.00e-06  lr_head=8.00e-05  time=35.5s
+  ✓ Saved best checkpoint  (val_r2=-0.8892)
+Epoch   2/60  train_loss=2.9908  train_r2=0.2630  val_loss=1.4573  val_r2=0.6453  val_rmse=1.2072  lr_backbone=1.20e-05  lr_head=1.20e-04  time=35.8s
+  ✓ Saved best checkpoint  (val_r2=0.6453)
+Epoch   3/60  train_loss=1.4979  train_r2=0.6313  val_loss=1.0215  val_r2=0.7514  val_rmse=1.0107  lr_backbone=1.60e-05  lr_head=1.60e-04  time=35.0s
+  ✓ Saved best checkpoint  (val_r2=0.7514)
+Epoch   4/60  train_loss=1.2374  train_r2=0.6945  val_loss=0.9390  val_r2=0.7715  val_rmse=0.9690  lr_backbone=2.00e-05  lr_head=2.00e-04  time=36.4s
+  ✓ Saved best checkpoint  (val_r2=0.7715)
+Epoch   5/60  train_loss=1.1161  train_r2=0.7245  val_loss=0.9221  val_r2=0.7756  val_rmse=0.9602  lr_backbone=2.00e-05  lr_head=2.00e-04  time=34.7s
+  ✓ Saved best checkpoint  (val_r2=0.7756)
+Epoch   6/60  train_loss=1.0320  train_r2=0.7472  val_loss=0.7970  val_r2=0.8060  val_rmse=0.8928  lr_backbone=2.00e-05  lr_head=2.00e-04  time=35.0s
+  ✓ Saved best checkpoint  (val_r2=0.8060)
+Epoch   7/60  train_loss=0.9081  train_r2=0.7764  val_loss=0.7926  val_r2=0.8071  val_rmse=0.8903  lr_backbone=1.99e-05  lr_head=1.99e-04  time=34.7s
+  ✓ Saved best checkpoint  (val_r2=0.8071)
+Epoch   8/60  train_loss=0.8342  train_r2=0.7942  val_loss=0.7748  val_r2=0.8114  val_rmse=0.8802  lr_backbone=1.99e-05  lr_head=1.99e-04  time=34.7s
+  ✓ Saved best checkpoint  (val_r2=0.8114)
+Epoch   9/60  train_loss=0.8260  train_r2=0.7958  val_loss=0.7968  val_r2=0.8061  val_rmse=0.8926  lr_backbone=1.97e-05  lr_head=1.97e-04  time=35.6s
+Epoch  10/60  train_loss=0.7626  train_r2=0.8126  val_loss=0.8062  val_r2=0.8038  val_rmse=0.8979  lr_backbone=1.96e-05  lr_head=1.96e-04  time=33.9s
+Epoch  11/60  train_loss=0.7336  train_r2=0.8188  val_loss=0.8037  val_r2=0.8044  val_rmse=0.8965  lr_backbone=1.94e-05  lr_head=1.94e-04  time=34.5s
+Epoch  12/60  train_loss=0.6930  train_r2=0.8295  val_loss=0.7439  val_r2=0.8190  val_rmse=0.8625  lr_backbone=1.92e-05  lr_head=1.92e-04  time=33.8s
+  ✓ Saved best checkpoint  (val_r2=0.8190)
+Epoch  13/60  train_loss=0.6627  train_r2=0.8372  val_loss=0.7906  val_r2=0.8076  val_rmse=0.8891  lr_backbone=1.90e-05  lr_head=1.90e-04  time=34.3s
+Epoch  14/60  train_loss=0.6102  train_r2=0.8499  val_loss=0.7410  val_r2=0.8196  val_rmse=0.8608  lr_backbone=1.87e-05  lr_head=1.87e-04  time=33.3s
+Epoch  15/60  train_loss=0.6153  train_r2=0.8478  val_loss=1.0599  val_r2=0.7420  val_rmse=1.0295  lr_backbone=1.84e-05  lr_head=1.84e-04  time=33.0s
+Epoch  16/60  train_loss=0.5895  train_r2=0.8552  val_loss=0.7495  val_r2=0.8176  val_rmse=0.8657  lr_backbone=1.81e-05  lr_head=1.81e-04  time=32.5s
+Epoch  17/60  train_loss=0.5312  train_r2=0.8703  val_loss=0.7443  val_r2=0.8189  val_rmse=0.8627  lr_backbone=1.78e-05  lr_head=1.77e-04  time=32.2s
+Epoch  18/60  train_loss=0.5053  train_r2=0.8752  val_loss=0.8356  val_r2=0.7967  val_rmse=0.9141  lr_backbone=1.74e-05  lr_head=1.74e-04  time=34.0s
+Epoch  19/60  train_loss=0.4969  train_r2=0.8781  val_loss=0.7067  val_r2=0.8280  val_rmse=0.8406  lr_backbone=1.70e-05  lr_head=1.70e-04  time=33.8s
+  ✓ Saved best checkpoint  (val_r2=0.8280)
+Epoch  20/60  train_loss=0.4466  train_r2=0.8913  val_loss=0.7231  val_r2=0.8240  val_rmse=0.8503  lr_backbone=1.66e-05  lr_head=1.66e-04  time=34.1s
+Epoch  21/60  train_loss=0.4712  train_r2=0.8859  val_loss=0.7214  val_r2=0.8244  val_rmse=0.8493  lr_backbone=1.61e-05  lr_head=1.61e-04  time=34.6s
+Epoch  22/60  train_loss=0.4524  train_r2=0.8890  val_loss=0.7185  val_r2=0.8251  val_rmse=0.8477  lr_backbone=1.57e-05  lr_head=1.56e-04  time=37.1s
+Epoch  23/60  train_loss=0.4435  train_r2=0.8934  val_loss=0.7250  val_r2=0.8235  val_rmse=0.8515  lr_backbone=1.52e-05  lr_head=1.52e-04  time=35.0s
+Epoch  24/60  train_loss=0.4134  train_r2=0.8981  val_loss=0.7672  val_r2=0.8133  val_rmse=0.8759  lr_backbone=1.47e-05  lr_head=1.47e-04  time=35.3s
+Epoch  25/60  train_loss=0.4001  train_r2=0.9015  val_loss=0.7387  val_r2=0.8202  val_rmse=0.8595  lr_backbone=1.42e-05  lr_head=1.42e-04  time=35.1s
+Epoch  26/60  train_loss=0.3832  train_r2=0.9052  val_loss=0.7039  val_r2=0.8287  val_rmse=0.8390  lr_backbone=1.37e-05  lr_head=1.36e-04  time=34.5s
+Epoch  27/60  train_loss=0.3777  train_r2=0.9072  val_loss=0.7231  val_r2=0.8240  val_rmse=0.8503  lr_backbone=1.31e-05  lr_head=1.31e-04  time=35.0s
+Epoch  28/60  train_loss=0.3686  train_r2=0.9094  val_loss=0.7442  val_r2=0.8189  val_rmse=0.8627  lr_backbone=1.26e-05  lr_head=1.25e-04  time=34.7s
+Epoch  29/60  train_loss=0.3511  train_r2=0.9136  val_loss=0.7301  val_r2=0.8223  val_rmse=0.8545  lr_backbone=1.20e-05  lr_head=1.20e-04  time=35.2s
+Epoch  30/60  train_loss=0.3319  train_r2=0.9188  val_loss=0.7488  val_r2=0.8178  val_rmse=0.8653  lr_backbone=1.15e-05  lr_head=1.14e-04  time=35.1s
+Epoch  31/60  train_loss=0.3409  train_r2=0.9161  val_loss=0.7105  val_r2=0.8271  val_rmse=0.8429  lr_backbone=1.09e-05  lr_head=1.09e-04  time=35.1s
+  Early stopping triggered at epoch 31 (no improvement for 12 epochs).
+
+Loading best checkpoint for test evaluation: /mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav4slb/downsample_results/maxvit_small_cv0/checkpoints/fold_2025/checkpoint_best.pt
+
+======================================================================
+TEST RESULTS — fold_2025
+  R²   = 0.6669
+  RMSE = 1.0815
+  MAE  = 0.8270
+======================================================================
+Saved test predictions   → /mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav4slb/downsample_results/maxvit_small_cv0/predictions/fold_2025_test_predictions.csv
+Saved training history   → /mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav4slb/downsample_results/maxvit_small_cv0/history/fold_2025_history.csv
+
+======================================================================
+CV0 SUMMARY — maxvit_small
+======================================================================
+
+  Mean Val  R²   = 0.8245 ± 0.0109
+  Mean Test R²   = 0.5386 ± 0.1452
+  Mean Test RMSE = 1.2630 ± 0.3106
+  Mean Test MAE  = 0.9885
+
+✓ Results saved → /mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav4slb/downsample_results/maxvit_small_cv0

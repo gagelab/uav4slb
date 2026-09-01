@@ -1,0 +1,14 @@
+{
+  "model": "convnextv2_base",
+  "cv_type": "cv0",
+  "n_folds": 3,
+  "mean_val_r2": 0.83182293176651,
+  "std_val_r2": 0.008038231857369847,
+  "mean_val_loss": 0.6474658011677832,
+  "std_val_loss": 0.14119718392747188,
+  "mean_test_r2": 0.5361943244934082,
+  "std_test_r2": 0.19723265517689442,
+  "mean_test_rmse": 1.24640796325463,
+  "std_test_rmse": 0.27444445935050715,
+  "mean_test_mae": 0.9820322791735331
+}

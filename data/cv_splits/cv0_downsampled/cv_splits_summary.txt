@@ -1,0 +1,37 @@
+======================================================================
+CV0 SPLITS SUMMARY
+======================================================================
+
+DATASET
+----------------------------------------------------------------------
+  Total samples      : 7803
+  Years              : [np.int64(2023), np.int64(2024), np.int64(2025)]
+  Target column      : score
+  Target range       : [1.00, 9.00]
+  Target mean ± std  : 5.659 ± 1.987
+
+  ✓ All images present — no rows dropped.
+
+======================================================================
+CV0 FOLDS (Leave-One-Year-Out)
+======================================================================
+  Total folds: 3
+
+  fold_2023:
+    Train :  4421 samples
+    Val   :   781 samples
+    Test  :  2601 samples
+    Test score : 6.111 ± 1.380
+
+  fold_2024:
+    Train :  4421 samples
+    Val   :   781 samples
+    Test  :  2601 samples
+    Test score : 5.557 ± 2.468
+
+  fold_2025:
+    Train :  4421 samples
+    Val   :   781 samples
+    Test  :  2601 samples
+    Test score : 5.310 ± 1.874
+

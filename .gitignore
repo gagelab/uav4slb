@@ -71,9 +71,8 @@ figures_defense/
 # ---- Training reruns ----------------------
 configs_rerun/
 scripts/*_rerun.sh
-configs_downsample/
-downsample_results/
-data/cv_splits/cv0_downsampled
+downsample_results/*/checkpoints/
+downsample_results/*/logs/
 
 # ---- Computational specs and guides ----------------------
 ece_linux_guide.pdf

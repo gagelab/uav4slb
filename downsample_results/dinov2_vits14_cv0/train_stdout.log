@@ -1,0 +1,305 @@
+2026-08-15 18:36:31 | INFO | train_cv0 | Using specified GPU 3: NVIDIA A100 80GB PCIe
+2026-08-15 18:36:31 | INFO | train_cv0 | ======================================================================
+2026-08-15 18:36:31 | INFO | train_cv0 | dinov2_vits14 — CV0 Leave-One-Year-Out Training
+2026-08-15 18:36:31 | INFO | train_cv0 | ======================================================================
+2026-08-15 18:36:31 | INFO | train_cv0 | Config      : configs_downsample/dinov2_vits14_cv0.yaml
+2026-08-15 18:36:31 | INFO | train_cv0 | Output dir  : /mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav4slb/downsample_results/dinov2_vits14_cv0
+2026-08-15 18:36:31 | INFO | train_cv0 | Device      : cuda:3
+2026-08-15 18:36:31 | INFO | train_cv0 | Image size  : [448, 448]
+2026-08-15 18:36:31 | INFO | train_cv0 | Batch size  : 32
+2026-08-15 18:36:31 | INFO | train_cv0 | Max epochs  : 60
+2026-08-15 18:36:31 | INFO | train_cv0 | AMP         : True  dtype=float16
+2026-08-15 18:36:31 | INFO | train_cv0 | Mode        : fresh training from pretrained weights
+2026-08-15 18:36:31 | INFO | train_cv0 | Found 3 CV0 fold(s): ['fold_2023', 'fold_2024', 'fold_2025']
+2026-08-15 18:36:32 | INFO | train_cv0 | 
+======================================================================
+2026-08-15 18:36:32 | INFO | train_cv0 | FOLD 1: fold_2023  |  train=4421  val=781  test=2601
+2026-08-15 18:36:32 | INFO | train_cv0 | ======================================================================
+2026-08-15 18:36:32 | INFO | src.data.dataset | Loaded 4421 samples from /tmp/slb_cv0_folds/train_42.csv
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav4slb/src/data/augmentation.py:158: UserWarning: Argument(s) 'always_apply' are not valid for transform Resize
+  A.Resize(height=image_size[0], width=image_size[1], always_apply=True),
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav4slb/src/data/augmentation.py:159: UserWarning: Argument(s) 'always_apply' are not valid for transform Normalize
+  A.Normalize(mean=mean, std=std, always_apply=True),
+2026-08-15 18:36:32 | INFO | src.data.dataset | Loaded 781 samples from /tmp/slb_cv0_folds/val_42.csv
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav4slb/src/data/augmentation.py:158: UserWarning: Argument(s) 'always_apply' are not valid for transform Resize
+  A.Resize(height=image_size[0], width=image_size[1], always_apply=True),
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav4slb/src/data/augmentation.py:159: UserWarning: Argument(s) 'always_apply' are not valid for transform Normalize
+  A.Normalize(mean=mean, std=std, always_apply=True),
+2026-08-15 18:36:32 | INFO | src.data.dataset | Loaded 2601 samples from /tmp/slb_cv0_folds/test_42.csv
+2026-08-15 18:36:34 | INFO | src.models.dinov2_vits14 | Loading DINOv2 ViT-S/14 from torch.hub ...
+Using cache found in /home/chhammet/.cache/torch/hub/facebookresearch_dinov2_main
+/home/chhammet/.cache/torch/hub/facebookresearch_dinov2_main/dinov2/layers/swiglu_ffn.py:51: UserWarning: xFormers is not available (SwiGLU)
+  warnings.warn("xFormers is not available (SwiGLU)")
+/home/chhammet/.cache/torch/hub/facebookresearch_dinov2_main/dinov2/layers/attention.py:33: UserWarning: xFormers is not available (Attention)
+  warnings.warn("xFormers is not available (Attention)")
+/home/chhammet/.cache/torch/hub/facebookresearch_dinov2_main/dinov2/layers/block.py:40: UserWarning: xFormers is not available (Block)
+  warnings.warn("xFormers is not available (Block)")
+2026-08-15 18:36:34 | INFO | dinov2 | using MLP layer as FFN
+2026-08-15 18:36:34 | INFO | src.models.dinov2_vits14 | DINOv2 ViT-S/14 backbone loaded successfully.
+2026-08-15 18:36:34 | INFO | src.models.dinov2_vits14 | DINOv2vits14RegressionModel(
+  backbone=DINOv2 ViT-S/14 (feature_dim=384),
+  head=Sequential(
+  (0): LayerNorm((384,), eps=1e-05, elementwise_affine=True)
+  (1): Linear(in_features=384, out_features=256, bias=True)
+  (2): GELU(approximate='none')
+  (3): Dropout(p=0.3, inplace=False)
+  (4): Linear(in_features=256, out_features=1, bias=True)
+),
+  total_params=22,156,161,
+  trainable_params=22,156,161
+)
+2026-08-15 18:36:34 | INFO | train_cv0 | Model : dinov2_vits14  (22,156,161 params, 22,156,161 trainable)
+2026-08-15 18:37:26 | INFO | train_cv0 | Epoch   1/60  train_loss=7.3610  train_r2=-0.5310  val_loss=1.5097  val_r2=0.6815  val_rmse=1.2287  lr_backbone=2.00e-05  lr_head=2.00e-04  time=51.8s
+2026-08-15 18:37:27 | INFO | train_cv0 |   ✓ Saved best checkpoint  (val_r2=0.6815)
+2026-08-15 18:38:19 | INFO | train_cv0 | Epoch   2/60  train_loss=1.6660  train_r2=0.6529  val_loss=1.3109  val_r2=0.7235  val_rmse=1.1449  lr_backbone=3.00e-05  lr_head=3.00e-04  time=49.9s
+2026-08-15 18:38:20 | INFO | train_cv0 |   ✓ Saved best checkpoint  (val_r2=0.7235)
+2026-08-15 18:39:12 | INFO | train_cv0 | Epoch   3/60  train_loss=1.4681  train_r2=0.6957  val_loss=1.1540  val_r2=0.7566  val_rmse=1.0742  lr_backbone=4.00e-05  lr_head=4.00e-04  time=50.7s
+2026-08-15 18:39:15 | INFO | train_cv0 |   ✓ Saved best checkpoint  (val_r2=0.7566)
+2026-08-15 18:40:09 | INFO | train_cv0 | Epoch   4/60  train_loss=1.4327  train_r2=0.7026  val_loss=1.3679  val_r2=0.7114  val_rmse=1.1696  lr_backbone=5.00e-05  lr_head=5.00e-04  time=51.8s
+/home/chhammet/miniforge3/envs/uav_for_slb/lib/python3.11/site-packages/torch/optim/lr_scheduler.py:240: UserWarning: The epoch parameter in `scheduler.step()` was not necessary and is being deprecated where possible. Please use `scheduler.step()` to step the scheduler. During the deprecation, if epoch is different from None, the closed form is used instead of the new chainable form, where available. Please open an issue if you are unable to replicate your use case: https://github.com/pytorch/pytorch/issues/new/choose.
+  warnings.warn(EPOCH_DEPRECATION_WARNING, UserWarning)
+2026-08-15 18:41:04 | INFO | train_cv0 | Epoch   5/60  train_loss=1.6966  train_r2=0.6492  val_loss=1.3708  val_r2=0.7108  val_rmse=1.1708  lr_backbone=5.00e-05  lr_head=5.00e-04  time=51.8s
+2026-08-15 18:41:58 | INFO | train_cv0 | Epoch   6/60  train_loss=1.4919  train_r2=0.6896  val_loss=1.1627  val_r2=0.7547  val_rmse=1.0783  lr_backbone=5.00e-05  lr_head=5.00e-04  time=53.4s
+2026-08-15 18:42:52 | INFO | train_cv0 | Epoch   7/60  train_loss=1.3649  train_r2=0.7176  val_loss=1.3010  val_r2=0.7255  val_rmse=1.1406  lr_backbone=4.98e-05  lr_head=4.98e-04  time=52.4s
+2026-08-15 18:43:45 | INFO | train_cv0 | Epoch   8/60  train_loss=1.4782  train_r2=0.6926  val_loss=3.3756  val_r2=0.2879  val_rmse=1.8373  lr_backbone=4.96e-05  lr_head=4.96e-04  time=51.7s
+2026-08-15 18:44:36 | INFO | train_cv0 | Epoch   9/60  train_loss=1.3448  train_r2=0.7227  val_loss=1.1322  val_r2=0.7612  val_rmse=1.0641  lr_backbone=4.94e-05  lr_head=4.94e-04  time=48.7s
+2026-08-15 18:44:40 | INFO | train_cv0 |   ✓ Saved best checkpoint  (val_r2=0.7612)
+2026-08-15 18:45:35 | INFO | train_cv0 | Epoch  10/60  train_loss=1.2100  train_r2=0.7487  val_loss=1.0374  val_r2=0.7812  val_rmse=1.0185  lr_backbone=4.90e-05  lr_head=4.90e-04  time=51.1s
+2026-08-15 18:45:37 | INFO | train_cv0 |   ✓ Saved best checkpoint  (val_r2=0.7812)
+2026-08-15 18:46:34 | INFO | train_cv0 | Epoch  11/60  train_loss=1.1860  train_r2=0.7540  val_loss=1.0596  val_r2=0.7765  val_rmse=1.0294  lr_backbone=4.85e-05  lr_head=4.85e-04  time=55.3s
+2026-08-15 18:47:26 | INFO | train_cv0 | Epoch  12/60  train_loss=1.2063  train_r2=0.7529  val_loss=1.0616  val_r2=0.7760  val_rmse=1.0304  lr_backbone=4.80e-05  lr_head=4.80e-04  time=50.5s
+2026-08-15 18:48:17 | INFO | train_cv0 | Epoch  13/60  train_loss=1.1065  train_r2=0.7700  val_loss=0.9416  val_r2=0.8014  val_rmse=0.9704  lr_backbone=4.74e-05  lr_head=4.74e-04  time=49.4s
+2026-08-15 18:48:19 | INFO | train_cv0 |   ✓ Saved best checkpoint  (val_r2=0.8014)
+2026-08-15 18:49:11 | INFO | train_cv0 | Epoch  14/60  train_loss=1.0610  train_r2=0.7813  val_loss=1.0617  val_r2=0.7760  val_rmse=1.0304  lr_backbone=4.68e-05  lr_head=4.68e-04  time=49.2s
+2026-08-15 18:50:01 | INFO | train_cv0 | Epoch  15/60  train_loss=1.0536  train_r2=0.7811  val_loss=1.0152  val_r2=0.7858  val_rmse=1.0076  lr_backbone=4.60e-05  lr_head=4.60e-04  time=48.6s
+2026-08-15 18:50:52 | INFO | train_cv0 | Epoch  16/60  train_loss=1.0268  train_r2=0.7868  val_loss=0.9778  val_r2=0.7937  val_rmse=0.9888  lr_backbone=4.52e-05  lr_head=4.52e-04  time=48.7s
+2026-08-15 18:51:41 | INFO | train_cv0 | Epoch  17/60  train_loss=1.0010  train_r2=0.7929  val_loss=0.9103  val_r2=0.8080  val_rmse=0.9541  lr_backbone=4.44e-05  lr_head=4.44e-04  time=46.7s
+2026-08-15 18:51:45 | INFO | train_cv0 |   ✓ Saved best checkpoint  (val_r2=0.8080)
+2026-08-15 18:52:35 | INFO | train_cv0 | Epoch  18/60  train_loss=0.9316  train_r2=0.8061  val_loss=1.0290  val_r2=0.7829  val_rmse=1.0144  lr_backbone=4.34e-05  lr_head=4.34e-04  time=48.1s
+2026-08-15 18:53:25 | INFO | train_cv0 | Epoch  19/60  train_loss=0.9290  train_r2=0.8087  val_loss=0.8359  val_r2=0.8237  val_rmse=0.9143  lr_backbone=4.24e-05  lr_head=4.24e-04  time=48.3s
+2026-08-15 18:53:26 | INFO | train_cv0 |   ✓ Saved best checkpoint  (val_r2=0.8237)
+2026-08-15 18:54:16 | INFO | train_cv0 | Epoch  20/60  train_loss=0.8815  train_r2=0.8167  val_loss=1.0227  val_r2=0.7843  val_rmse=1.0113  lr_backbone=4.14e-05  lr_head=4.14e-04  time=48.6s
+2026-08-15 18:55:09 | INFO | train_cv0 | Epoch  21/60  train_loss=0.8437  train_r2=0.8261  val_loss=0.9143  val_r2=0.8071  val_rmse=0.9562  lr_backbone=4.03e-05  lr_head=4.03e-04  time=51.0s
+2026-08-15 18:55:59 | INFO | train_cv0 | Epoch  22/60  train_loss=0.8398  train_r2=0.8263  val_loss=0.8575  val_r2=0.8191  val_rmse=0.9260  lr_backbone=3.91e-05  lr_head=3.91e-04  time=48.5s
+2026-08-15 18:56:50 | INFO | train_cv0 | Epoch  23/60  train_loss=0.8282  train_r2=0.8292  val_loss=0.9268  val_r2=0.8045  val_rmse=0.9627  lr_backbone=3.79e-05  lr_head=3.79e-04  time=50.3s
+2026-08-15 18:57:41 | INFO | train_cv0 | Epoch  24/60  train_loss=0.7946  train_r2=0.8348  val_loss=1.0317  val_r2=0.7824  val_rmse=1.0157  lr_backbone=3.67e-05  lr_head=3.67e-04  time=48.9s
+2026-08-15 18:58:33 | INFO | train_cv0 | Epoch  25/60  train_loss=0.7638  train_r2=0.8415  val_loss=0.8474  val_r2=0.8212  val_rmse=0.9205  lr_backbone=3.54e-05  lr_head=3.54e-04  time=50.0s
+2026-08-15 18:59:25 | INFO | train_cv0 | Epoch  26/60  train_loss=0.7279  train_r2=0.8489  val_loss=0.9117  val_r2=0.8077  val_rmse=0.9548  lr_backbone=3.41e-05  lr_head=3.41e-04  time=48.4s
+2026-08-15 19:00:15 | INFO | train_cv0 | Epoch  27/60  train_loss=0.7415  train_r2=0.8462  val_loss=0.8478  val_r2=0.8212  val_rmse=0.9207  lr_backbone=3.28e-05  lr_head=3.27e-04  time=49.3s
+2026-08-15 19:01:06 | INFO | train_cv0 | Epoch  28/60  train_loss=0.6772  train_r2=0.8594  val_loss=0.8351  val_r2=0.8238  val_rmse=0.9138  lr_backbone=3.14e-05  lr_head=3.14e-04  time=49.0s
+2026-08-15 19:01:54 | INFO | train_cv0 | Epoch  29/60  train_loss=0.6693  train_r2=0.8611  val_loss=0.8719  val_r2=0.8161  val_rmse=0.9338  lr_backbone=3.00e-05  lr_head=3.00e-04  time=47.3s
+2026-08-15 19:02:45 | INFO | train_cv0 | Epoch  30/60  train_loss=0.6378  train_r2=0.8676  val_loss=0.9100  val_r2=0.8080  val_rmse=0.9539  lr_backbone=2.86e-05  lr_head=2.86e-04  time=48.8s
+2026-08-15 19:03:35 | INFO | train_cv0 | Epoch  31/60  train_loss=0.6364  train_r2=0.8681  val_loss=0.9289  val_r2=0.8041  val_rmse=0.9638  lr_backbone=2.72e-05  lr_head=2.71e-04  time=47.9s
+2026-08-15 19:03:35 | INFO | train_cv0 |   Early stopping triggered at epoch 31 (no improvement for 12 epochs).
+2026-08-15 19:03:35 | INFO | train_cv0 | 
+Loading best checkpoint for test evaluation: /mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav4slb/downsample_results/dinov2_vits14_cv0/checkpoints/fold_2023/checkpoint_best.pt
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav4slb/scripts/train_cv0.py:1116: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  ckpt = torch.load(best_ckpt, map_location=device)
+2026-08-15 19:03:59 | INFO | train_cv0 | 
+======================================================================
+TEST RESULTS — fold_2023
+  R²   = 0.5064
+  RMSE = 0.9696
+  MAE  = 0.7408
+======================================================================
+2026-08-15 19:03:59 | INFO | train_cv0 | Saved test predictions   → /mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav4slb/downsample_results/dinov2_vits14_cv0/predictions/fold_2023_test_predictions.csv
+2026-08-15 19:04:00 | INFO | train_cv0 | Saved training history   → /mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav4slb/downsample_results/dinov2_vits14_cv0/history/fold_2023_history.csv
+2026-08-15 19:04:00 | INFO | train_cv0 | 
+======================================================================
+2026-08-15 19:04:00 | INFO | train_cv0 | FOLD 2: fold_2024  |  train=4421  val=781  test=2601
+2026-08-15 19:04:00 | INFO | train_cv0 | ======================================================================
+2026-08-15 19:04:00 | INFO | src.data.dataset | Loaded 4421 samples from /tmp/slb_cv0_folds/train_42.csv
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav4slb/src/data/augmentation.py:158: UserWarning: Argument(s) 'always_apply' are not valid for transform Resize
+  A.Resize(height=image_size[0], width=image_size[1], always_apply=True),
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav4slb/src/data/augmentation.py:159: UserWarning: Argument(s) 'always_apply' are not valid for transform Normalize
+  A.Normalize(mean=mean, std=std, always_apply=True),
+2026-08-15 19:04:00 | INFO | src.data.dataset | Loaded 781 samples from /tmp/slb_cv0_folds/val_42.csv
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav4slb/src/data/augmentation.py:158: UserWarning: Argument(s) 'always_apply' are not valid for transform Resize
+  A.Resize(height=image_size[0], width=image_size[1], always_apply=True),
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav4slb/src/data/augmentation.py:159: UserWarning: Argument(s) 'always_apply' are not valid for transform Normalize
+  A.Normalize(mean=mean, std=std, always_apply=True),
+2026-08-15 19:04:00 | INFO | src.data.dataset | Loaded 2601 samples from /tmp/slb_cv0_folds/test_42.csv
+2026-08-15 19:04:00 | INFO | src.models.dinov2_vits14 | Loading DINOv2 ViT-S/14 from torch.hub ...
+Using cache found in /home/chhammet/.cache/torch/hub/facebookresearch_dinov2_main
+2026-08-15 19:04:00 | INFO | dinov2 | using MLP layer as FFN
+2026-08-15 19:04:00 | INFO | src.models.dinov2_vits14 | DINOv2 ViT-S/14 backbone loaded successfully.
+2026-08-15 19:04:00 | INFO | src.models.dinov2_vits14 | DINOv2vits14RegressionModel(
+  backbone=DINOv2 ViT-S/14 (feature_dim=384),
+  head=Sequential(
+  (0): LayerNorm((384,), eps=1e-05, elementwise_affine=True)
+  (1): Linear(in_features=384, out_features=256, bias=True)
+  (2): GELU(approximate='none')
+  (3): Dropout(p=0.3, inplace=False)
+  (4): Linear(in_features=256, out_features=1, bias=True)
+),
+  total_params=22,156,161,
+  trainable_params=22,156,161
+)
+2026-08-15 19:04:00 | INFO | train_cv0 | Model : dinov2_vits14  (22,156,161 params, 22,156,161 trainable)
+2026-08-15 19:04:45 | INFO | train_cv0 | Epoch   1/60  train_loss=6.4289  train_r2=-1.2420  val_loss=1.5552  val_r2=0.4428  val_rmse=1.2471  lr_backbone=2.00e-05  lr_head=2.00e-04  time=44.1s
+2026-08-15 19:04:46 | INFO | train_cv0 |   ✓ Saved best checkpoint  (val_r2=0.4428)
+2026-08-15 19:05:26 | INFO | train_cv0 | Epoch   2/60  train_loss=1.1907  train_r2=0.5866  val_loss=0.8922  val_r2=0.6803  val_rmse=0.9446  lr_backbone=3.00e-05  lr_head=3.00e-04  time=39.1s
+2026-08-15 19:05:28 | INFO | train_cv0 |   ✓ Saved best checkpoint  (val_r2=0.6803)
+2026-08-15 19:06:07 | INFO | train_cv0 | Epoch   3/60  train_loss=0.9438  train_r2=0.6710  val_loss=0.7952  val_r2=0.7151  val_rmse=0.8918  lr_backbone=4.00e-05  lr_head=4.00e-04  time=38.2s
+2026-08-15 19:06:09 | INFO | train_cv0 |   ✓ Saved best checkpoint  (val_r2=0.7151)
+2026-08-15 19:06:49 | INFO | train_cv0 | Epoch   4/60  train_loss=0.9622  train_r2=0.6650  val_loss=1.2378  val_r2=0.5565  val_rmse=1.1126  lr_backbone=5.00e-05  lr_head=5.00e-04  time=39.3s
+/home/chhammet/miniforge3/envs/uav_for_slb/lib/python3.11/site-packages/torch/optim/lr_scheduler.py:240: UserWarning: The epoch parameter in `scheduler.step()` was not necessary and is being deprecated where possible. Please use `scheduler.step()` to step the scheduler. During the deprecation, if epoch is different from None, the closed form is used instead of the new chainable form, where available. Please open an issue if you are unable to replicate your use case: https://github.com/pytorch/pytorch/issues/new/choose.
+  warnings.warn(EPOCH_DEPRECATION_WARNING, UserWarning)
+2026-08-15 19:07:29 | INFO | train_cv0 | Epoch   5/60  train_loss=1.0604  train_r2=0.6302  val_loss=0.7953  val_r2=0.7151  val_rmse=0.8918  lr_backbone=5.00e-05  lr_head=5.00e-04  time=38.5s
+2026-08-15 19:08:08 | INFO | train_cv0 | Epoch   6/60  train_loss=1.1006  train_r2=0.6190  val_loss=0.7529  val_r2=0.7302  val_rmse=0.8677  lr_backbone=5.00e-05  lr_head=5.00e-04  time=37.2s
+2026-08-15 19:08:09 | INFO | train_cv0 |   ✓ Saved best checkpoint  (val_r2=0.7302)
+2026-08-15 19:08:51 | INFO | train_cv0 | Epoch   7/60  train_loss=0.9748  train_r2=0.6655  val_loss=0.6812  val_r2=0.7559  val_rmse=0.8254  lr_backbone=4.98e-05  lr_head=4.98e-04  time=40.0s
+2026-08-15 19:08:52 | INFO | train_cv0 |   ✓ Saved best checkpoint  (val_r2=0.7559)
+2026-08-15 19:09:32 | INFO | train_cv0 | Epoch   8/60  train_loss=0.8940  train_r2=0.6901  val_loss=1.7198  val_r2=0.3839  val_rmse=1.3114  lr_backbone=4.96e-05  lr_head=4.96e-04  time=38.9s
+2026-08-15 19:10:11 | INFO | train_cv0 | Epoch   9/60  train_loss=0.9528  train_r2=0.6687  val_loss=1.3440  val_r2=0.5185  val_rmse=1.1593  lr_backbone=4.94e-05  lr_head=4.94e-04  time=37.8s
+2026-08-15 19:10:53 | INFO | train_cv0 | Epoch  10/60  train_loss=0.8406  train_r2=0.7079  val_loss=0.9347  val_r2=0.6651  val_rmse=0.9668  lr_backbone=4.90e-05  lr_head=4.90e-04  time=40.5s
+2026-08-15 19:11:32 | INFO | train_cv0 | Epoch  11/60  train_loss=0.8381  train_r2=0.7092  val_loss=0.8243  val_r2=0.7047  val_rmse=0.9079  lr_backbone=4.85e-05  lr_head=4.85e-04  time=37.2s
+2026-08-15 19:12:11 | INFO | train_cv0 | Epoch  12/60  train_loss=0.7875  train_r2=0.7282  val_loss=0.7216  val_r2=0.7415  val_rmse=0.8495  lr_backbone=4.80e-05  lr_head=4.80e-04  time=37.6s
+2026-08-15 19:12:52 | INFO | train_cv0 | Epoch  13/60  train_loss=0.7781  train_r2=0.7309  val_loss=0.6855  val_r2=0.7544  val_rmse=0.8279  lr_backbone=4.74e-05  lr_head=4.74e-04  time=39.5s
+2026-08-15 19:13:32 | INFO | train_cv0 | Epoch  14/60  train_loss=0.7174  train_r2=0.7505  val_loss=0.7766  val_r2=0.7218  val_rmse=0.8812  lr_backbone=4.68e-05  lr_head=4.68e-04  time=38.8s
+2026-08-15 19:14:10 | INFO | train_cv0 | Epoch  15/60  train_loss=0.7131  train_r2=0.7519  val_loss=0.6978  val_r2=0.7500  val_rmse=0.8353  lr_backbone=4.60e-05  lr_head=4.60e-04  time=36.5s
+2026-08-15 19:14:51 | INFO | train_cv0 | Epoch  16/60  train_loss=0.7211  train_r2=0.7502  val_loss=0.6848  val_r2=0.7547  val_rmse=0.8275  lr_backbone=4.52e-05  lr_head=4.52e-04  time=39.3s
+2026-08-15 19:15:31 | INFO | train_cv0 | Epoch  17/60  train_loss=0.6746  train_r2=0.7646  val_loss=0.9278  val_r2=0.6676  val_rmse=0.9632  lr_backbone=4.44e-05  lr_head=4.44e-04  time=38.6s
+2026-08-15 19:16:09 | INFO | train_cv0 | Epoch  18/60  train_loss=0.6446  train_r2=0.7772  val_loss=0.8881  val_r2=0.6818  val_rmse=0.9424  lr_backbone=4.34e-05  lr_head=4.34e-04  time=36.8s
+2026-08-15 19:16:49 | INFO | train_cv0 | Epoch  19/60  train_loss=0.6802  train_r2=0.7630  val_loss=0.7627  val_r2=0.7267  val_rmse=0.8733  lr_backbone=4.24e-05  lr_head=4.24e-04  time=37.3s
+2026-08-15 19:16:49 | INFO | train_cv0 |   Early stopping triggered at epoch 19 (no improvement for 12 epochs).
+2026-08-15 19:16:49 | INFO | train_cv0 | 
+Loading best checkpoint for test evaluation: /mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav4slb/downsample_results/dinov2_vits14_cv0/checkpoints/fold_2024/checkpoint_best.pt
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav4slb/scripts/train_cv0.py:1116: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  ckpt = torch.load(best_ckpt, map_location=device)
+2026-08-15 19:17:10 | INFO | train_cv0 | 
+======================================================================
+TEST RESULTS — fold_2024
+  R²   = 0.3144
+  RMSE = 2.0429
+  MAE  = 1.7426
+======================================================================
+2026-08-15 19:17:10 | INFO | train_cv0 | Saved test predictions   → /mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav4slb/downsample_results/dinov2_vits14_cv0/predictions/fold_2024_test_predictions.csv
+2026-08-15 19:17:10 | INFO | train_cv0 | Saved training history   → /mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav4slb/downsample_results/dinov2_vits14_cv0/history/fold_2024_history.csv
+2026-08-15 19:17:10 | INFO | train_cv0 | 
+======================================================================
+2026-08-15 19:17:10 | INFO | train_cv0 | FOLD 3: fold_2025  |  train=4421  val=781  test=2601
+2026-08-15 19:17:10 | INFO | train_cv0 | ======================================================================
+2026-08-15 19:17:11 | INFO | src.data.dataset | Loaded 4421 samples from /tmp/slb_cv0_folds/train_42.csv
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav4slb/src/data/augmentation.py:158: UserWarning: Argument(s) 'always_apply' are not valid for transform Resize
+  A.Resize(height=image_size[0], width=image_size[1], always_apply=True),
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav4slb/src/data/augmentation.py:159: UserWarning: Argument(s) 'always_apply' are not valid for transform Normalize
+  A.Normalize(mean=mean, std=std, always_apply=True),
+2026-08-15 19:17:11 | INFO | src.data.dataset | Loaded 781 samples from /tmp/slb_cv0_folds/val_42.csv
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav4slb/src/data/augmentation.py:158: UserWarning: Argument(s) 'always_apply' are not valid for transform Resize
+  A.Resize(height=image_size[0], width=image_size[1], always_apply=True),
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav4slb/src/data/augmentation.py:159: UserWarning: Argument(s) 'always_apply' are not valid for transform Normalize
+  A.Normalize(mean=mean, std=std, always_apply=True),
+2026-08-15 19:17:11 | INFO | src.data.dataset | Loaded 2601 samples from /tmp/slb_cv0_folds/test_42.csv
+2026-08-15 19:17:11 | INFO | src.models.dinov2_vits14 | Loading DINOv2 ViT-S/14 from torch.hub ...
+Using cache found in /home/chhammet/.cache/torch/hub/facebookresearch_dinov2_main
+2026-08-15 19:17:11 | INFO | dinov2 | using MLP layer as FFN
+2026-08-15 19:17:11 | INFO | src.models.dinov2_vits14 | DINOv2 ViT-S/14 backbone loaded successfully.
+2026-08-15 19:17:11 | INFO | src.models.dinov2_vits14 | DINOv2vits14RegressionModel(
+  backbone=DINOv2 ViT-S/14 (feature_dim=384),
+  head=Sequential(
+  (0): LayerNorm((384,), eps=1e-05, elementwise_affine=True)
+  (1): Linear(in_features=384, out_features=256, bias=True)
+  (2): GELU(approximate='none')
+  (3): Dropout(p=0.3, inplace=False)
+  (4): Linear(in_features=256, out_features=1, bias=True)
+),
+  total_params=22,156,161,
+  trainable_params=22,156,161
+)
+2026-08-15 19:17:11 | INFO | train_cv0 | Model : dinov2_vits14  (22,156,161 params, 22,156,161 trainable)
+2026-08-15 19:17:49 | INFO | train_cv0 | Epoch   1/60  train_loss=7.3940  train_r2=-0.8270  val_loss=1.1116  val_r2=0.7295  val_rmse=1.0543  lr_backbone=2.00e-05  lr_head=2.00e-04  time=37.7s
+2026-08-15 19:17:50 | INFO | train_cv0 |   ✓ Saved best checkpoint  (val_r2=0.7295)
+2026-08-15 19:18:31 | INFO | train_cv0 | Epoch   2/60  train_loss=1.5553  train_r2=0.6163  val_loss=0.9680  val_r2=0.7644  val_rmse=0.9839  lr_backbone=3.00e-05  lr_head=3.00e-04  time=38.9s
+2026-08-15 19:18:32 | INFO | train_cv0 |   ✓ Saved best checkpoint  (val_r2=0.7644)
+2026-08-15 19:19:12 | INFO | train_cv0 | Epoch   3/60  train_loss=1.3837  train_r2=0.6591  val_loss=0.9942  val_r2=0.7581  val_rmse=0.9971  lr_backbone=4.00e-05  lr_head=4.00e-04  time=38.0s
+2026-08-15 19:19:50 | INFO | train_cv0 | Epoch   4/60  train_loss=1.4097  train_r2=0.6530  val_loss=1.2823  val_r2=0.6879  val_rmse=1.1324  lr_backbone=5.00e-05  lr_head=5.00e-04  time=37.5s
+/home/chhammet/miniforge3/envs/uav_for_slb/lib/python3.11/site-packages/torch/optim/lr_scheduler.py:240: UserWarning: The epoch parameter in `scheduler.step()` was not necessary and is being deprecated where possible. Please use `scheduler.step()` to step the scheduler. During the deprecation, if epoch is different from None, the closed form is used instead of the new chainable form, where available. Please open an issue if you are unable to replicate your use case: https://github.com/pytorch/pytorch/issues/new/choose.
+  warnings.warn(EPOCH_DEPRECATION_WARNING, UserWarning)
+2026-08-15 19:20:30 | INFO | train_cv0 | Epoch   5/60  train_loss=1.4527  train_r2=0.6415  val_loss=1.1634  val_r2=0.7169  val_rmse=1.0786  lr_backbone=5.00e-05  lr_head=5.00e-04  time=38.1s
+2026-08-15 19:21:10 | INFO | train_cv0 | Epoch   6/60  train_loss=1.4327  train_r2=0.6466  val_loss=4.2533  val_r2=-0.0351  val_rmse=2.0624  lr_backbone=5.00e-05  lr_head=5.00e-04  time=38.5s
+2026-08-15 19:21:48 | INFO | train_cv0 | Epoch   7/60  train_loss=1.4082  train_r2=0.6535  val_loss=1.1304  val_r2=0.7249  val_rmse=1.0632  lr_backbone=4.98e-05  lr_head=4.98e-04  time=36.8s
+2026-08-15 19:22:29 | INFO | train_cv0 | Epoch   8/60  train_loss=1.2053  train_r2=0.7023  val_loss=0.9217  val_r2=0.7757  val_rmse=0.9600  lr_backbone=4.96e-05  lr_head=4.96e-04  time=39.7s
+2026-08-15 19:22:31 | INFO | train_cv0 |   ✓ Saved best checkpoint  (val_r2=0.7757)
+2026-08-15 19:23:11 | INFO | train_cv0 | Epoch   9/60  train_loss=1.1984  train_r2=0.7048  val_loss=0.9493  val_r2=0.7690  val_rmse=0.9743  lr_backbone=4.94e-05  lr_head=4.94e-04  time=38.7s
+2026-08-15 19:23:49 | INFO | train_cv0 | Epoch  10/60  train_loss=1.2010  train_r2=0.7042  val_loss=0.9766  val_r2=0.7623  val_rmse=0.9882  lr_backbone=4.90e-05  lr_head=4.90e-04  time=37.2s
+2026-08-15 19:24:29 | INFO | train_cv0 | Epoch  11/60  train_loss=1.0631  train_r2=0.7378  val_loss=0.8508  val_r2=0.7930  val_rmse=0.9224  lr_backbone=4.85e-05  lr_head=4.85e-04  time=38.0s
+2026-08-15 19:24:30 | INFO | train_cv0 |   ✓ Saved best checkpoint  (val_r2=0.7930)
+2026-08-15 19:25:10 | INFO | train_cv0 | Epoch  12/60  train_loss=1.0347  train_r2=0.7445  val_loss=1.0792  val_r2=0.7374  val_rmse=1.0388  lr_backbone=4.80e-05  lr_head=4.80e-04  time=38.2s
+2026-08-15 19:25:48 | INFO | train_cv0 | Epoch  13/60  train_loss=1.0340  train_r2=0.7464  val_loss=0.8825  val_r2=0.7852  val_rmse=0.9394  lr_backbone=4.74e-05  lr_head=4.74e-04  time=37.0s
+2026-08-15 19:26:28 | INFO | train_cv0 | Epoch  14/60  train_loss=1.0339  train_r2=0.7452  val_loss=0.8809  val_r2=0.7856  val_rmse=0.9386  lr_backbone=4.68e-05  lr_head=4.68e-04  time=38.5s
+2026-08-15 19:27:08 | INFO | train_cv0 | Epoch  15/60  train_loss=1.0445  train_r2=0.7418  val_loss=0.8938  val_r2=0.7825  val_rmse=0.9454  lr_backbone=4.60e-05  lr_head=4.60e-04  time=38.6s
+2026-08-15 19:27:47 | INFO | train_cv0 | Epoch  16/60  train_loss=0.9187  train_r2=0.7739  val_loss=1.1539  val_r2=0.7192  val_rmse=1.0742  lr_backbone=4.52e-05  lr_head=4.52e-04  time=37.3s
+2026-08-15 19:28:28 | INFO | train_cv0 | Epoch  17/60  train_loss=0.8724  train_r2=0.7851  val_loss=0.8456  val_r2=0.7942  val_rmse=0.9196  lr_backbone=4.44e-05  lr_head=4.44e-04  time=38.3s
+2026-08-15 19:28:30 | INFO | train_cv0 |   ✓ Saved best checkpoint  (val_r2=0.7942)
+2026-08-15 19:29:09 | INFO | train_cv0 | Epoch  18/60  train_loss=0.8871  train_r2=0.7807  val_loss=0.8706  val_r2=0.7881  val_rmse=0.9331  lr_backbone=4.34e-05  lr_head=4.34e-04  time=38.0s
+2026-08-15 19:29:48 | INFO | train_cv0 | Epoch  19/60  train_loss=0.8934  train_r2=0.7808  val_loss=0.9661  val_r2=0.7649  val_rmse=0.9829  lr_backbone=4.24e-05  lr_head=4.24e-04  time=37.6s
+2026-08-15 19:30:27 | INFO | train_cv0 | Epoch  20/60  train_loss=0.8715  train_r2=0.7855  val_loss=0.9345  val_r2=0.7726  val_rmse=0.9667  lr_backbone=4.14e-05  lr_head=4.14e-04  time=37.5s
+2026-08-15 19:31:08 | INFO | train_cv0 | Epoch  21/60  train_loss=0.8443  train_r2=0.7954  val_loss=0.8808  val_r2=0.7856  val_rmse=0.9385  lr_backbone=4.03e-05  lr_head=4.03e-04  time=39.6s
+2026-08-15 19:31:49 | INFO | train_cv0 | Epoch  22/60  train_loss=0.7761  train_r2=0.8097  val_loss=0.8030  val_r2=0.8046  val_rmse=0.8961  lr_backbone=3.91e-05  lr_head=3.91e-04  time=39.5s
+2026-08-15 19:31:51 | INFO | train_cv0 |   ✓ Saved best checkpoint  (val_r2=0.8046)
+2026-08-15 19:32:30 | INFO | train_cv0 | Epoch  23/60  train_loss=0.7399  train_r2=0.8178  val_loss=0.8971  val_r2=0.7817  val_rmse=0.9472  lr_backbone=3.79e-05  lr_head=3.79e-04  time=37.8s
+2026-08-15 19:33:09 | INFO | train_cv0 | Epoch  24/60  train_loss=0.7310  train_r2=0.8203  val_loss=0.9093  val_r2=0.7787  val_rmse=0.9535  lr_backbone=3.67e-05  lr_head=3.67e-04  time=38.2s
+2026-08-15 19:33:47 | INFO | train_cv0 | Epoch  25/60  train_loss=0.6764  train_r2=0.8336  val_loss=0.7700  val_r2=0.8126  val_rmse=0.8775  lr_backbone=3.54e-05  lr_head=3.54e-04  time=36.2s
+2026-08-15 19:33:48 | INFO | train_cv0 |   ✓ Saved best checkpoint  (val_r2=0.8126)
+2026-08-15 19:34:29 | INFO | train_cv0 | Epoch  26/60  train_loss=0.6648  train_r2=0.8358  val_loss=0.8956  val_r2=0.7820  val_rmse=0.9463  lr_backbone=3.41e-05  lr_head=3.41e-04  time=38.7s
+2026-08-15 19:35:10 | INFO | train_cv0 | Epoch  27/60  train_loss=0.6458  train_r2=0.8424  val_loss=0.8928  val_r2=0.7827  val_rmse=0.9449  lr_backbone=3.28e-05  lr_head=3.27e-04  time=40.0s
+2026-08-15 19:35:50 | INFO | train_cv0 | Epoch  28/60  train_loss=0.6428  train_r2=0.8412  val_loss=0.7641  val_r2=0.8140  val_rmse=0.8741  lr_backbone=3.14e-05  lr_head=3.14e-04  time=38.3s
+2026-08-15 19:35:51 | INFO | train_cv0 |   ✓ Saved best checkpoint  (val_r2=0.8140)
+2026-08-15 19:36:33 | INFO | train_cv0 | Epoch  29/60  train_loss=0.6189  train_r2=0.8473  val_loss=0.7627  val_r2=0.8144  val_rmse=0.8733  lr_backbone=3.00e-05  lr_head=3.00e-04  time=40.9s
+2026-08-15 19:37:14 | INFO | train_cv0 | Epoch  30/60  train_loss=0.5993  train_r2=0.8524  val_loss=0.8251  val_r2=0.7992  val_rmse=0.9083  lr_backbone=2.86e-05  lr_head=2.86e-04  time=40.0s
+2026-08-15 19:37:53 | INFO | train_cv0 | Epoch  31/60  train_loss=0.6016  train_r2=0.8515  val_loss=0.7976  val_r2=0.8059  val_rmse=0.8931  lr_backbone=2.72e-05  lr_head=2.71e-04  time=37.0s
+2026-08-15 19:38:33 | INFO | train_cv0 | Epoch  32/60  train_loss=0.5470  train_r2=0.8655  val_loss=0.7911  val_r2=0.8075  val_rmse=0.8894  lr_backbone=2.58e-05  lr_head=2.57e-04  time=37.9s
+2026-08-15 19:39:11 | INFO | train_cv0 | Epoch  33/60  train_loss=0.5265  train_r2=0.8706  val_loss=0.8359  val_r2=0.7966  val_rmse=0.9142  lr_backbone=2.43e-05  lr_head=2.43e-04  time=37.6s
+2026-08-15 19:39:49 | INFO | train_cv0 | Epoch  34/60  train_loss=0.5002  train_r2=0.8773  val_loss=1.0617  val_r2=0.7416  val_rmse=1.0304  lr_backbone=2.29e-05  lr_head=2.29e-04  time=36.5s
+2026-08-15 19:40:28 | INFO | train_cv0 | Epoch  35/60  train_loss=0.4886  train_r2=0.8793  val_loss=0.7340  val_r2=0.8214  val_rmse=0.8567  lr_backbone=2.15e-05  lr_head=2.14e-04  time=37.4s
+2026-08-15 19:40:29 | INFO | train_cv0 |   ✓ Saved best checkpoint  (val_r2=0.8214)
+2026-08-15 19:41:08 | INFO | train_cv0 | Epoch  36/60  train_loss=0.4535  train_r2=0.8885  val_loss=0.7775  val_r2=0.8108  val_rmse=0.8818  lr_backbone=2.01e-05  lr_head=2.00e-04  time=37.2s
+2026-08-15 19:41:48 | INFO | train_cv0 | Epoch  37/60  train_loss=0.4452  train_r2=0.8906  val_loss=0.8160  val_r2=0.8014  val_rmse=0.9033  lr_backbone=1.87e-05  lr_head=1.87e-04  time=38.0s
+2026-08-15 19:42:29 | INFO | train_cv0 | Epoch  38/60  train_loss=0.4458  train_r2=0.8903  val_loss=0.7409  val_r2=0.8197  val_rmse=0.8608  lr_backbone=1.73e-05  lr_head=1.73e-04  time=38.9s
+2026-08-15 19:43:09 | INFO | train_cv0 | Epoch  39/60  train_loss=0.4242  train_r2=0.8957  val_loss=0.8511  val_r2=0.7929  val_rmse=0.9225  lr_backbone=1.60e-05  lr_head=1.59e-04  time=39.1s
+2026-08-15 19:43:49 | INFO | train_cv0 | Epoch  40/60  train_loss=0.3957  train_r2=0.9032  val_loss=0.7883  val_r2=0.8082  val_rmse=0.8878  lr_backbone=1.47e-05  lr_head=1.46e-04  time=37.9s
+2026-08-15 19:44:29 | INFO | train_cv0 | Epoch  41/60  train_loss=0.3906  train_r2=0.9043  val_loss=0.7821  val_r2=0.8097  val_rmse=0.8844  lr_backbone=1.34e-05  lr_head=1.33e-04  time=39.2s
+2026-08-15 19:45:07 | INFO | train_cv0 | Epoch  42/60  train_loss=0.3468  train_r2=0.9150  val_loss=0.7230  val_r2=0.8240  val_rmse=0.8503  lr_backbone=1.22e-05  lr_head=1.21e-04  time=36.5s
+2026-08-15 19:45:08 | INFO | train_cv0 |   ✓ Saved best checkpoint  (val_r2=0.8240)
+2026-08-15 19:45:45 | INFO | train_cv0 | Epoch  43/60  train_loss=0.3485  train_r2=0.9141  val_loss=0.7930  val_r2=0.8070  val_rmse=0.8905  lr_backbone=1.10e-05  lr_head=1.09e-04  time=35.8s
+2026-08-15 19:46:25 | INFO | train_cv0 | Epoch  44/60  train_loss=0.3375  train_r2=0.9165  val_loss=0.7349  val_r2=0.8211  val_rmse=0.8573  lr_backbone=9.81e-06  lr_head=9.74e-05  time=38.1s
+2026-08-15 19:47:05 | INFO | train_cv0 | Epoch  45/60  train_loss=0.3123  train_r2=0.9228  val_loss=0.7312  val_r2=0.8220  val_rmse=0.8551  lr_backbone=8.71e-06  lr_head=8.64e-05  time=39.1s
+2026-08-15 19:47:45 | INFO | train_cv0 | Epoch  46/60  train_loss=0.3165  train_r2=0.9224  val_loss=0.7415  val_r2=0.8195  val_rmse=0.8611  lr_backbone=7.66e-06  lr_head=7.59e-05  time=38.1s
+2026-08-15 19:48:26 | INFO | train_cv0 | Epoch  47/60  train_loss=0.3076  train_r2=0.9240  val_loss=0.7816  val_r2=0.8098  val_rmse=0.8841  lr_backbone=6.67e-06  lr_head=6.59e-05  time=39.8s
+2026-08-15 19:49:06 | INFO | train_cv0 | Epoch  48/60  train_loss=0.2927  train_r2=0.9278  val_loss=0.7325  val_r2=0.8217  val_rmse=0.8559  lr_backbone=5.74e-06  lr_head=5.66e-05  time=38.2s
+2026-08-15 19:49:43 | INFO | train_cv0 | Epoch  49/60  train_loss=0.2658  train_r2=0.9343  val_loss=0.7537  val_r2=0.8166  val_rmse=0.8682  lr_backbone=4.87e-06  lr_head=4.78e-05  time=36.4s
+2026-08-15 19:50:22 | INFO | train_cv0 | Epoch  50/60  train_loss=0.2759  train_r2=0.9331  val_loss=0.7479  val_r2=0.8180  val_rmse=0.8648  lr_backbone=4.06e-06  lr_head=3.98e-05  time=37.5s
+2026-08-15 19:51:02 | INFO | train_cv0 | Epoch  51/60  train_loss=0.2673  train_r2=0.9341  val_loss=0.7521  val_r2=0.8170  val_rmse=0.8672  lr_backbone=3.32e-06  lr_head=3.24e-05  time=38.4s
+2026-08-15 19:51:41 | INFO | train_cv0 | Epoch  52/60  train_loss=0.2592  train_r2=0.9359  val_loss=0.7590  val_r2=0.8153  val_rmse=0.8712  lr_backbone=2.66e-06  lr_head=2.57e-05  time=37.6s
+2026-08-15 19:52:22 | INFO | train_cv0 | Epoch  53/60  train_loss=0.2520  train_r2=0.9380  val_loss=0.7610  val_r2=0.8148  val_rmse=0.8724  lr_backbone=2.07e-06  lr_head=1.98e-05  time=39.4s
+2026-08-15 19:53:01 | INFO | train_cv0 | Epoch  54/60  train_loss=0.2495  train_r2=0.9387  val_loss=0.7559  val_r2=0.8160  val_rmse=0.8694  lr_backbone=1.55e-06  lr_head=1.46e-05  time=37.9s
+2026-08-15 19:53:01 | INFO | train_cv0 |   Early stopping triggered at epoch 54 (no improvement for 12 epochs).
+2026-08-15 19:53:01 | INFO | train_cv0 | 
+Loading best checkpoint for test evaluation: /mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav4slb/downsample_results/dinov2_vits14_cv0/checkpoints/fold_2025/checkpoint_best.pt
+/mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav4slb/scripts/train_cv0.py:1116: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  ckpt = torch.load(best_ckpt, map_location=device)
+2026-08-15 19:53:21 | INFO | train_cv0 | 
+======================================================================
+TEST RESULTS — fold_2025
+  R²   = 0.5342
+  RMSE = 1.2790
+  MAE  = 0.9666
+======================================================================
+2026-08-15 19:53:21 | INFO | train_cv0 | Saved test predictions   → /mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav4slb/downsample_results/dinov2_vits14_cv0/predictions/fold_2025_test_predictions.csv
+2026-08-15 19:53:21 | INFO | train_cv0 | Saved training history   → /mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav4slb/downsample_results/dinov2_vits14_cv0/history/fold_2025_history.csv
+2026-08-15 19:53:21 | INFO | train_cv0 | 
+======================================================================
+2026-08-15 19:53:21 | INFO | train_cv0 | CV0 SUMMARY — dinov2_vits14
+2026-08-15 19:53:21 | INFO | train_cv0 | ======================================================================
+2026-08-15 19:53:21 | INFO | train_cv0 | 
+  Mean Val  R²   = 0.8012 ± 0.0392
+2026-08-15 19:53:21 | INFO | train_cv0 |   Mean Test R²   = 0.4516 ± 0.1197
+2026-08-15 19:53:21 | INFO | train_cv0 |   Mean Test RMSE = 1.4305 ± 0.5524
+2026-08-15 19:53:21 | INFO | train_cv0 |   Mean Test MAE  = 1.1500
+2026-08-15 19:53:21 | INFO | train_cv0 | 
+✓ Results saved → /mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav4slb/downsample_results/dinov2_vits14_cv0
+fold_name  val_samples  test_samples  best_val_r2  test_r2  test_rmse  test_mae
+fold_2023          781          2601     0.823671 0.506357   0.969610  0.740810
+fold_2024          781          2601     0.755939 0.314423   2.042894  1.742588
+fold_2025          781          2601     0.824049 0.534168   1.278990  0.966580

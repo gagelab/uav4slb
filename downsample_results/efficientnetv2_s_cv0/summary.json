@@ -1,0 +1,14 @@
+{
+  "model": "efficientnetv2_s",
+  "cv_type": "cv0",
+  "n_folds": 3,
+  "mean_val_r2": 0.8373890916506449,
+  "std_val_r2": 0.006598026374539375,
+  "mean_val_loss": 0.6277211760792832,
+  "std_val_loss": 0.14734617604524883,
+  "mean_test_r2": 0.6001506845156351,
+  "std_test_r2": 0.08100498124431225,
+  "mean_test_rmse": 1.205996914531965,
+  "std_test_rmse": 0.4068268471665751,
+  "mean_test_mae": 0.9813121358553568
+}

@@ -1,0 +1,58 @@
+# weed_pressure_config.yaml
+# ─────────────────────────────────────────────────────────────────────────────
+# Configuration for weed_pressure_pipeline.py
+# Edit paths and thresholds here rather than modifying the script.
+# All commented-out values show the built-in defaults.
+# ─────────────────────────────────────────────────────────────────────────────
+
+# ── Required paths ────────────────────────────────────────────────────────────
+
+# Root directory containing 2023/, 2024/, 2025/ folders
+base_dir: /mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/processed
+
+# Directory containing {FIELD}_plot_outline.shp files
+# e.g.  G3_plot_outline.shp,  B7A_plot_outline.shp,  C10_plot_outline.shp
+# Falls back to any .shp whose filename contains the field name if the exact
+# {FIELD}_plot_outline.shp is not found.
+shapefile_dir: /mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/final_image/final_outline
+
+# Where to write output CSVs
+output_dir: /mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/uav_for_slb/covariates/weeds/weed_outputs
+
+# ── Shapefile plot ID column ──────────────────────────────────────────────────
+# The name of the attribute field that uniquely identifies each plot.
+# Run `ogrinfo -al -so your_shapefile.shp` to see available fields.
+# Common values: "plot_id", "PLOT", "Plot_ID", "id"
+plot_id_field: plot
+
+# ── Height thresholds (US survey FEET — EPSG:2264 elevation units) ────────────
+# The CHM is in feet because EPSG:2264 uses US survey feet.
+# Conversion:  feet = meters / 0.3048
+#
+#  ground_max_ft: pixels below this are classified as ground/residue
+#  weed_max_ft:   pixels between ground_max and weed_max are the "weed zone"
+#                 pixels above weed_max are classified as maize canopy
+#
+# Defaults:
+#   ground_max_ft = 0.492  (~0.15 m — typical standing stubble / low weed threshold)
+#   weed_max_ft   = 2.461  (~0.75 m — below expected maize canopy at V8+)
+#
+# You may want to tighten weed_max_ft to 1.64 ft (~0.50 m) for early-season
+# flights before maize has reached full height, to avoid misclassifying
+# short maize as weed.
+ground_max_ft: 0.492
+weed_max_ft:   2.461
+
+# ── DTM reference strategy ────────────────────────────────────────────────────
+# Years listed here will use each flight's OWN Metashape DTM rather than the
+# season's earliest flight DTM as a bare-ground reference.
+# 2023 is listed because the earliest 2023 flights (July 13/20) already had
+# full canopy — cross-flight differencing would not produce a valid bare-ground CHM.
+no_cross_flight_years:
+  - 2023
+
+# ── CRS ───────────────────────────────────────────────────────────────────────
+# EPSG code for all raster and vector data.
+# Shapefiles will be reprojected to this CRS if they differ.
+# Set to null to use whatever CRS the source data carries (not recommended).
+target_epsg: 2264
