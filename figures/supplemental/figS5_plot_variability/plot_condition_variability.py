@@ -5,15 +5,7 @@ Figure S5 — Within-flight variability in illumination and weed pressure.
 
 Motivation
 ----------
-Reviewer comment on the original Figure S4 asked for (a) sharper source
-images, (b) clear indication of what is being shown (actual SLB trial vs.
-general field, and where the experimental area is), and (c) a zoomed
-inset. Addressing the comment is also an opportunity to make the figure's
-scientific point more precise: the goal is NOT "here is one blurry/weedy
-field," it is that flight-level conditions (a single flight, a single pass
-over a field) still produce substantial *plot-to-plot* variability in the
-image-level covariates used in Figure 8 (frac_weed, mean_brightness,
-sf_illuminorm, contrast_rms). This is the qualitative justification for
+This is the qualitative justification for
 modeling at the plot/image level rather than the flight level.
 
 Each field panel therefore shows:
@@ -72,6 +64,12 @@ Usage
         --shapefile-dir  /mnt/research-projects/j/jlgage/RawUAVData01/uavforslb/final_image/final_outline \\
         --covariates     data/covariates/image_covariates.csv
 
+    # Hiding the shapefile plot-outline overlay on the overview panel:
+    python figures/supplemental/figS5_plot_variability/plot_condition_variability.py --no-show-shapefile-outline
+
+    # Hiding the north arrow:
+    python figures/supplemental/figS5_plot_variability/plot_condition_variability.py --no-show-north-arrow
+
 Dependencies
 ------------
     rasterio, geopandas, shapely, matplotlib, pandas, numpy
@@ -103,7 +101,7 @@ warnings.filterwarnings("ignore")
 # Shared style
 # ---------------------------------------------------------------------------
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
-from style import apply_style, despine, save_fig, COVARIATE_COLORS  # noqa: E402
+from style import apply_style, despine, save_fig  # noqa: E402
 
 apply_style()
 
@@ -333,12 +331,18 @@ def add_scale_bar(ax, length_ft: float = 100.0) -> None:
     ax.add_artist(bar)
 
 
-def add_north_arrow(ax, xy=(0.94, 0.94)) -> None:
+NORTH_ARROW_COLOR = "black"
+
+
+def add_north_arrow(
+    ax, xy=(0.94, 0.94), color=NORTH_ARROW_COLOR, xycoords="axes fraction"
+) -> None:
     ax.annotate(
         "N", xy=xy, xytext=(xy[0], xy[1] - 0.08),
-        xycoords="axes fraction", textcoords="axes fraction",
-        ha="center", va="bottom", fontsize=9, fontweight="bold", color="white",
-        arrowprops=dict(arrowstyle="-|>", color="white", lw=1.5),
+        xycoords=xycoords, textcoords=xycoords,
+        ha="center", va="bottom", fontsize=12, fontweight="bold", color=color,
+        arrowprops=dict(arrowstyle="-|>", color=color, lw=3.0),
+        annotation_clip=False,
     )
 
 
@@ -347,9 +351,9 @@ def add_north_arrow(ax, xy=(0.94, 0.94)) -> None:
 # ---------------------------------------------------------------------------
 def build_panel_row(
     fig, gs_row, cfg: PanelConfig, plots: gpd.GeoDataFrame,
-    selected: pd.DataFrame, ortho_path: Path,
+    selected: pd.DataFrame, ortho_path: Path, show_shapefile_outline: bool,
 ) -> None:
-    color = COVARIATE_COLORS.get(cfg.covariate, "#D62728")
+    color = "black"
 
     with rasterio.open(ortho_path) as src:
         trial_bounds = box(*plots.total_bounds)
@@ -366,7 +370,8 @@ def build_panel_row(
         ax_overview.imshow(
             to_display(overview_data), extent=(left, right, bottom, top)
         )
-        plots.boundary.plot(ax=ax_overview, color="0.9", linewidth=0.5, alpha=0.8)
+        if show_shapefile_outline:
+            plots.boundary.plot(ax=ax_overview, color="0.9", linewidth=0.5, alpha=0.8)
 
         inset_axes = []
         for i, (_, sel_row) in enumerate(selected.iterrows()):
@@ -409,24 +414,41 @@ def build_panel_row(
         spine.set_visible(False)
     ax_overview.set_title(cfg.date_label, fontsize=9, fontweight="bold", loc="left")
     add_scale_bar(ax_overview)
-    add_north_arrow(ax_overview)
+    return ax_overview
 
 
 def make_figure(
     panel_configs: list[PanelConfig],
     plots_by_field: dict[str, gpd.GeoDataFrame],
     selected_by_field: dict[str, pd.DataFrame],
+    show_shapefile_outline: bool = True,
+    show_north_arrow: bool = True,
 ):
     fig = plt.figure(figsize=(9.5, 6.4))
     gs = fig.add_gridspec(
         nrows=2, ncols=3, width_ratios=[2.0, 1.0, 1.0],
         hspace=0.35, wspace=0.15,
     )
+    overview_axes = []
     for row, cfg in enumerate(panel_configs):
-        build_panel_row(
+        ax_overview = build_panel_row(
             fig, [gs[row, 0], gs[row, 1], gs[row, 2]],
             cfg, plots_by_field[cfg.field], selected_by_field[cfg.field],
-            cfg.ortho_path,
+            cfg.ortho_path, show_shapefile_outline,
+        )
+        overview_axes.append(ax_overview)
+
+    if show_north_arrow:
+        # Single north arrow shared by both panel rows, centered in the gap
+        # between them rather than repeated on each overview panel. Placed
+        # over the overview column (not the inset columns to its right).
+        top_row_bottom = overview_axes[0].get_position().y0
+        bottom_row_top = overview_axes[1].get_position().y1
+        mid_y = (top_row_bottom + bottom_row_top) / 2
+        overview_pos = overview_axes[0].get_position()
+        mid_x = overview_pos.x0 + -0.1 * (overview_pos.x1 - overview_pos.x0)
+        add_north_arrow(
+            overview_axes[0], xy=(mid_x, mid_y), xycoords="figure fraction"
         )
     return fig
 
@@ -444,6 +466,19 @@ def main() -> None:
     parser.add_argument("--shapefile-dir", default=str(SHAPEFILE_DIR_DEFAULT))
     parser.add_argument("--covariates", default=str(COVARIATES_DEFAULT))
     parser.add_argument("--out_dir", default=str(OUTPUT_DIR))
+    parser.add_argument(
+        "--show-shapefile-outline",
+        action=argparse.BooleanOptionalAction,
+        default=True,
+        help="Draw the shapefile plot-boundary outlines on top of the "
+             "orthomosaic overview panel.",
+    )
+    parser.add_argument(
+        "--show-north-arrow",
+        action=argparse.BooleanOptionalAction,
+        default=True,
+        help="Draw the shared north arrow between the two panel rows.",
+    )
     args = parser.parse_args()
 
     print("=" * 60)
@@ -466,7 +501,11 @@ def main() -> None:
         selected_by_field[cfg.field] = selected
 
     print("\nBuilding figure ...")
-    fig = make_figure(panel_configs, plots_by_field, selected_by_field)
+    fig = make_figure(
+        panel_configs, plots_by_field, selected_by_field,
+        show_shapefile_outline=args.show_shapefile_outline,
+        show_north_arrow=args.show_north_arrow,
+    )
 
     out_dir = Path(args.out_dir)
     save_fig(fig, out_dir, "figS5_condition_variability")

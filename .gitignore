@@ -35,6 +35,7 @@ tensorboard/
 # Uncomment the lines below only if you want to exclude rendered outputs.
 figures/**/*.pdf
 figures/**/*.png
+figures/supplemental/figS7_disease_stage_performance
 
 # ---- Stale / backup data files ----------------------------------------------
 *.bak
@@ -51,7 +52,6 @@ Thumbs.db
 .vscode/
 .idea/
 .claude/
-CLAUDE.md
 audit_report.md
 nohup.out
 
@@ -80,6 +80,7 @@ gpu_datasheet.pdf
 sunny_guide.pdf
 sunny_lscpu.txt
 sunny_lshw.txt
+CLAUDE.md
 
 # ---- Manuscript and supplemental materials ----------------------
 supplemental_material.pdf
